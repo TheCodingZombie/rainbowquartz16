@@ -1,0 +1,753 @@
+# Additions
+- Added the Fairy type. Several Pokemon will receive this new type as a buff:
+    - Meganium
+    - Cleffa Line (Pure Fairy)
+    - Igglybuff Line (Pure Fairy)
+    - Togepi Line (Normal -> Fairy)
+    - Bellossom
+    - Snubbull Line (Pure Fairy)
+    - Marill Line
+    - Mr. Mime
+    - Misdreavus
+    - Mew
+    - Celebi (Psychic -> Fairy)
+- Added the Polka Dot Bow as a way to boost Fairy-type Moves.
+- Move Additions:
+    - Draco Meteor
+        - 140 BP, will lower the user's Sp Atk by 2 stages
+        - Dragon Type
+    - Moonblast
+        - 95 BP, may lower target's Sp. Def by 1 stage
+        - Fairy Type
+        - Also added Moonblast to several Fairy-type Pokemon's movesets 
+
+# Changes
+- In addition to the Fairy Changes, the following Pokemon now have type Changes:
+    - Typhlosion (Fire -> Fire/Ghost)
+    - Feraligatr (Water -> Water/Dark)
+    - Noctowl (Normal/Flying -> Dark/Flying)
+    - Ledbya Line (Bug/Flying -> Bug/Fighting)
+    - Dunsparce (Normal -> Normal/Dragon)
+    - Unown (Psychic -> Psychic/Ghost)
+    - Paras (Bug/Grass -> Ghost/Grass)
+    - Hypno (Psychic -> Psychic/Dark)
+    - Sunflora (Grass -> Grass/Fire)
+    - Ninetales (Fire -> Fire/Psychic)
+    - Arcanine (Fire -> Fire/Fighting)
+    - Stantler (Normal -> Normal/Psychic)
+    - Psyduck Line (Water -> Water/Psychic)
+    - Ursaring (Normal -> Normal/Ground)
+    - Donphan (Ground -> Ground/Fighting)
+    - Aerodactyl (Rock/Flying -> Rock/Dragon)
+    - Aipom (Normal -> Normal/Fighting)
+    - Yanma (Bug/Flying -> Bug/Dragon)
+    - Pidgey Line (Normal/Flying -> Flying)
+    - Doduo Line (Normal/Flying -> Fighting/Flying)
+    - Wobbuffett (Psychic -> Psychic/Ghost)
+    - Butterfree (Bug/Flying -> Bug/Psychic)
+    - Ampharos (Electric -> Electric/Dragon)
+- Made several changes to the following base stats:
+    - Sunkern (BST 180 -> BST 300) 
+        - 20 point increase to all stats
+    - Sunflora
+        - 75 HP -> 60 HP
+        - 105 SAT -> 120 SAT
+        - 30 SPD -> 110 SPD
+        - 75 ATK -> 70 ATK
+        - 425 BST -> 500 BST   
+    - Ledian
+        - 110 SDF -> 55 SDF
+        - 35 ATK -> 130 ATK
+        - 85 SPD -> 101 SPD
+        - 55 SAT -> 29 SAT
+        - 390 BST -> 420 BST
+    - Ariados
+        - 70 HP -> 100 HP
+        - 70 DEF -> 80 DEF
+        - 60 SAT -> 50 SAT
+        - 60 SDF -> 80 SDFs
+        - 40 SPD -> 20 SPD
+        - 390 BST -> 420 BST
+    - Dunsparce
+        - 70 ATK -> 150 ATK
+        - 70 DEF -> 65 DEF
+        - 65 SAT -> 120 SAT
+        - 45 SPD -> 5 SPD
+        - 415 BST ->  505 BST
+    - Togetic
+        - 55 HP -> 125 HP
+        - 85 DEF -> 90 DEF
+        - 80 SAT -> 110 SAT
+        - 405 BST -> 510 BST
+    - Unown
+        - 48 HP -> 60 HP
+        - 72 ATK -> 90 ATK
+        - 48 DEF -> 85 DEF
+        - 48 SPD -> 90 SPD
+        - 72 SAT -> 90 SAT
+        - 48 SDF -> 85 SDF
+        - 336 BST -> 500 BST
+    - Parasect
+        - 95 ATK -> 120 ATK
+        - 80 DEF -> 70 DEF
+        - 60 SAT -> 80 SAT
+        - 80 SDF -> 70 SDF
+        - 405 BST -> 420
+    - Bellossom
+        - 80 ATK -> 50 ATK
+        - 90 SAT -> 80 SAT
+        - 50 SPD -> 90 SPD
+    - Stantler
+        - 73 HP -> 75 HP
+        - 95 ATK -> 125 ATK
+        - 62 DEF -> 65 DEF
+        - 85 SAT -> 115 SAT
+        - 465 BST -> 530 BST
+    - Sneasel
+        - 95 ATK -> 125 ATK
+        - 115 SPD -> 125 SPD
+        - 430 BST -> 470 BST
+    - Aipom
+        - 70 ATK -> 100 ATK
+        - 85 SPD -> 105 SPD
+        - 360 BST -> 410 BST
+    - Ditto
+        - 48 -> 60 (All Stats except HP)
+        - 48 HP -> 100 HP
+        - 288 BST -> 400 BST
+        - Note: The only stats that really matter to Ditto are the HP and the SPD, since they gain the stats of the Pokemon they transform into anyway.
+    - Yanma
+        - 65 ATK -> 95 ATK
+        - 95 SPD -> 150 SPD
+        - 75 SAT -> 55 SAT
+        - 390 BST -> 455 BST
+    - Beedrill
+        - 80 ATK -> 155 ATK
+        - 45 SAT -> 15 SAT
+        - 75 SPD -> 125 SPD
+        - 385 BST -> 480 BST
+    - Noctowl
+        - 76 SAT -> 110 SAT
+        - 96 SDF -> 100 SDF
+        - 442 BST -> 480 BST
+    - Murkrow
+        - 85 ATK -> 95 ATK
+        - 42 DEF -> 50 SDF
+        - 85 SAT -> 95 SAT
+        - 42 SDF -> 50 SDF
+        - 91 SPD -> 110 SPD
+        - 405 BST -> 460 BST
+        - Note: Since Noctowl is now a Dark type in this mod, I wanted to make it so that both of these Pokemon have distinct roles. So while Noctowl is a bulky Special Attacker, Murkrow is a quick Support Pokemon with a respectable Physical Attack.
+    - Goldeen
+        - 67 ATK -> 75 ATk
+        - 60 DEF -> 65 DEF
+        - 35 SAT -> 100 SAT
+        - 60 SDF -> 65 SDF
+        - 63 SPD -> 100 SPD
+        - 320 BST -> 450 BST
+    - Seaking
+        - 80 HP -> 100 HP
+        - 92 ATK -> 100 ATK
+        - 65 DEF -> 80 DEF
+        - 65 SAT -> 25 SAT
+        - 68 SPD -> 65 SPD
+        - Note: I wanted to try something with the Goldeen line since they're basically just a lamer Magikarp. I made it so both of them have the same BST, but Golden is more of a fast, mixed attacker, while Seaking is a bulky physical attacker.
+    - Delibird
+        - 45 HP -> 125 HP
+        - 45 DEF -> 95 DEF
+        - 45 SDF -> 95 SDF
+        - 330 BST -> 510 BST
+        - Note: Delibird is terrible, and I wanted to give it a use case that would fit on theme with the design. So I decided to make it a bulky support Pokemon. In the future, I might also remove the Ice typing if it proves too detrimental.
+    - Corsola
+        - 85 DEF -> 105 DEF
+        - 65 SAT -> 95 SAT
+        - 85 SDF -> 105 SDF
+        - 330 BST -> 400 BST
+    - Xatu
+        - 75 ATK -> 65 ATK
+        - 70 SDF -> 100 SDF
+        - 95 SAT -> 105 SAT
+        - 470 BST -> 500 BST
+    - Farfetch'd
+        - 52 HP -> 55 HP
+        - 65 ATK -> 105 ATK
+        - 55 DEF -> 70 DEF
+        - 58 SAT -> 68 SAT
+        - 60 SPD -> 90 SPD
+        - 352 BST -> 450 BST
+    - Flareon
+        - 65 SPD -> 110 SPD
+        - 110 SDF -> 65 SDF
+        - Note: many of flareon's issues stem from its low physical bulk and low speed, so this change aims to fix one of those issues while simultaneously trying to ignore the other one.
+    - Octillery
+        - 75 HP -> 105 HP
+        - 105 ATK -> 25 ATK
+        - 75 DEF -> 100 DEF
+        - 105 SAT -> 125 SAT
+        - 75 SDF -> 100 SDF
+        - 45 SPD -> 25 SPD
+        - Note: I really wanted to emphasize the fact that this was based off of a cannon/artillery, so making it a slow, bulky special attacker made sense. I also felt as its overall BST felt right for this kind of Pokemon, so I left it as is.
+    - Lickitung
+        - 90 HP -> 140 HP
+        - 55 ATK -> 105 ATK
+        - 385 BST -> 485 BST
+    - Wigglytuff
+        - 75 SAT -> 105 SAT
+        - 45 DEF -> 60 DEF
+        - 50 SDF -> 65 SDF
+        - 425 BST -> 485 BST
+        - Note: While it's not a perfect analog, I did kind of want Lickitung and Wigglytuff to slightly be counterparts to each other, with one being more physically oriented, and the other being specially oriented.
+    - Fearow
+        - 65 HP -> 95 HP
+        - 90 ATK -> 110 ATK
+        - 65 DEF -> 75 DEF
+        - 61 SAT -> 60 SAT
+        - 61 SDF -> 60 SDF
+        - 100 SPD -> 80 SPD
+        - 442 BST -> 480 BST
+        - Note: since Dodrio is more of a Fast Sweeper, will now serve the role of a Bulky Wall-Breaker.
+    - Pidgeot
+        - 83 HP -> 95 HP
+        - 80 ATK -> 79 ATK
+        - 75 DEF -> 90 DEF
+        - 70 SAT -> 40 SAT
+        - 70 SDF -> 85 SDF
+        - 469 BST -> 480 BST
+        - Note: Pidgeot now falls under the Bulky Support Role.
+    - Dodrio
+        - 100 SPD -> 110 SPD
+        - 470 BST -> 480 BST
+        - Note: Dodrio, Pidgeot, and Fearow are all part of the Kantonian (regular) bird trio. I want to make them all have their own unique roles to play in a team. Also, they all will now have a BST of 480.
+    - Sudowoodo
+        - 70 HP -> 140 HP
+        - 410 BST -> 480 BST
+        - Note: I think it would be cool if Sudowoodo became like a Rock-type Wobbuffett.
+    - Persian
+        - 70 ATK -> 110 ATK
+        - 440 BST -> 480 BST
+    - Raticate
+        - 81 ATK -> 88 ATK
+        - 413 BST -> 420 BST
+    - Kingler
+        - 75 SPD -> 90 SPD
+        - 475 BST -> 490 BST
+    - Arbok
+        - 60 HP -> 70 HP
+        - 69 DEF -> 80 DEF
+        - 79 SDF -> 80 SDF
+        - 438 BST -> 460 BST
+    - Butterfree
+        - 45 ATK -> 40 ATK
+        - 80 SAT -> 120 SAT
+        - 80 SDF -> 110 SDF
+        - 60 HP -> 90 HP
+        - 385 BST -> 480 BST
+    - Smeargle
+        - 75 SPD -> 100 SPD
+        - 250 BST -> 275 BST
+- Move Changes
+    - Comet Punch
+        - 18 BP -> 20 BP
+        - Normal -> Fairy
+    - Mega Punch
+        - 85 ACC -> 100 ACC
+    - Razor Wind
+        - 80 BP -> 130 BP
+        - 75 ACC -> 100 ACC
+        - Normal -> Flying
+    - Cut
+        - 50 BP -> 80 BP
+        - 95 ACC -> 100
+        - Normal -> Bug
+        - Made into a High Crit Move
+    - Slam
+        - 75 ACC -> 100 ACC
+    - Double Kick
+        - 30 BP -> 45 BP
+    - Horn Attack
+        - Normal -> Bug
+        - Now has a chance to lower Defense
+    - Fury Attack
+        -
+    - Thrash
+        - 90 BP -> 120 BP
+    - Twinneedle
+        - 25 BP -> 50 BP
+    - Pin Missile
+        - 14 BP -> 18 BP
+    - Submission
+        - 80 BP -> 120 BP
+    - Petal Dance
+        - 70 BP -> 120 BP
+    - Egg Bomb
+        - Now has a chance to burn
+    - Spike Cannon
+        - Normal -> Steel
+    - Hi Jump Kick
+        - 85 BP -> 130 BP
+        - 90 ACC -> 85 ACC
+    - Barrage
+        - Normal to Fire
+        - 15 BP -> 20 BP
+    - Crabhammer
+        - Now has a chance to lower Defense
+    - Rock Slide
+        - 90 ACC -> 100 ACC
+    - Triple Kick
+        - 10 BP -> 20 BP
+    - Aeroblast
+        - Now has a chance to confuse
+        - 95 ACC -> 100 ACC
+    - Octazooka
+        - 65 BP -> 100 BP
+        - 85 ACC -> 100 ACC
+    - Outrage
+        - 90 BP -> 130 BP
+    - Giga Drain
+        - 60 BP -> 100 BP
+    - Mega Drain
+        - 40 BP -> 60 BP
+    - False Swipe
+        - 40 BP -> 120 BP
+    - Iron Tail
+        - 75 ACC -> 90 ACC
+    - Cross Chop
+        - 80 ACC -> 90 ACC
+    - Future Sight
+        - 80 BP -> 120 BP
+        - Future Sight now has +2 Priority
+    - Beat Up
+        - 10 BP -> 30 BP
+    - Leech Life
+        - 20 BP -> 80 BP
+    - Transform
+        - Transform is now of the highest priority, meaning it will almost always go first
+    - Extreme Speed
+        - Extreme Speed now has +2 Priority instead of +1
+        - All other priorities have been increased to accomodate for this
+    - Rain Dance and Sunny Day and Sandstorm
+        - All Weather moves will have higher priority
+    - Mud Slap
+        - 20 BP -> 60 BP
+    - Dig
+        - 60 BP -> 80 BP
+    - Twister
+        - 40 BP -> 85 BP
+    - Present
+        - Now has a 40% chance to do 75 BP, 30% chance to do 100 Bp, 10% chance to do 150 BP, or a 20% chance to heal the user.
+    - Skull Bash
+        - Normal -> Rock
+        - Charge Attack -> Recoil Attack
+    - Sky Attack
+        - Charge Attack -> Recoil Attack
+        - 90 ACC -> 100 ACC
+    - Vice Grip
+        - Trapping Move
+        - 55 BP -> 90 BP
+        - Normal -> Steel
+    - Wrap
+        - Normal -> Poison
+        - 15 BP -> 60 BP
+    - Bind
+        - 15 BP -> 50 BP
+        - 75 ACC -> 95 ACC
+    - Clamp
+        - 35 BP -> 75 BP
+- Moveset Changes
+    - All stone evolutions will still be able to learn level up moves from previous evolutions
+    - Meganium
+        - Added Moonblast at level 41
+        - Added Giga Drain at level 51
+        - Moved around some moves to accomodate this
+    - Typhlosion
+        - Added Night Shade at level 37
+        - Added Shadow Ball at level 68
+        - Added Fire Blast to level 73
+        - Moved Flamethrower back down to level 54 (was level 60)
+    - Feraligatr
+        - Added Crunch at level 52
+        - Added Swords Dance at level 59
+        - Moved Hydro Pump to level 68
+        - Added Outrage to level 73
+    - Noctowl
+        - Added Future Sight at level 57
+        - Moved Dream Eater to level 78
+        - Added Faint Attack to level 36
+        - Added Thief to level 49
+        - Added Pursuit to level 62
+    - Ledian
+        - Moved a lot of moves back down to where they were learned by Ledbya
+        - Moved Agility up to level 48
+        - Added Submission at level 68
+        - Added every Elemental Punch to level 42
+    - Dunsparce
+        - Added Dragon Rage to level 9
+        - Added Dragon Breath to level 47
+        - Added Body Slam to level 53
+        - Added Double Edge to level 62
+        - Added Outrage to level 71
+    - Unown (Wow they have an actual moveset now holy shit)
+        - Added Confusion to level 7
+        - Added Confuse Ray to level 13
+        - Added Hidden Power to level 18
+        - Added Ancient Power to level 24
+        - Added Disable to level 32
+        - Added Psybeam to level 37
+        - Added Night Shade to level 42
+        - Added Psychic to level 53
+        - Added Shadow Ball to level 61
+        - Added Metronome to level 68
+        - Added Future Sight to level 74
+        - Added Sacred Fire to level 89
+    - Wobbuffet
+        - Added Recover to level 23
+        - Added Mean Look to level 34
+        - Added Encore to level 42
+    - Parasect
+        - Moved some moves up on the list
+        - Added Night Shade to level 31
+        - Added Shadow Ball to level 52
+        - Added Pain Split to level 61
+        - Added Dream Eater to level 72
+        - Added Nightmare to level 78
+    - Hypno
+        - Added Dream Eater to level 70
+        - Removed Poison Gas and gave it Thief at level 33
+    - Sunflora
+        - Gets Ember at level 7
+        - Gets Vine Whip at level 10
+        - Gets Sunny Day at level 18 and a Level 1 move
+        - Gets Flame Wheel at level 22
+        - Gets Razor Leaf at level 27
+        - Gets Mega Drain at level 32
+        - Gets Synthesis at level 38
+        - Gets Flamethrower at level 46
+        - Gets Giga Drain at level 52
+        - Gets Fire Blast at level 68
+        - Gets Solar Beam at level 73
+        - Gets Heal Bell at level 78 
+    - Ninetales
+        - Added Sunny Day at level 43
+        - Added Psybeam to level 51
+        - Added Fire Blast to level 59
+        - Added Psychic to level 64
+        - Added Solar Beam to level 72
+        - Added Shadow Ball to level 78
+        - Added Moonblast to level 81
+        - Added Future Sight to level 88
+        - Vulpix gets most of these moves too
+    - Arcanine
+        - Added Double Kick to level 30
+        - Added Crunch to level 58
+        - Added Submission to level 63
+        - Added Fire Blast to level 71
+        - Moved Extreme Speed to level 80
+    - Stantler
+        - Added Psybeam to level 27
+        - Added Shadow Ball to level 53
+        - Added Body Slam to level 59
+        - Added Psychic to level 67
+        - Added Double Edge to level 73
+        - Added Future Sight to level 81
+    - Golduck
+        - Added Psybeam to level 37
+        - Added Psychic to level 64
+        - Added Baton Pass to level 71
+        - Added Future Sight to level 80
+    - Ursaring
+        - Added Dig to level 34
+        - Added Earthquake to level 69
+        - Added Body Slam to level 79
+    - Phanpy
+        - Added Mud Slap to level 12
+    - Donphan
+        - Added Mud Slap to level 12
+        - Readded Take Down to level 22
+        - Moved Fury Attack to level 27
+        - Added Double Kick to level 37
+        - Added Jump Kick to level 53
+        - Added Double Edge to level 67
+        - Added Submission to level 73
+    - Aerodactyl
+        - Moved Hyper Beam to level 98
+        - Added Rock Throw to level 5
+        - Added Dragon Rage to level 19
+        - Added Twister to level 40
+        - Moved Take Down to level 47
+        - Added Drill Peck to level 51
+        - Added Rock Slide to level 63
+        - Added Crunch to level 70
+        - Added Skull Bash to level 76
+        - Added Outrage to level 82
+    - Aipom
+        - Added Thief to level 9
+        - Added Double Slap to level 23
+        - Added Jump Kick to level 42
+        - Added Swords Dance to level 52
+        - Added Mega Kick to level 68
+        - Added High Jump Kick to level 73
+        - Added Extreme Speed to level 80
+        - Added Belly Drum to level 89
+    - Yanma
+        - Added Dragon Rage to level 22
+        - Added Twister to level 42
+        - Moved Screech to level 48
+        - Added Leech Life to level 52
+        - Added Razor Wind to level 59
+        - Added Agility to level 63
+        - Added Outrage to level 71
+    - Pidgeot
+        - Added Baton Pass to level 28
+        - Added Morning Sun to level 52
+        - Added Drill Peck to level 69
+        - Added Safeguard to level 74
+        - Added Swords Dance to level 81
+        - Added Screech to level 88
+    - Dodrio
+        - Added Jump Kick to level 32
+        - Added Belly Drum to level 53
+        - Added High Jump Kick to level 61
+    - Ariados
+        - Added Toxic to level 48
+        - Added Sludge Bomb to level 68
+        - Changed Constrict out for Bind
+    - Togepi Line
+        - Added Moonlight at level 41
+        - Added Return at level 52
+        - Added Lovely Kiss to level 64
+        - Added Heal Bell to level 70
+    - Sneasel
+        - Added Ice Punch to level 22
+        - Added Ice Beam to level 52
+        - Added Blizzard to level 71
+        - Added Pursuit to level 61
+        - Added Swords Dance to level 80
+    - Beedrill
+        - Added Swords Dance to level 45
+        - Added Sludge Bomb to level 50
+        - Added Horn Drill to level 60
+        - Added Megahorn to level 70
+        - Added Outrage to level 80
+    - Butterfree
+        - Added Agility to level 45
+        - Added Amnesia to level 50
+        - Added Psychic to level 55
+        - Added Moonlight to level 60
+        - Added Moonblast to level 65
+        - Added Baton Pass to level 70
+    - Murkrow
+        - Added Whirlwind to level 6
+        - Added Thief to level 21
+        - Added Encore to level 36
+        - Added Drill Peck to level 46
+        - Added Agility to level 51
+        - Added Baton Pass to level 56
+        - Added Reflect and Light Screen to level 61
+        - Added Moonlight to level 71
+        - Added Haze to level 76
+    - Goldeen
+        - Added Water Gun to level 6
+        - Added Ice Beam to level 61
+        - Added Hydro Pump to level 69
+    - Seaking
+        - Changed out Supersonic for Horn Attack
+        - Changed out Horn Attack for Amnesia
+        - Changed out Agility for Recover
+    - Delibird (wow they got an actual moveset lmao)
+        - Added Peck to level 6
+        - Added Water Gun to level 11
+        - Added Powder Snow to level 17
+        - Added Whirlpool to level 22
+        - Added Wing Attack to level 28
+        - Added Whirlwind to level 32
+        - Added Icy Wind to level 43
+        - Added Sing to level 47
+        - Added Aurora Beam to level 53
+        - Added Ice Beam to level 62
+        - Added Hydro Pump to level 71
+        - Added Blizzard to level 78
+        - Added Safeguard to level 82
+        - Added Heal Bell to level 88
+    - Corsola
+        - Added Rapid Spin to level 22
+        - Added Surf to level 52
+        - Added Rock Slide to level 61
+        - Added Hydro Pump to level 67
+        - Added Amnesia to level 71
+    - Xatu
+        - Added Drill Peck to level 70
+        - Added Mean Look to level 75
+    - Farfetch'd
+        - Added Drill Peck to level 51
+        - Added Steel Wing to level 60
+        - Added Cut to level 66
+        - Added Body Slam to level 72
+    - Octillery
+        - Octazooka is now a level 1 move as well
+        - Added Lock On to level 60
+        - Added Sludge Bomb to level 65
+    - Lickitung
+        - Added Body Slam to level 51
+        - Added Vital Throw to level 60
+        - Added Curse to level 68
+        - Added Submission to level 75
+    - Wigglytuff
+        - Added Comet Punch to level 24
+        - Added Moonlight to level 54
+        - Added Heal Bell to level 63
+        - Added Amnesia to level 71
+        - Added Explosion to level 82
+    - Fearow
+        - Added Sky Attack to level 50
+        - Added Submission to level 62
+        - Added Double Edge to level 71
+        - Added Morning Sun to level 80
+    - Sudowoodo
+        - Added Baton Pass to level 23
+        - Added Counter to level 51
+        - Added Mirror Coat to level 52
+        - Added Encore to level 65
+        - Added Substitute to level 73
+        - Added Barrier to level 79
+        - Added Amnesia to level 83
+    - Azumarill
+        - Added Waterfall to level 52
+        - Added Belly Drum to level 59
+        - Added Hydro Pump to level 65
+        - Added Double Edge to level 71
+    - Tyranitar
+        - Added Skull Bash to level 69
+    - Persian
+        - Added Focus Energy to level 17
+        - Added Sharpen to level 33
+        - Added Metal Claw to level 42
+        - Added Pursuit to level 61
+        - Added Swords Dance to level 78
+        - Added Guillotine to level 83
+    - Raticate
+        - Added Bite to level 26
+        - Added Crunch to level 50
+    - Arbok
+        - Moved Acid to level 18
+        - Added Curse to level 34
+        - Added Sludge to level 37
+        - Added Toxic to level 51
+        - Added Slam to level 58
+        - Added Sludge Bomb to level 62
+        - Added Body Slam to level 69
+        - Added Earthquake to level 74
+    - Houndoom
+        - Added Sunny Day to level 52
+        - Added Fire Blast to level 61
+    - Mantine
+        - Added Surf to level 52
+        - Added Twister to level 58
+        - Added Hydro Pump to level 61
+        - Added Sky Attack to level 73
+    - Piloswine
+        - Added Earthquake to level 78
+    - Magcargo
+        - Added Ancient Power to level 42
+        - Added Sunny Day to level 69
+        - Added Skull Bash to level 73
+        - Added Fire Blast to level 81
+    - Heracross
+        - Added Submission to level 64
+    - Scizor and Scyther
+        - Added Cut to level 53
+        - Added Baton Pass to level 61
+        - Added Sky Attack to level 70
+    - Qwilfish
+        - Added Spike Cannon to level 23
+        - Added Horn Attack to level 32
+        - Added Twineedle to level 54
+        - Added Toxic to level 62
+        - Added Self-Destruct to level 73
+        - Added Sludge Bomb to level 81
+    - Steelix
+        - Added Earthquake to level 56
+        - Added Iron Tail to level 64
+        - Added Skull Bash to level 70
+    - Gligar
+        - Added Earthquake to level 66
+        - Added Sky Attack to level 71
+    - Forretress
+        - Added Spike Cannon to level 49
+        - Moved Spikes to level 59
+        - Moved Double Edge to level 69
+        - Added Barrier to level 79
+    - Girafarig
+        - Added Psychic to level 59
+        - Added Body Slam to level 65
+        - Added Future Sight to level 71
+    - Misdreavus
+        - Added Night Shade to level 41
+        - Added Thief to level 53
+        - Added Shadow Ball to level 60
+        - Added Moonblast to level 69
+    - Jumpluff
+        - Added Giga Drain to level 55
+        - Added Razor Wind to level 66
+    - Politoed
+        - Added Rain Dance to level 62
+    - Ampharos
+        - Added Dragon Rage to level 13
+        - Added Dragon Breath to level 36
+        - Added Twister to level 48
+        - Added Thunderbolt to level 52
+        - Added Outrage to level 64
+    - Crobat
+        - Added Sludge Bomb to level 49
+        - Added Sky Attack to level 61
+        - Added Return to level 68
+    - Sentret
+        - Added Body Slam to level 58
+        - Added Extreme Speed to level 68
+    - Dragonite
+        - Added Sky Attack to level 82
+    - Kabutops
+        - Added Cut to level 58
+        - Added Giga Drain to level 72
+        - Added Skull Bash to level 80
+    - Omastar
+        - Added Barrier to level 72
+        - Added Skull Bash to level 80
+    - Gyarados
+        - Added Sky Attack at level 60
+        - Added Crunch to level 65
+        - Added Outrage to level 70
+    - Kangaskhan
+        - Added all Elemental Punches to levels 53, 54, and 55
+        - Added Mach Punch to level 63
+        - Added Dynamic Punch to level 71
+        - Added Return to level 78
+    - Tangela
+        - Added Wrap to level 26
+        - Added Leech Seed to level 28
+        - Added Giga Drain to level 53
+        - Added Sweet Scent to level 62
+        - Added Synthesis to level 69
+- Type Changes
+    - Ice
+        - Ice is now Super Effective to and Resists Water
+        - Ice is now neutral to Fire in both directions
+        - Ice now Resists Flying and Dragon
+    - Bug
+        - Bug is now Super Effective to Fairy and Fighting
+        - Bug now resists Psychic, Dark, and Poison
+    - Poison
+        - Poison is now Super Effective against Fighting
+    - Dark
+        - Made Dark Physical instead of Special
+    - Ghost
+        - Made Ghost Special instead of Physical
+- Evolution Changes
+    - All Trade Evos are now just item or level up Evos
+    - Goldeen now evolves with a Water Stone instead
+- Move Swaps
+- Item Changes
+    - Light Ball
+        - Light Ball now boosts both Pikachu and Raichu
+- Misc Changes
+    - Kurt now instantly makes his Apricorn Balls
+        

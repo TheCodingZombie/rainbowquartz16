@@ -1,8 +1,5 @@
-INCLUDE "constants.asm"
-
-
 ; PokemonPicPointers and UnownPicPointers are assumed to start at the same
-; address, but in different banks. This is enforced in pokecrystal.link.
+; address, but in different banks. This is enforced in layout.link.
 
 
 SECTION "Pic Pointers", ROMX
@@ -776,3 +773,17 @@ INCBIN "gfx/pokemon/unown_y/back.2bpp.lz"
 INCBIN "gfx/pokemon/unown_p/back.2bpp.lz"
 INCBIN "gfx/pokemon/unown_i/back.2bpp.lz"
 INCBIN "gfx/pokemon/unown_r/back.2bpp.lz"
+
+
+; Sections "Pics 20" to "Pics 24" are not used for any graphics,
+; but entries for their banks exist in FixPicBank (see engine/gfx/load_pics.asm).
+
+SECTION "Pics 20", ROMX
+
+SECTION "Pics 21", ROMX
+
+SECTION "Pics 22", ROMX
+
+SECTION "Pics 23", ROMX
+
+SECTION "Pics 24", ROMX

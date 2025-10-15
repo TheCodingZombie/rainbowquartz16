@@ -1,24 +1,28 @@
 .PHONY: all clean
 
 CC := gcc
-CFLAGS := -O3 -std=c99 -Wall -Wextra -Wno-missing-field-initializers
+CFLAGS := -O3 -flto -std=c11 -Wall -Wextra -pedantic
 
 tools := \
+	gbcpal \
+	gfx \
 	lzcomp \
+	make_patch \
 	png_dimensions \
-	scan_includes \
-	palette \
 	pokemon_animation \
 	pokemon_animation_graphics \
-	gfx \
-	md5
+	scan_includes \
+	stadium
+
 all: $(tools)
 	@:
 
 clean:
-	rm -f $(tools)
+	$(RM) $(tools)
 
-gfx md5: common.h
+lzcomp: CFLAGS += -Wno-strict-overflow -Wno-sign-compare
+lzcomp: $(wildcard lz/*.c) $(wildcard lz/*.h)
+	$(CC) $(CFLAGS) -o $@ lz/*.c
 
-%: %.c
+%: %.c common.h
 	$(CC) $(CFLAGS) -o $@ $<

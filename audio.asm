@@ -1,3 +1,6 @@
+INCLUDE "constants.asm"
+
+
 SECTION "Audio", ROMX
 
 INCLUDE "audio/engine.asm"

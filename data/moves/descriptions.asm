@@ -256,6 +256,8 @@ MoveDescriptions1:
 	dw RockSmashDescription
 	dw WhirlpoolDescription
 	dw BeatUpDescription
+	dw DracoMeteorDescription
+	dw MoonblastDescription
 
 InvalidMoveDescription:
 	db "?@"
@@ -1263,3 +1265,11 @@ WhirlpoolDescription:
 BeatUpDescription:
 	db   "Party #MON join"
 	next "in the attack.@"
+
+DracoMeteorDescription:
+	db   "Sharply lowers"
+	next "user's SPCL.ATK.@"
+
+MoonblastDescription:
+	db   "An attack that may"
+	next "lower SPCL.DEF.@"

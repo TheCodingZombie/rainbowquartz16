@@ -53,26 +53,24 @@ BattleCommand_Present:
 	ld [wPresentPower], a
 	call AnimateCurrentMove
 	call BattleCommand_SwitchTurn
-	ld hl, AICheckPlayerMaxHP
+	ld hl, AICheckEnemyMaxHP
 	ldh a, [hBattleTurn]
 	and a
 	jr z, .got_hp_fn_pointer
-	ld hl, AICheckEnemyMaxHP
+	ld hl, AICheckPlayerMaxHP
 .got_hp_fn_pointer
-	ld a, BANK(AICheckPlayerMaxHP) ; aka BANK(AICheckEnemyMaxHP)
+	ld a, BANK(AICheckPlayerMaxHP) ; aka BANK(AICheckPlayerMaxHP)
 	rst FarCall
 	jr c, .already_fully_healed
 
 	ld hl, GetQuarterMaxHP
 	call CallBattleCore
-	call BattleCommand_SwitchTurn
 	ld hl, RestoreHP
 	call CallBattleCore
-	call BattleCommand_SwitchTurn
 	ld hl, RegainedHealthText
 	call StdBattleTextbox
 	call BattleCommand_SwitchTurn
-	call UpdateOpponentInParty
+	call UpdateBattleMonInParty
 	jr .do_animation
 
 .already_fully_healed

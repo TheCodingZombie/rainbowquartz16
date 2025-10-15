@@ -16,8 +16,9 @@
     - Draco Meteor
         - 140 BP, will lower the user's Sp Atk by 2 stages
         - Dragon Type
+        - Will be added as a Tutor Move for all Dragon Types
     - Moonblast
-        - 95 BP, may lower target's Sp. Def by 1 stage
+        - 95 BP, may lower target's Sp. Atk by 1 stage
         - Fairy Type
         - Also added Moonblast to several Fairy-type Pokemon's movesets 
 
@@ -29,7 +30,7 @@
     - Ledbya Line (Bug/Flying -> Bug/Fighting)
     - Dunsparce (Normal -> Normal/Dragon)
     - Unown (Psychic -> Psychic/Ghost)
-    - Paras (Bug/Grass -> Ghost/Grass)
+    - Parasect (Bug/Grass -> Ghost/Grass)
     - Hypno (Psychic -> Psychic/Dark)
     - Sunflora (Grass -> Grass/Fire)
     - Ninetales (Fire -> Fire/Psychic)
@@ -65,7 +66,7 @@
         - 70 HP -> 100 HP
         - 70 DEF -> 80 DEF
         - 60 SAT -> 50 SAT
-        - 60 SDF -> 80 SDFs
+        - 60 SDF -> 80 SDF
         - 40 SPD -> 20 SPD
         - 390 BST -> 420 BST
     - Dunsparce
@@ -115,7 +116,7 @@
         - 48 -> 60 (All Stats except HP)
         - 48 HP -> 100 HP
         - 288 BST -> 400 BST
-        - Note: The only stats that really matter to Ditto are the HP and the SPD, since they gain the stats of the Pokemon they transform into anyway.
+        - Note: The only stats that really matter to Ditto are the HP and the Speed, since they gain the stats of the Pokemon they transform into anyway.
     - Yanma
         - 65 ATK -> 95 ATK
         - 95 SPD -> 150 SPD
@@ -268,7 +269,6 @@
         - Normal -> Bug
         - Now has a chance to lower Defense
     - Fury Attack
-        -
     - Thrash
         - 90 BP -> 120 BP
     - Twinneedle
@@ -316,6 +316,7 @@
     - Future Sight
         - 80 BP -> 120 BP
         - Future Sight now has +2 Priority
+        - 90 ACC -> 100 ACC
     - Beat Up
         - 10 BP -> 30 BP
     - Leech Life
@@ -327,6 +328,7 @@
         - All other priorities have been increased to accomodate for this
     - Rain Dance and Sunny Day and Sandstorm
         - All Weather moves will have higher priority
+        - All Weather moves now are 100% accurate (idk why they had a chance to miss)
     - Mud Slap
         - 20 BP -> 60 BP
     - Dig
@@ -353,6 +355,12 @@
         - 75 ACC -> 95 ACC
     - Clamp
         - 35 BP -> 75 BP
+    - Rock Throw
+        - 90 ACC -> 100 ACC
+    - Fury Cutter
+        - 10 BP -> 60 BP
+        - Power Increases for consecutive uses -> Attack increases 100% of the time
+        - 90 ACC -> 100 ACC
 - Moveset Changes
     - All stone evolutions will still be able to learn level up moves from previous evolutions
     - Meganium
@@ -365,6 +373,7 @@
         - Added Fire Blast to level 73
         - Moved Flamethrower back down to level 54 (was level 60)
     - Feraligatr
+        - Added Dragon Breath to level 32
         - Added Crunch at level 52
         - Added Swords Dance at level 59
         - Moved Hydro Pump to level 68
@@ -574,9 +583,11 @@
         - Added Rock Slide to level 61
         - Added Hydro Pump to level 67
         - Added Amnesia to level 71
+        - Added Skull Bash to level 78
     - Xatu
         - Added Drill Peck to level 70
         - Added Mean Look to level 75
+        - Added Sky Attack to level 80
     - Farfetch'd
         - Added Drill Peck to level 51
         - Added Steel Wing to level 60
@@ -669,6 +680,8 @@
         - Added Iron Tail to level 64
         - Added Skull Bash to level 70
     - Gligar
+        - Added Dig to level 22
+        - Added Wing Attack to level 26
         - Added Earthquake to level 66
         - Added Sky Attack to level 71
     - Forretress
@@ -737,10 +750,6 @@
         - Bug now resists Psychic, Dark, and Poison
     - Poison
         - Poison is now Super Effective against Fighting
-    - Dark
-        - Made Dark Physical instead of Special
-    - Ghost
-        - Made Ghost Special instead of Physical
 - Evolution Changes
     - All Trade Evos are now just item or level up Evos
     - Goldeen now evolves with a Water Stone instead
@@ -750,4 +759,7 @@
         - Light Ball now boosts both Pikachu and Raichu
 - Misc Changes
     - Kurt now instantly makes his Apricorn Balls
+    - Added a Pocket PC
+    - Apricorn Trees are now more plentiful
+    - Physical/Special Split is now implemented!
         

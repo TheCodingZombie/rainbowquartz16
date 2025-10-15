@@ -275,6 +275,8 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
+	dw BattleAnim_Dracometeor
+	dw BattleAnim_Moonblast
 	dw BattleAnim_SweetScent2
 
 BattleAnim_0:
@@ -4477,6 +4479,7 @@ BattleAnim_Extremespeed:
 	anim_wait 16
 	anim_ret
 
+BattleAnim_Dracometeor:
 BattleAnim_Ancientpower:
 	anim_2gfx ANIM_GFX_ROCKS, ANIM_GFX_HIT
 	anim_sound 0, 0, SFX_SPARK
@@ -4505,6 +4508,7 @@ BattleAnim_Ancientpower:
 	anim_wait 6
 	anim_ret
 
+BattleAnim_Moonblast:
 BattleAnim_ShadowBall:
 	anim_2gfx ANIM_GFX_EGG, ANIM_GFX_SMOKE
 	anim_bgp $1b

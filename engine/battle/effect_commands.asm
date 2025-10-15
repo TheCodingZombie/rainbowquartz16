@@ -1274,6 +1274,7 @@ BattleCommand_Stab:
 ; STAB = Same Type Attack Bonus
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVar
+	and TYPE_MASK
 	ld bc, STRUGGLE
 	call CompareMove
 	ret z
@@ -1303,6 +1304,7 @@ BattleCommand_Stab:
 .go
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVarAddr
+	and TYPE_MASK
 	ld [wCurType], a
 
 	push hl
@@ -1473,6 +1475,7 @@ CheckTypeMatchup:
 	push bc
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
+	and TYPE_MASK
 	ld d, a
 	ld b, [hl]
 	inc hl
@@ -2832,13 +2835,19 @@ ThickClubBoost:
 LightBallBoost:
 ; Return in hl the stat value at hl.
 
-; If the attacking monster is Pikachu and it's
+; If the attacking monster is Pikachu or Raichu and it's
 ; holding a Light Ball, double it.
 	push bc
 	push de
 	ld bc, PIKACHU
 	ld d, LIGHT_BALL
 	call SpeciesItemBoost
+	if RAICHU == (PIKACHU + 1)
+		inc bc
+	else
+		ld bc, RAICHU
+	endc
+	call DoubleStatIfSpeciesHoldingItem
 	pop de
 	pop bc
 	ret
@@ -3023,6 +3032,7 @@ BattleCommand_DamageCalc:
 
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
+	and TYPE_MASK
 
 ; Selfdestruct and Explosion halve defense.
 	cp EFFECT_SELFDESTRUCT
@@ -6115,6 +6125,7 @@ CheckMoveTypeMatchesTarget:
 
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
+	and TYPE_MASK
 	cp NORMAL
 	jr z, .normal
 

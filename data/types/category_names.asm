@@ -3,6 +3,6 @@ CategoryNames:
 	dw .Special
 	dw .Status
 
-.Physical: db "PHYSICAL@"
-.Special:  db "SPECIAL@"
+.Physical: db "PHYS@"
+.Special:  db "SPEC@"
 .Status:   db "STATUS@"

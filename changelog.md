@@ -370,6 +370,7 @@
         - Normal -> Ghost
     - Present
         - Normal -> Ice
+        - 95 ACC -> 100 ACC
 - Moveset Changes
     - All stone evolutions will still be able to learn level up moves from previous evolutions
     - Meganium
@@ -770,5 +771,6 @@
     - Kurt now instantly makes his Apricorn Balls
     - Added a Pocket PC
     - Apricorn Trees are now more plentiful
-    - Physical/Special Split is now implemented!
-        
+    - Physical/Special Split is now fully implemented
+    - New Instant Text Speed
+    - TMs are now infinitely reusable, much like Gen 5 or HMs! 

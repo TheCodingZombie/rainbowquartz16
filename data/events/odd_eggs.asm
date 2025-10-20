@@ -1,10 +1,14 @@
-prob: MACRO
-prob_total = prob_total + (\1)
+DEF NUM_ODD_EGGS EQU 14
+
+MACRO prob
+	DEF prob_total += \1
 	dw prob_total * $ffff / 100
 ENDM
 
 OddEggProbabilities:
-prob_total = 0
+; entries correspond to OddEggs (below)
+	table_width 2
+DEF prob_total = 0
 ; Pichu
 	prob 8
 	prob 1
@@ -26,8 +30,11 @@ prob_total = 0
 ; Tyrogue
 	prob 10
 	prob 1
+	assert_table_length NUM_ODD_EGGS
+	assert prob_total == 100, "OddEggProbabilities do not sum to 100%!"
 
 OddEggSpecies:
+	table_width 2, OddEggSpecies
 	dw PICHU
 	dw PICHU
 	dw CLEFFA
@@ -42,6 +49,7 @@ OddEggSpecies:
 	dw ELEKID
 	dw TYROGUE
 	dw TYROGUE
+	assert_table_length NUM_ODD_EGGS
 
 OddEggMoves:
 	dw THUNDERSHOCK, CHARM, DIZZY_PUNCH, NO_MOVE
@@ -60,12 +68,13 @@ OddEggMoves:
 	dw TACKLE, DIZZY_PUNCH, NO_MOVE, NO_MOVE
 
 OddEggs:
+	table_width NICKNAMED_MON_STRUCT_LENGTH
 
 	db 0 ; Species, will be filled on load
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 02048 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -91,7 +100,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00256 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -117,7 +126,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 04096 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -143,7 +152,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00768 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -169,7 +178,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 04096 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -195,7 +204,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00768 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -221,7 +230,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 03584 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -247,7 +256,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00512 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -273,7 +282,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 02560 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -299,7 +308,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00512 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -325,7 +334,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 03072 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -351,7 +360,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00512 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -377,7 +386,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 02560 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -403,7 +412,7 @@ OddEggs:
 	db NO_ITEM
 	db 0, 0, 0, 0 ; Moves, will be filled on load
 	dw 00256 ; OT ID
-	dt 125 ; Exp
+	bigdt 125 ; Exp
 	; Stat exp
 	bigdw 0
 	bigdw 0
@@ -424,3 +433,5 @@ OddEggs:
 	bigdw 9 ; SAtk
 	bigdw 9 ; SDef
 	db "EGG@@@@@@@@"
+
+	assert_table_length NUM_ODD_EGGS

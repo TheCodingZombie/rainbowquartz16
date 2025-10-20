@@ -1,6 +1,6 @@
 _ReturnToBattle_UseBall:
 	call ClearBGPalettes
-	call ClearTileMap
+	call ClearTilemap
 	ld a, [wBattleType]
 	cp BATTLETYPE_TUTORIAL
 	jr z, .gettutorialbackpic
@@ -16,4 +16,4 @@ _ReturnToBattle_UseBall:
 	call CloseWindow
 	call LoadStandardMenuHeader
 	call WaitBGMap
-	jp SetPalettes
+	jp SetDefaultBGPAndOBP

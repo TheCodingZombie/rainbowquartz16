@@ -20,13 +20,13 @@ ShowPlayerMonsRemaining:
 	ld de, wPartyCount
 	call StageBallTilesData
 	; ldpixel wPlaceBallsX, 12, 12
-	ld a, 12 * 8
+	ld a, 12 * TILE_WIDTH
 	ld hl, wPlaceBallsX
 	ld [hli], a
 	ld [hl], a
-	ld a, 8
+	ld a, TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00
+	ld hl, wShadowOAMSprite00
 	jp LoadTrainerHudOAM
 
 ShowOTTrainerMonsRemaining:
@@ -36,18 +36,18 @@ ShowOTTrainerMonsRemaining:
 	call StageBallTilesData
 	; ldpixel wPlaceBallsX, 9, 4
 	ld hl, wPlaceBallsX
-	ld a, 9 * 8
+	ld a, 9 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 4 * 8
-	ld a, -8
+	ld [hl], 4 * TILE_WIDTH
+	ld a, -TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
+	ld hl, wShadowOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
 	jp LoadTrainerHudOAM
 
 StageBallTilesData:
 	ld a, [de]
 	push af
-	ld de, wBuffer1
+	ld de, wBattleHUDTiles
 	ld c, PARTY_LENGTH
 	ld a, $34 ; empty slot
 .loop1
@@ -56,7 +56,8 @@ StageBallTilesData:
 	dec c
 	jr nz, .loop1
 	pop af
-	ld de, wBuffer1
+
+	ld de, wBattleHUDTiles
 .loop2
 	push af
 	call .GetHUDTile
@@ -180,26 +181,26 @@ LinkBattle_TrainerHuds:
 	ld de, wPartyCount
 	call StageBallTilesData
 	ld hl, wPlaceBallsX
-	ld a, 10 * 8
+	ld a, 10 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 8 * 8
-	ld a, 8
+	ld [hl], 8 * TILE_WIDTH
+	ld a, TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00
+	ld hl, wShadowOAMSprite00
 	call LoadTrainerHudOAM
 
 	ld hl, wOTPartyMon1HP
 	ld de, wOTPartyCount
 	call StageBallTilesData
 	ld hl, wPlaceBallsX
-	ld a, 10 * 8
+	ld a, 10 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 13 * 8
-	ld hl, wVirtualOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
+	ld [hl], 13 * TILE_WIDTH
+	ld hl, wShadowOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
 	jp LoadTrainerHudOAM
 
 LoadTrainerHudOAM:
-	ld de, wBuffer1
+	ld de, wBattleHUDTiles
 	ld c, PARTY_LENGTH
 .loop
 	ld a, [wPlaceBallsY]
@@ -224,7 +225,7 @@ LoadBallIconGFX:
 	ld de, .gfx
 	ld hl, vTiles0 tile $31
 	lb bc, BANK(LoadBallIconGFX), 4
-	call Get2bpp_2
+	call Get2bppViaHDMA
 	ret
 
 .gfx
@@ -250,7 +251,7 @@ _ShowLinkBattleParticipants:
 	farcall LinkBattle_TrainerHuds ; no need to farcall
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ld a, $e4
 	ldh [rOBP0], a
 	ret

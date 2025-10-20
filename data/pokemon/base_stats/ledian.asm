@@ -1,9 +1,9 @@
 	db 0 ; species ID placeholder
 
-	db  55, 130,  50, 101,  29,  55
+	db  55,  35,  50,  85,  55, 110
 	;   hp  atk  def  spd  sat  sdf
 
-	db BUG, FIGHTING ; type
+	db BUG, FLYING ; type
 	db 90 ; catch rate
 	db 134 ; base exp
 	db NO_ITEM, NO_ITEM ; items

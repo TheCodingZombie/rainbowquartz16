@@ -6,10 +6,10 @@ SweetScentFromMenu:
 	ret
 
 .SweetScent:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
-	callasm GetPartyNick
-	writetext UnknownText_0x50726
+	callasm GetPartyNickname
+	writetext UseSweetScentText
 	waitbutton
 	callasm SweetScentEncounter
 	iffalse SweetScentNothing
@@ -24,17 +24,17 @@ SweetScentFromMenu:
 	farsjump BugCatchingContestBattleScript
 
 SweetScentNothing:
-	writetext UnknownText_0x5072b
+	writetext SweetScentNothingText
 	waitbutton
 	closetext
 	end
 
 SweetScentEncounter:
-	farcall CanUseSweetScent
+	farcall CanEncounterWildMon
 	jr nc, .no_battle
 	ld hl, wStatusFlags2
 	bit STATUSFLAGS2_BUG_CONTEST_TIMER_F, [hl]
-	jr nz, .not_in_bug_contest
+	jr nz, .in_bug_contest
 	farcall GetMapEncounterRate
 	ld a, b
 	and a
@@ -43,7 +43,7 @@ SweetScentEncounter:
 	jr nz, .no_battle
 	jr .start_battle
 
-.not_in_bug_contest
+.in_bug_contest
 	farcall ChooseWildEncounter_BugContest
 
 .start_battle
@@ -57,12 +57,10 @@ SweetScentEncounter:
 	ld [wBattleType], a
 	ret
 
-UnknownText_0x50726:
-	; used SWEET SCENT!
-	text_far UnknownText_0x1c0b03
+UseSweetScentText:
+	text_far _UseSweetScentText
 	text_end
 
-UnknownText_0x5072b:
-	; Looks like there's nothing here…
-	text_far UnknownText_0x1c0b1a
+SweetScentNothingText:
+	text_far _SweetScentNothingText
 	text_end

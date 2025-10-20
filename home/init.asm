@@ -1,6 +1,6 @@
 Reset::
 	di
-	call MapSetup_Sound_Off
+	call InitSound
 	xor a
 	ldh [hMapAnims], a
 	call ClearPalettes
@@ -10,8 +10,8 @@ Reset::
 	ldh [rIE], a
 	ei
 
-	ld hl, wcfbe
-	set 7, [hl]
+	ld hl, wJoypadDisable
+	set JOYPAD_DISABLE_SGB_TRANSFER_F, [hl]
 
 	ld c, 32
 	call DelayFrames
@@ -21,15 +21,15 @@ Reset::
 _Start::
 	cp $11
 	jr z, .cgb
-	xor a
+	xor a ; FALSE
 	jr .load
 
 .cgb
-	ld a, $1
+	ld a, TRUE
 
 .load
 	ldh [hCGB], a
-	ld a, $1
+	ld a, TRUE
 	ldh [hSystemBooted], a
 
 Init::
@@ -50,7 +50,7 @@ Init::
 	ldh [rOBP1], a
 	ldh [rTMA], a
 	ldh [rTAC], a
-	ld [WRAM1_Begin], a
+	ld [wBetaTitleSequenceOpeningType], a
 
 	ld a, %100 ; Start timer at 4096Hz
 	ldh [rTAC], a
@@ -64,8 +64,8 @@ Init::
 	ldh [rLCDC], a
 
 ; Clear WRAM bank 0
-	ld hl, WRAM0_Begin
-	ld bc, WRAM0_End - WRAM0_Begin
+	ld hl, STARTOF(WRAM0)
+	ld bc, SIZEOF(WRAM0)
 .ByteFill:
 	ld [hl], 0
 	inc hl
@@ -74,7 +74,7 @@ Init::
 	or c
 	jr nz, .ByteFill
 
-	ld sp, wStack
+	ld sp, wStackTop
 
 ; Clear HRAM
 	ldh a, [hCGB]
@@ -82,8 +82,8 @@ Init::
 	ldh a, [hSystemBooted]
 	push af
 	xor a
-	ld hl, HRAM_Begin
-	ld bc, HRAM_End - HRAM_Begin
+	ld hl, STARTOF(HRAM)
+	ld bc, SIZEOF(HRAM)
 	call ByteFill
 	pop af
 	ldh [hSystemBooted], a
@@ -99,7 +99,7 @@ Init::
 	call ClearSprites
 	call ClearsScratch
 
-	ld a, BANK(GameInit) ; aka BANK(WriteOAMDMACodeToHRAM)
+	ld a, BANK(WriteOAMDMACodeToHRAM) ; aka BANK(GameInit)
 	rst Bankswitch
 
 	call WriteOAMDMACodeToHRAM
@@ -144,7 +144,7 @@ Init::
 
 	farcall StartClock
 
-	xor a
+	xor a ; SRAM_DISABLE
 	ld [MBC3LatchClock], a
 	ld [MBC3SRamEnable], a
 
@@ -162,9 +162,9 @@ Init::
 
 	call DelayFrame
 
-	predef InitSGBBorder ; SGB init
+	predef InitSGBBorder
 
-	call MapSetup_Sound_Off
+	call InitSound
 	xor a
 	ld [wMapMusic], a
 	jp GameInit
@@ -179,8 +179,8 @@ ClearVRAM::
 	xor a ; 0
 	ldh [rVBK], a
 .clear
-	ld hl, VRAM_Begin
-	ld bc, VRAM_End - VRAM_Begin
+	ld hl, STARTOF(VRAM)
+	ld bc, SIZEOF(VRAM)
 	xor a
 	call ByteFill
 	ret
@@ -194,8 +194,8 @@ ClearWRAM::
 	push af
 	ldh [rSVBK], a
 	xor a
-	ld hl, WRAM1_Begin
-	ld bc, WRAM1_End - WRAM1_Begin
+	ld hl, STARTOF(WRAMX)
+	ld bc, SIZEOF(WRAMX)
 	call ByteFill
 	pop af
 	inc a
@@ -207,7 +207,7 @@ ClearsScratch::
 ; Wipe the first 32 bytes of sScratch
 
 	ld a, BANK(sScratch)
-	call GetSRAMBank
+	call OpenSRAM
 	ld hl, sScratch
 	ld bc, $20
 	xor a

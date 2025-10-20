@@ -2,14 +2,14 @@ Script_BattleWhiteout::
 	callasm BattleBGMap
 	sjump Script_Whiteout
 
-Script_OverworldWhiteout::
-	refreshscreen
+OverworldWhiteoutScript::
+	reanchormap
 	callasm OverworldBGMap
 
 Script_Whiteout:
 	writetext .WhitedOutText
 	waitbutton
-	special FadeOutPalettes
+	special FadeOutToWhite
 	pause 40
 	special HealParty
 	checkflag ENGINE_BUG_CONTEST_TIMER
@@ -22,11 +22,10 @@ Script_Whiteout:
 	endall
 
 .bug_contest
-	jumpstd bugcontestresultswarp
+	jumpstd BugContestResultsWarpScript
 
 .WhitedOutText:
-	; is out of useable #MON!  whited out!
-	text_far UnknownText_0x1c0a4e
+	text_far _WhitedOutText
 	text_end
 
 OverworldBGMap:
@@ -40,7 +39,7 @@ OverworldBGMap:
 BattleBGMap:
 	ld b, SCGB_BATTLE_GRAYSCALE
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ret
 
 HalveMoney:

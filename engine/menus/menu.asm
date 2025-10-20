@@ -32,7 +32,7 @@ _InterpretMobileMenu::
 	call ApplyTilemap
 	call Init2DMenuCursorPosition
 	ld hl, w2DMenuFlags1
-	set 7, [hl]
+	set _2DMENU_DISABLE_JOYPAD_FILTER_F, [hl]
 .loop
 	call DelayFrame
 	farcall Function10032e
@@ -51,7 +51,7 @@ _InterpretMobileMenu::
 	ld c, a
 	ld a, [w2DMenuNumRows]
 	call SimpleMultiply
-	ld [wMenuCursorBuffer], a
+	ld [wMenuCursorPosition], a
 	and a
 	ret
 
@@ -68,7 +68,7 @@ Get2DMenuSelection:
 	call MenuClickSound
 Mobile_GetMenuSelection:
 	ld a, [wMenuDataFlags]
-	bit 1, a
+	bit STATICMENU_ENABLE_SELECT_F, a
 	jr z, .skip
 	call GetMenuJoypad
 	bit SELECT_F, a
@@ -76,7 +76,7 @@ Mobile_GetMenuSelection:
 
 .skip
 	ld a, [wMenuDataFlags]
-	bit 0, a
+	bit STATICMENU_DISABLE_B_F, a
 	jr nz, .skip2
 	call GetMenuJoypad
 	bit B_BUTTON_F, a
@@ -91,7 +91,7 @@ Mobile_GetMenuSelection:
 	ld c, a
 	ld a, [wMenuCursorX]
 	add c
-	ld [wMenuCursorBuffer], a
+	ld [wMenuCursorPosition], a
 	and a
 	ret
 
@@ -172,7 +172,7 @@ Init2DMenuCursorPosition:
 	call .InitFlags_c
 	ld a, [w2DMenuNumCols]
 	ld e, a
-	ld a, [wMenuCursorBuffer]
+	ld a, [wMenuCursorPosition]
 	ld b, a
 	xor a
 	ld d, 0
@@ -218,10 +218,10 @@ Init2DMenuCursorPosition:
 	ld [hli], a
 	ld [hld], a
 	ld a, [wMenuDataFlags]
-	bit 5, a
+	bit STATICMENU_WRAP_F, a
 	ret z
-	set 5, [hl]
-	set 4, [hl]
+	set _2DMENU_WRAP_UP_DOWN_F, [hl]
+	set _2DMENU_WRAP_LEFT_RIGHT_F, [hl]
 	ret
 
 .InitFlags_b:
@@ -233,11 +233,11 @@ Init2DMenuCursorPosition:
 .InitFlags_c:
 	ld hl, wMenuDataFlags
 	ld a, A_BUTTON
-	bit 0, [hl]
+	bit STATICMENU_DISABLE_B_F, [hl]
 	jr nz, .skip
 	or B_BUTTON
 .skip
-	bit 1, [hl]
+	bit STATICMENU_ENABLE_SELECT_F, [hl]
 	jr z, .skip2
 	or SELECT
 .skip2
@@ -248,7 +248,7 @@ _StaticMenuJoypad::
 	call Place2DMenuCursor
 _ScrollingMenuJoypad::
 	ld hl, w2DMenuFlags2
-	res 7, [hl]
+	res _2DMENU_DISABLE_JOYPAD_FILTER_F, [hl]
 	ldh a, [hBGMapMode]
 	push af
 	call MenuJoypadLoop
@@ -258,7 +258,7 @@ _ScrollingMenuJoypad::
 
 MobileMenuJoypad:
 	ld hl, w2DMenuFlags2
-	res 7, [hl]
+	res _2DMENU_DISABLE_JOYPAD_FILTER_F, [hl]
 	ldh a, [hBGMapMode]
 	push af
 	call Move2DMenuCursor
@@ -272,18 +272,17 @@ MobileMenuJoypad:
 	ld c, a
 	ret
 
-Unreferenced_Function241d5:
+Function241d5: ; unreferenced
 	call Place2DMenuCursor
 .loop
 	call Move2DMenuCursor
-	call HDMATransferTileMapToWRAMBank3 ; BUG: This function is in another bank.
-	                    ; Pointer in current bank (9) is bogus.
+	call HDMATransferTilemapToWRAMBank3 ; should be farcall
 	call .loop2
 	jr nc, .done
 	call _2DMenuInterpretJoypad
 	jr c, .done
 	ld a, [w2DMenuFlags1]
-	bit 7, a
+	bit _2DMENU_DISABLE_JOYPAD_FILTER_F, a
 	jr nz, .done
 	call GetMenuJoypad
 	ld c, a
@@ -299,13 +298,12 @@ Unreferenced_Function241d5:
 	ret c
 	ld c, 1
 	ld b, 3
-	call AdvanceMobileInactivityTimerAndCheckExpired ; BUG: This function is in another bank.
-	                    ; Pointer in current bank (9) is bogus.
+	call AdvanceMobileInactivityTimerAndCheckExpired ; should be farcall
 	ret c
 	farcall Function100337
 	ret c
 	ld a, [w2DMenuFlags1]
-	bit 7, a
+	bit _2DMENU_DISABLE_JOYPAD_FILTER_F, a
 	jr z, .loop2
 	and a
 	ret
@@ -319,7 +317,7 @@ MenuJoypadLoop:
 	call _2DMenuInterpretJoypad
 	jr c, .done
 	ld a, [w2DMenuFlags1]
-	bit 7, a
+	bit _2DMENU_DISABLE_JOYPAD_FILTER_F, a
 	jr nz, .done
 	call GetMenuJoypad
 	ld b, a
@@ -344,18 +342,18 @@ MenuJoypadLoop:
 
 Do2DMenuRTCJoypad:
 .loopRTC
-	call RTC
+	call UpdateTimeAndPals
 	call Menu_WasButtonPressed
 	ret c
 	ld a, [w2DMenuFlags1]
-	bit 7, a
+	bit _2DMENU_DISABLE_JOYPAD_FILTER_F, a
 	jr z, .loopRTC
 	and a
 	ret
 
 Menu_WasButtonPressed:
 	ld a, [w2DMenuFlags1]
-	bit 6, a
+	bit _2DMENU_ENABLE_SPRITE_ANIMS_F, a
 	jr z, .skip_to_joypad
 	callfar PlaySpriteAnimationsAndDelayFrame
 
@@ -364,7 +362,9 @@ Menu_WasButtonPressed:
 	call GetMenuJoypad
 	and a
 	ret z
+	vc_hook Forbid_printing_photo_studio
 	scf
+	vc_hook Forbid_printing_PC_Box
 	ret
 
 _2DMenuInterpretJoypad:
@@ -390,7 +390,7 @@ _2DMenuInterpretJoypad:
 
 .set_bit_7
 	ld hl, w2DMenuFlags2
-	set 7, [hl]
+	set _2DMENU_EXITING_F, [hl]
 	scf
 	ret
 
@@ -405,9 +405,9 @@ _2DMenuInterpretJoypad:
 
 .check_wrap_around_down
 	ld a, [w2DMenuFlags1]
-	bit 5, a
+	bit _2DMENU_WRAP_UP_DOWN_F, a
 	jr nz, .wrap_around_down
-	bit 3, a
+	bit _2DMENU_EXIT_DOWN_F, a
 	jp nz, .set_bit_7
 	xor a
 	ret
@@ -428,9 +428,9 @@ _2DMenuInterpretJoypad:
 
 .check_wrap_around_up
 	ld a, [w2DMenuFlags1]
-	bit 5, a
+	bit _2DMENU_WRAP_UP_DOWN_F, a
 	jr nz, .wrap_around_up
-	bit 2, a
+	bit _2DMENU_EXIT_UP_F, a
 	jp nz, .set_bit_7
 	xor a
 	ret
@@ -452,9 +452,9 @@ _2DMenuInterpretJoypad:
 
 .check_wrap_around_left
 	ld a, [w2DMenuFlags1]
-	bit 4, a
+	bit _2DMENU_WRAP_LEFT_RIGHT_F, a
 	jr nz, .wrap_around_left
-	bit 1, a
+	bit _2DMENU_EXIT_LEFT_F, a
 	jp nz, .set_bit_7
 	xor a
 	ret
@@ -476,9 +476,9 @@ _2DMenuInterpretJoypad:
 
 .check_wrap_around_right
 	ld a, [w2DMenuFlags1]
-	bit 4, a
+	bit _2DMENU_WRAP_LEFT_RIGHT_F, a
 	jr nz, .wrap_around_right
-	bit 0, a
+	bit _2DMENU_EXIT_RIGHT_F, a
 	jp nz, .set_bit_7
 	xor a
 	ret
@@ -566,8 +566,8 @@ _PushWindow::
 	ld d, [hl]
 	push de
 
-	ld b, $10
-	ld hl, wMenuFlags
+	ld b, wMenuHeaderEnd - wMenuHeader
+	ld hl, wMenuHeader
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -575,34 +575,35 @@ _PushWindow::
 	dec b
 	jr nz, .loop
 
-; If bit 6 or 7 of the menu flags is set, set bit 0 of the address
-; at 7:[wWindowStackPointer], and draw the menu using the coordinates from the header.
-; Otherwise, reset bit 0 of 7:[wWindowStackPointer].
+; If bit MENU_BACKUP_TILES_F or MENU_BACKUP_TILES_2_F of the menu flags is set,
+; also set bit MENU_RESTORE_TILES_F of the address at 7:[wWindowStackPointer],
+; and draw the menu using the coordinates from the header.
+; Otherwise, reset bit MENU_RESTORE_TILES_F of 7:[wWindowStackPointer].
 	ld a, [wMenuFlags]
-	bit 6, a
-	jr nz, .bit_6
-	bit 7, a
-	jr z, .not_bit_7
+	bit MENU_BACKUP_TILES_F, a
+	jr nz, .backup_tiles
+	bit MENU_BACKUP_TILES_2_F, a
+	jr z, .no_backup_tiles
 
-.bit_6
+.backup_tiles
 	ld hl, wWindowStackPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	set 0, [hl]
+	set MENU_RESTORE_TILES_F, [hl]
 	call MenuBoxCoord2Tile
 	call .copy
 	call MenuBoxCoord2Attr
 	call .copy
 	jr .done
 
-.not_bit_7
+.no_backup_tiles
 	pop hl ; last-pushed register was de
 	push hl
 	ld a, [hld]
 	ld l, [hl]
 	ld h, a
-	res 0, [hl]
+	res MENU_RESTORE_TILES_F, [hl]
 
 .done
 	pop hl
@@ -672,7 +673,7 @@ _ExitMenu::
 	ld [wWindowStackPointer + 1], a
 	call PopWindow
 	ld a, [wMenuFlags]
-	bit 0, a
+	bit MENU_RESTORE_TILES_F, a
 	jr z, .loop
 	ld d, h
 	ld e, l
@@ -692,20 +693,20 @@ _ExitMenu::
 	dec [hl]
 	ret
 
-Unreferenced_Function24423:
-	ld a, [wVramState]
-	bit 0, a
+RestoreOverworldMapTiles: ; unreferenced
+	ld a, [wStateFlags]
+	bit SPRITE_UPDATES_DISABLED_F, a
 	ret z
 	xor a ; sScratch
-	call GetSRAMBank
+	call OpenSRAM
 	hlcoord 0, 0
 	ld de, sScratch
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
 	call CopyBytes
 	call CloseSRAM
-	call OverworldTextModeSwitch
+	call LoadOverworldTilemapAndAttrmapPals
 	xor a ; sScratch
-	call GetSRAMBank
+	call OpenSRAM
 	ld hl, sScratch
 	decoord 0, 0
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
@@ -725,14 +726,14 @@ Unreferenced_Function24423:
 	ret
 
 Error_Cant_ExitMenu:
-	ld hl, .Text_NoWindowsAvailableForPopping
+	ld hl, .WindowPoppingErrorText
 	call PrintText
 	call WaitBGMap
-.InfiniteLoop:
-	jr .InfiniteLoop
+.infinite_loop
+	jr .infinite_loop
 
-.Text_NoWindowsAvailableForPopping:
-	text_far UnknownText_0x1c46b7
+.WindowPoppingErrorText:
+	text_far _WindowPoppingErrorText
 	text_end
 
 _InitVerticalMenuCursor::
@@ -741,7 +742,7 @@ _InitVerticalMenuCursor::
 	ld hl, w2DMenuCursorInitY
 	ld a, [wMenuBorderTopCoord]
 	inc a
-	bit 6, b
+	bit STATICMENU_NO_TOP_SPACING_F, b
 	jr nz, .skip_offset
 	inc a
 .skip_offset
@@ -757,15 +758,15 @@ _InitVerticalMenuCursor::
 	ld a, 1
 	ld [hli], a
 ; w2DMenuFlags1
-	ld [hl], $0
-	bit 5, b
+	ld [hl], 0
+	bit STATICMENU_WRAP_F, b
 	jr z, .skip_bit_5
-	set 5, [hl]
+	set _2DMENU_WRAP_UP_DOWN_F, [hl]
 .skip_bit_5
 	ld a, [wMenuFlags]
-	bit 4, a
+	bit MENU_SPRITE_ANIMS_F, a
 	jr z, .skip_bit_6
-	set 6, [hl]
+	set _2DMENU_ENABLE_SPRITE_ANIMS_F, [hl]
 .skip_bit_6
 	inc hl
 ; w2DMenuFlags2
@@ -776,13 +777,13 @@ _InitVerticalMenuCursor::
 	ld [hli], a
 ; wMenuJoypadFilter
 	ld a, A_BUTTON
-	bit 0, b
+	bit STATICMENU_DISABLE_B_F, b
 	jr nz, .skip_bit_1
 	add B_BUTTON
 .skip_bit_1
 	ld [hli], a
 ; wMenuCursorY
-	ld a, [wMenuCursorBuffer]
+	ld a, [wMenuCursorPosition]
 	and a
 	jr z, .load_at_the_top
 	ld c, a

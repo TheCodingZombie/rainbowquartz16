@@ -74,6 +74,7 @@ FruitTreeScript::
 	sjump .end
 
 .packisfull
+
 	promptbutton
 	writetext FruitPackIsFullText
 	waitbutton

@@ -1,4 +1,3 @@
-
 _SacredAsh:
 	ld a, $0
 	ld [wItemEffectSucceeded], a
@@ -48,23 +47,22 @@ CheckAnyFaintedMon:
 
 SacredAshScript:
 	special HealParty
-	reloadmappart
+	refreshmap
 	playsound SFX_WARP_TO
-	special FadeOutPalettes
-	special FadeInPalettes
-	special FadeOutPalettes
-	special FadeInPalettes
-	special FadeOutPalettes
-	special FadeInPalettes
+	special FadeOutToWhite
+	special FadeInFromWhite
+	special FadeOutToWhite
+	special FadeInFromWhite
+	special FadeOutToWhite
+	special FadeInFromWhite
 	waitsfx
-	writetext UnknownText_0x50845
+	writetext .UseSacredAshText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	waitbutton
 	closetext
 	end
 
-UnknownText_0x50845:
-	; 's #MON were all healed!
-	text_far UnknownText_0x1c0b65
+.UseSacredAshText:
+	text_far _UseSacredAshText
 	text_end

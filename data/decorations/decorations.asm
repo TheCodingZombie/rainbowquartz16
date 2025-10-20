@@ -1,5 +1,7 @@
 DecorationIDs:
 ; see constants/deco_constants.asm
+	table_width 1
+
 	db DECO_FEATHERY_BED ; 2
 	db DECO_PINK_BED ; 3
 	db DECO_POLKADOT_BED ; 4
@@ -33,7 +35,7 @@ DecorationIDs:
 	db DECO_SQUIRTLE_DOLL ; 24
 	db DECO_POLIWAG_DOLL ; 25
 	db DECO_DIGLETT_DOLL ; 26
-	db DECO_STARMIE_DOLL ; 27
+	db DECO_STARYU_DOLL ; 27
 	db DECO_MAGIKARP_DOLL ; 28
 	db DECO_ODDISH_DOLL ; 29
 	db DECO_GENGAR_DOLL ; 2a
@@ -45,10 +47,13 @@ DecorationIDs:
 	db DECO_GEODUDE_DOLL ; 30
 	db DECO_MACHOP_DOLL ; 31
 	db DECO_TENTACOOL_DOLL ; 32
+
 	db DECO_BIG_SNORLAX_DOLL ; 1a
 	db DECO_BIG_ONIX_DOLL ; 1b
 	db DECO_BIG_LAPRAS_DOLL ; 1c
-TrophyIDs:
+
 	db DECO_GOLD_TROPHY_DOLL ; 33
 	db DECO_SILVER_TROPHY_DOLL ; 34
-	db -1
+
+	assert_table_length NUM_DECOS
+	db -1 ; end

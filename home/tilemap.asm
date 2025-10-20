@@ -67,22 +67,22 @@ CopyTilemapAtOnce::
 
 .wait
 	ldh a, [rLY]
-	cp $7f
+	cp $80 - 1
 	jr c, .wait
 
 	di
-	ld a, BANK(vTiles3)
+	ld a, BANK(vBGMap2)
 	ldh [rVBK], a
-	hlcoord 0, 0, wAttrMap
-	call .StackPointerMagic
-	ld a, BANK(vTiles0)
+	hlcoord 0, 0, wAttrmap
+	call .CopyBGMapViaStack
+	ld a, BANK(vBGMap0)
 	ldh [rVBK], a
 	hlcoord 0, 0
-	call .StackPointerMagic
+	call .CopyBGMapViaStack
 
 .wait2
 	ldh a, [rLY]
-	cp $7f
+	cp $80 - 1
 	jr c, .wait2
 	ei
 
@@ -92,7 +92,7 @@ CopyTilemapAtOnce::
 	ldh [hBGMapMode], a
 	ret
 
-.StackPointerMagic:
+.CopyBGMapViaStack:
 ; Copy all tiles to vBGMap
 	ld [hSPBuffer], sp
 	ld sp, hl
@@ -112,7 +112,7 @@ rept SCREEN_WIDTH / 2
 	ldh a, [c]
 	and b
 	jr nz, .loop\@
-; load BGMap0
+; load vBGMap
 	ld [hl], e
 	inc l
 	ld [hl], d
@@ -133,12 +133,12 @@ endr
 	ld sp, hl
 	ret
 
-SetPalettes::
+SetDefaultBGPAndOBP::
 ; Inits the Palettes
 ; depending on the system the monochromes palettes or color palettes
 	ldh a, [hCGB]
 	and a
-	jr nz, .SetPalettesForGameBoyColor
+	jr nz, .SetDefaultBGPAndOBPForGameBoyColor
 	ld a, %11100100
 	ldh [rBGP], a
 	ld a, %11010000
@@ -146,7 +146,7 @@ SetPalettes::
 	ldh [rOBP1], a
 	ret
 
-.SetPalettesForGameBoyColor:
+.SetDefaultBGPAndOBPForGameBoyColor:
 	push de
 	ld a, %11100100
 	call DmgToCgbBGPals
@@ -187,12 +187,12 @@ ClearPalettes::
 	ldh [rSVBK], a
 
 ; Request palette update
-	ld a, 1
+	ld a, TRUE
 	ldh [hCGBPalUpdate], a
 	ret
 
 GetMemSGBLayout::
-	ld b, SCGB_RAM
+	ld b, SCGB_DEFAULT
 GetSGBLayout::
 ; load sgb packets unless dmg
 
@@ -206,3 +206,23 @@ GetSGBLayout::
 
 .sgb
 	predef_jump LoadSGBLayout
+
+SetHPPal::
+; Set palette for hp bar pixel length e at hl.
+	call GetHPPal
+	ld [hl], d
+	ret
+
+GetHPPal::
+; Get palette for hp bar pixel length e in d.
+	ld d, HP_GREEN
+	ld a, e
+	cp (HP_BAR_LENGTH_PX * 50 / 100) ; 24
+	ret nc
+	assert HP_GREEN + 1 == HP_YELLOW
+	inc d
+	cp (HP_BAR_LENGTH_PX * 21 / 100) ; 10
+	ret nc
+	assert HP_YELLOW + 1 == HP_RED
+	inc d
+	ret

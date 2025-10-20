@@ -16,8 +16,9 @@ ReanchorBGMap_NoOAMUpdate::
 	ldh [hBGMapMode], a
 	pop af
 	ldh [hOAMUpdate], a
-	ld hl, wVramState
-	set 6, [hl]
+
+	ld hl, wStateFlags
+	set TEXT_STATE_F, [hl]
 	ret
 
 .ReanchorBGMap:
@@ -26,13 +27,13 @@ ReanchorBGMap_NoOAMUpdate::
 	ldh [hBGMapMode], a
 	ld a, $90
 	ldh [hWY], a
-	call OverworldTextModeSwitch
+	call LoadOverworldTilemapAndAttrmapPals
 	ld a, HIGH(vBGMap1)
 	call .LoadBGMapAddrIntoHRAM
-	call _OpenAndCloseMenu_HDMATransferTileMapAndAttrMap
+	call HDMATransferTilemapAndAttrmap_Menu
 	farcall LoadOW_BGPal7
 	farcall ApplyPals
-	ld a, $1
+	ld a, TRUE
 	ldh [hCGBPalUpdate], a
 	xor a
 	ldh [hBGMapMode], a
@@ -84,15 +85,15 @@ HDMATransfer_FillBGMap0WithBlack:
 
 	ld a, "■"
 	ld hl, wDecompressScratch
-	ld bc, wScratchAttrMap - wDecompressScratch
+	ld bc, wScratchAttrmap - wDecompressScratch
 	call ByteFill
 	ld a, HIGH(wDecompressScratch)
 	ldh [rHDMA1], a
 	ld a, LOW(wDecompressScratch)
 	ldh [rHDMA2], a
-	ld a, HIGH(vBGMap0 - VRAM_Begin)
+	ld a, HIGH(vBGMap0 - STARTOF(VRAM))
 	ldh [rHDMA3], a
-	ld a, LOW(vBGMap0 - VRAM_Begin)
+	ld a, LOW(vBGMap0 - STARTOF(VRAM))
 	ldh [rHDMA4], a
 	ld a, $3f
 	ldh [hDMATransfer], a

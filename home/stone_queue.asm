@@ -34,10 +34,10 @@ HandleStoneQueue::
 .IsObjectOnWarp:
 	push de
 
-	ld hl, OBJECT_NEXT_MAP_X
+	ld hl, OBJECT_MAP_X
 	add hl, de
 	ld a, [hl]
-	ld hl, OBJECT_NEXT_MAP_Y
+	ld hl, OBJECT_MAP_Y
 	add hl, de
 	ld e, [hl]
 
@@ -52,11 +52,11 @@ HandleStoneQueue::
 	ret
 
 .check_on_warp
-	ld hl, wCurMapWarpsPointer
+	ld hl, wCurMapWarpEventsPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [wCurMapWarpCount]
+	ld a, [wCurMapWarpEventCount]
 	and a
 	ret z
 
@@ -87,7 +87,7 @@ HandleStoneQueue::
 .found_warp
 	pop af
 	ld d, a
-	ld a, [wCurMapWarpCount]
+	ld a, [wCurMapWarpEventCount]
 	sub d
 	inc a
 	scf

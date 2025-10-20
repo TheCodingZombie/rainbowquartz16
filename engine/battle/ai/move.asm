@@ -1,5 +1,5 @@
 AIChooseMove:
-; Score each move in wEnemyMonMoves starting from wBuffer1. Lower is better.
+; Score each move of wEnemyMonMoves in wEnemyAIMoveScores. Lower is better.
 ; Pick the move with the lowest score.
 
 ; Wildmons attack at random.
@@ -17,7 +17,7 @@ AIChooseMove:
 
 ; The default score is 20. Unusable moves are given a score of 80.
 	ld a, 20
-	ld hl, wBuffer1
+	ld hl, wEnemyAIMoveScores
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -37,20 +37,20 @@ AIChooseMove:
 	inc hl
 	jr .CheckDisabledMove
 .ScoreDisabledMove:
-	ld hl, wBuffer1
+	ld hl, wEnemyAIMoveScores
 	ld b, 0
 	add hl, bc
 	ld [hl], 80
 
 ; Don't pick moves with 0 PP.
 .CheckPP:
-	ld hl, wBuffer1 - 1
+	ld hl, wEnemyAIMoveScores - 1
 	ld de, wEnemyMonPP
 	ld b, 0
 .CheckMovePP:
 	inc b
 	ld a, b
-	cp wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	cp NUM_MOVES + 1
 	jr z, .ApplyLayers
 	inc hl
 	ld a, [de]
@@ -64,15 +64,16 @@ AIChooseMove:
 .ApplyLayers:
 	ld hl, TrainerClassAttributes + TRNATTR_AI_MOVE_WEIGHTS
 
-	; If we have a battle in BattleTower just load the Attributes of the first trainer class in wTrainerClass (Falkner)
-	; so we have always the same AI, regardless of the loaded class of trainer
+	; If we have a battle in Battle Tower, just load the attributes of the first
+	; trainer class in TrainerClassAttributes (Falkner), so we have always the
+	; same AI, regardless of the loaded class of trainer.
 	ld a, [wInBattleTowerBattle]
-	bit 0, a
+	bit IN_BATTLE_TOWER_BATTLE_F, a
 	jr nz, .battle_tower_skip
 
 	ld a, [wTrainerClass]
 	dec a
-	ld bc, 7 ; Trainer2AI - Trainer1AI
+	ld bc, NUM_TRAINER_ATTRIBUTES
 	call AddNTimes
 
 .battle_tower_skip
@@ -117,9 +118,9 @@ AIChooseMove:
 
 ; Decrement the scores of all moves one by one until one reaches 0.
 .DecrementScores:
-	ld hl, wBuffer1
+	ld hl, wEnemyAIMoveScores
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves
+	ld c, NUM_MOVES
 
 .DecrementNextScore:
 	; If the enemy has no moves, this will infinite.
@@ -152,7 +153,7 @@ AIChooseMove:
 	cp NUM_MOVES + 1
 	jr nz, .move_loop
 
-	ld hl, wBuffer1
+	ld hl, wEnemyAIMoveScores
 	ld de, wEnemyMonMoves
 	ld c, NUM_MOVES
 
@@ -182,7 +183,7 @@ AIChooseMove:
 
 ; Randomly choose one of the moves with a score of 1
 .ChooseMove:
-	ld hl, wBuffer1
+	ld hl, wEnemyAIMoveScores
 	call Random
 	maskbits NUM_MOVES
 	ld c, a

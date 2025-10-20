@@ -1,3 +1,6 @@
+Footprints:
+	table_width LEN_1BPP_TILE * 4
+
 INCBIN "gfx/footprints/bulbasaur.1bpp"
 INCBIN "gfx/footprints/ivysaur.1bpp"
 INCBIN "gfx/footprints/venusaur.1bpp"
@@ -249,8 +252,5 @@ INCBIN "gfx/footprints/tyranitar.1bpp"
 INCBIN "gfx/footprints/lugia.1bpp"
 INCBIN "gfx/footprints/ho_oh.1bpp"
 INCBIN "gfx/footprints/celebi.1bpp"
-INCBIN "gfx/footprints/252.1bpp"
-INCBIN "gfx/footprints/253.1bpp"
-INCBIN "gfx/footprints/254.1bpp"
-INCBIN "gfx/footprints/255.1bpp"
-INCBIN "gfx/footprints/256.1bpp"
+
+	assert_table_length NUM_POKEMON

@@ -1,9 +1,9 @@
 	db 0 ; species ID placeholder
 
-	db  60,  90,  85,  90,  90,  85
+	db  48,  72,  48,  48,  72,  48
 	;   hp  atk  def  spd  sat  sdf
 
-	db PSYCHIC_TYPE, GHOST ; type
+	db PSYCHIC_TYPE, PSYCHIC_TYPE ; type
 	db 225 ; catch rate
 	db 61 ; base exp
 	db NO_ITEM, NO_ITEM ; items

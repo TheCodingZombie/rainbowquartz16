@@ -1,13 +1,14 @@
-INCLUDE "constants.asm"
+DEF ALLOW_SKIPPING_CREDITS_F EQU 6
 
 
 SECTION "Credits", ROMX
 
 Credits::
-	bit 6, b ; Hall Of Fame
-	ld a, $0
+	; Don't allow skipping credits the first time they're viewed in the Hall of Fame
+	bit STATUSFLAGS_HALL_OF_FAME_F, b
+	ld a, 0
 	jr z, .okay
-	ld a, $40
+	ld a, 1 << ALLOW_SKIPPING_CREDITS_F
 .okay
 	ld [wJumptableIndex], a
 
@@ -17,7 +18,7 @@ Credits::
 	ldh [rSVBK], a
 
 	call ClearBGPalettes
-	call ClearTileMap
+	call ClearTilemap
 	call ClearSprites
 
 	ld hl, wCreditsBlankFrame2bpp
@@ -75,17 +76,18 @@ Credits::
 	ldh [hLCDCPointer], a
 
 	call GetCreditsPalette
-	call SetPalettes
+	call SetDefaultBGPAndOBP
+; BUG: Credits sequence changes move selection menu behavior (see docs/bugs_and_glitches.md)
 	ldh a, [hVBlank]
 	push af
-	ld a, $5
+	ld a, VBLANK_CREDITS
 	ldh [hVBlank], a
-	ld a, $1
+	ld a, TRUE
 	ldh [hInMenu], a
 	xor a
 	ldh [hBGMapMode], a
 	ld [wCreditsPos], a
-	ld [wCreditsUnusedCD21], a
+	ld [wCreditsPos + 1], a
 	ld [wCreditsTimer], a
 
 .execution_loop
@@ -113,7 +115,7 @@ Credits_HandleAButton:
 	and A_BUTTON
 	ret z
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	ret
 
 Credits_HandleBButton:
@@ -121,7 +123,7 @@ Credits_HandleBButton:
 	and B_BUTTON
 	ret z
 	ld a, [wJumptableIndex]
-	bit 6, a
+	bit ALLOW_SKIPPING_CREDITS_F, a
 	ret z
 	ld hl, wCreditsPos
 	ld a, [hli]
@@ -198,8 +200,8 @@ Credits_UpdateGFXRequestPath:
 Credits_RequestGFX:
 	xor a
 	ldh [hBGMapMode], a
-	ld a, $8
-	ld [wRequested2bpp], a
+	ld a, 8
+	ld [wRequested2bppSize], a
 	jp Credits_Next
 
 Credits_LYOverride:
@@ -226,7 +228,7 @@ Credits_LYOverride:
 
 ParseCredits:
 	ld hl, wJumptableIndex
-	bit 7, [hl]
+	bit JUMPTABLE_EXIT_F, [hl]
 	jp nz, .done
 
 ; Wait until the timer has run out to parse the next command.
@@ -245,7 +247,7 @@ ParseCredits:
 	xor a
 	ldh [hBGMapMode], a
 	hlcoord 0, 5
-	ld bc, 20 * 12
+	ld bc, SCREEN_WIDTH * 12
 	ld a, " "
 	call ByteFill
 
@@ -275,7 +277,7 @@ ParseCredits:
 	push af
 	ld e, a
 	ld d, 0
-	ld hl, CreditsStrings
+	ld hl, CreditsStringsPointers
 	add hl, de
 	add hl, de
 	ld a, [hli]
@@ -306,7 +308,7 @@ ParseCredits:
 .print
 ; Print strings spaced every two lines.
 	call .get
-	ld bc, 20 * 2
+	ld bc, SCREEN_WIDTH * 2
 	call AddNTimes
 	call PlaceString
 	jr .loop
@@ -323,7 +325,7 @@ ParseCredits:
 	xor a
 	ld [wCreditsBorderFrame], a ; frame
 	call GetCreditsPalette
-	call SetPalettes ; update hw pal registers
+	call SetDefaultBGPAndOBP ; update hw pal registers
 	jr .loop
 
 .clear
@@ -365,7 +367,7 @@ ParseCredits:
 .end
 ; Stop execution.
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ld a, 32
 	ld [wMusicFade], a
 	ld a, LOW(MUSIC_POST_CREDITS)
@@ -419,22 +421,22 @@ ConstructCreditsTilemap:
 	ld a, $20
 	call DrawCreditsBorder
 
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	ld bc, 4 * SCREEN_WIDTH
 	xor a
 	call ByteFill
 
-	hlcoord 0, 4, wAttrMap
+	hlcoord 0, 4, wAttrmap
 	ld bc, SCREEN_WIDTH
 	ld a, $1
 	call ByteFill
 
-	hlcoord 0, 5, wAttrMap
+	hlcoord 0, 5, wAttrmap
 	ld bc, 12 * SCREEN_WIDTH
 	ld a, $2
 	call ByteFill
 
-	hlcoord 0, 17, wAttrMap
+	hlcoord 0, 17, wAttrmap
 	ld bc, SCREEN_WIDTH
 	ld a, $1
 	call ByteFill
@@ -572,14 +574,17 @@ Credits_LoadBorderGFX:
 	dw CreditsPichuGFX     + 16 tiles
 	dw CreditsPichuGFX     + 32 tiles
 	dw CreditsPichuGFX     + 48 tiles
+
 	dw CreditsSmoochumGFX
 	dw CreditsSmoochumGFX  + 16 tiles
 	dw CreditsSmoochumGFX  + 32 tiles
 	dw CreditsSmoochumGFX  + 48 tiles
+
 	dw CreditsDittoGFX
 	dw CreditsDittoGFX     + 16 tiles
 	dw CreditsDittoGFX     + 32 tiles
 	dw CreditsDittoGFX     + 48 tiles
+
 	dw CreditsIgglybuffGFX
 	dw CreditsIgglybuffGFX + 16 tiles
 	dw CreditsIgglybuffGFX + 32 tiles

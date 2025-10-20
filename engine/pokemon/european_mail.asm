@@ -1,29 +1,28 @@
-IsMailEuropean:
-; return 1 if French
-; return 2 if German
-; return 3 if Italian
-; return 4 if Spanish
-; return 0 if none of the above
-	ld c, $0
-	ld hl, sPartyMon1MailAuthorNationality - sPartyMon1Mail
+ParseMailLanguage:
+	ld c, MAIL_LANG_ENGLISH
+	ld hl, sPartyMon1MailNationality - sPartyMon1Mail
 	add hl, de
 	ld a, [hli]
 	cp "E"
 	ret nz
 	ld a, [hli]
+	assert MAIL_LANG_ENGLISH + 1 == MAIL_LANG_FRENCH
 	inc c
 	cp "F"
 	ret z
+	assert MAIL_LANG_FRENCH + 1 == MAIL_LANG_GERMAN
 	inc c
 	cp "G"
 	ret z
+	assert MAIL_LANG_GERMAN + 1 == MAIL_LANG_ITALIAN
 	inc c
 	cp "I"
 	ret z
+	assert MAIL_LANG_ITALIAN + 1 == MAIL_LANG_SPANISH
 	inc c
 	cp "S"
 	ret z
-	ld c, $0
+	ld c, MAIL_LANG_ENGLISH
 	ret
 
 ; The regular font.
@@ -38,15 +37,16 @@ INCBIN "gfx/font/french_german.1bpp"
 SpanishItalianFont:
 INCBIN "gfx/font/spanish_italian.1bpp"
 
-HandleFrenchGermanMail:
-; called if mail is french or german
-; fix 's 't 'v
+ConvertFrenchGermanMailToEnglish:
+; Called when sending French or German mail
+; Remaps 's from French/German character set to English 
+; Converts c' d' j' from French/German character set to unused values in English
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e
 .loop
 	ld a, [hl]
-	cp $dc ; 's in french/german font
+	cp $dc ; 's in French/German font
 	jr nz, .check_intermediate_chars
 	ld a, "'s"
 	jr .replace
@@ -67,12 +67,10 @@ HandleFrenchGermanMail:
 	jr nz, .loop
 	ret
 
-LireLeCourrierAnglais:
-DeutenEnglischenPost:
-; Cette fonction convertit certains des caractères anglais pour
-; leur équivalent dans le jeu de caractères français.
-; Diese Funktion wandelt bestimmte englische Zeichen, um ihre
-; Entsprechung in der Deutschen-Zeichensatz.
+ConvertEnglishMailToFrenchGerman:
+; Called when receiving French or German mail
+; Remaps 's from English character set to French/German 
+; Converts unused values from English character set back to c' d' j' in French/German
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e
@@ -80,7 +78,7 @@ DeutenEnglischenPost:
 	ld a, [hl]
 	cp "'s"
 	jr nz, .check_intermediate_chars
-	ld a, $dc
+	ld a, $dc ; 's in French/German font
 	jr .replace
 
 .check_intermediate_chars
@@ -99,15 +97,14 @@ DeutenEnglischenPost:
 	jr nz, .loop
 	ret
 
-HandleSpanishItalianMail:
-LeerCorreosIngleses:
-LeggiPostaInglese:
-; This function converts certain characters between
-; the English and Spanish/Italian character sets.
-; Esta función convierte ciertos caracteres entre
-; el juego de caracteres Inglés y Español.
-; Questa funzione converte alcuni caratteri tra
-; l'inglese e il set di caratteri italiani.
+ConvertSpanishItalianMailToEnglish:
+; Called when sending Spanish or Italian mail
+; Converts 'd 'l 'm 'r 's 't 'v from Spanish/Italian character set to English
+; Converts ì í ñ ò ó ú º from Spanish/Italian character set to unused values in English
+ConvertEnglishMailToSpanishItalian:
+; Called when receiving Spanish or Italian mail
+; Converts 'd 'l 'm 'r 's 't 'v from English character set to Spanish/Italian
+; Converts unused values from English character set back to ì í ñ ò ó ú º in Spanish/Italian
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e

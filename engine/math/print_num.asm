@@ -6,22 +6,22 @@ _PrintNum::
 ; digits will be in front of the decimal point.
 ; Some extra flags can be given in bits 5-7 of b.
 ; Bit 5: money if set (unless left-aligned without leading zeros)
-; Bit 6: right-aligned if set
+; Bit 6: left-aligned if set
 ; Bit 7: print leading zeros if set
 
 	push bc
 
-	bit 5, b
+	bit PRINTNUM_MONEY_F, b
 	jr z, .main
-	bit 7, b
+	bit PRINTNUM_LEADINGZEROS_F, b
 	jr nz, .moneyflag
-	bit 6, b
+	bit PRINTNUM_LEFTALIGN_F, b
 	jr z, .main
 
 .moneyflag ; 101xxxxx or 011xxxxx
 	ld a, "¥"
 	ld [hli], a
-	res 5, b ; 100xxxxx or 010xxxxx
+	res PRINTNUM_MONEY_F, b ; 100xxxxx or 010xxxxx
 
 .main
 	xor a
@@ -35,7 +35,6 @@ _PrintNum::
 	cp 2
 	jr z, .word
 ; maximum 3 bytes
-.long
 	ld a, [de]
 	ldh [hPrintNumBuffer + 1], a
 	inc de
@@ -81,7 +80,7 @@ _PrintNum::
 	cp 6
 	jr z, .six
 
-.seven
+; seven
 	ld a, HIGH(1000000 >> 8)
 	ldh [hPrintNumBuffer + 4], a
 	ld a, HIGH(1000000) ; mid
@@ -185,11 +184,11 @@ _PrintNum::
 	ldh a, [hPrintNumBuffer + 0]
 	and a
 	jr nz, .stop
-	bit 5, d
+	bit PRINTNUM_MONEY_F, d
 	jr z, .stop
 	ld a, "¥"
 	ld [hli], a
-	res 5, d
+	res PRINTNUM_MONEY_F, d
 
 .stop
 	pop af
@@ -263,11 +262,11 @@ _PrintNum::
 	ldh a, [hPrintNumBuffer + 0]
 	and a
 	jr nz, .done
-	bit 5, d
+	bit PRINTNUM_MONEY_F, d
 	jr z, .done
 	ld a, "¥"
 	ld [hli], a
-	res 5, d
+	res PRINTNUM_MONEY_F, d
 .done
 	ld a, "0"
 	add c
@@ -282,7 +281,7 @@ _PrintNum::
 
 .PrintLeadingZero:
 ; prints a leading zero unless they are turned off in the flags
-	bit 7, d ; print leading zeroes?
+	bit PRINTNUM_LEADINGZEROS_F, d
 	ret z
 	ld [hl], "0"
 	ret
@@ -290,9 +289,9 @@ _PrintNum::
 .AdvancePointer:
 ; increments the pointer unless leading zeroes are not being printed,
 ; the number is left-aligned, and no nonzero digits have been printed yet
-	bit 7, d ; print leading zeroes?
+	bit PRINTNUM_LEADINGZEROS_F, d
 	jr nz, .inc
-	bit 6, d ; left alignment or right alignment?
+	bit PRINTNUM_LEFTALIGN_F, d
 	jr z, .inc
 	ldh a, [hPrintNumBuffer + 0]
 	and a

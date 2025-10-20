@@ -1,12 +1,11 @@
-; overworld_sprite struct members (see data/sprites.asm)
-	const_def
-	const SPRITEDATA_ADDR    ; 0
-	const SPRITEDATA_ADDR_HI ; 1
-	const SPRITEDATA_SIZE    ; 2
-	const SPRITEDATA_BANK    ; 3
-	const SPRITEDATA_TYPE    ; 4
-	const SPRITEDATA_PALETTE ; 5
-NUM_SPRITEDATA_FIELDS EQU const_value
+; overworld_sprite struct members (see data/sprites/sprites.asm)
+rsreset
+DEF SPRITEDATA_ADDR    rw ; 0
+DEF SPRITEDATA_SIZE    rb ; 2
+DEF SPRITEDATA_BANK    rb ; 3
+DEF SPRITEDATA_TYPE    rb ; 4
+DEF SPRITEDATA_PALETTE rb ; 5
+DEF NUM_SPRITEDATA_FIELDS EQU _RS
 
 ; sprite types
 	const_def 1
@@ -21,7 +20,7 @@ NUM_SPRITEDATA_FIELDS EQU const_value
 	const PAL_OW_GREEN  ; 2
 	const PAL_OW_BROWN  ; 3
 	const PAL_OW_PINK   ; 4
-	const PAL_OW_SILVER ; 5
+	const PAL_OW_EMOTE  ; 5
 	const PAL_OW_TREE   ; 6
 	const PAL_OW_ROCK   ; 7
 
@@ -33,6 +32,6 @@ NUM_SPRITEDATA_FIELDS EQU const_value
 	const PAL_NPC_GREEN  ; a
 	const PAL_NPC_BROWN  ; b
 	const PAL_NPC_PINK   ; c
-	const PAL_NPC_SILVER ; d
+	const PAL_NPC_EMOTE  ; d
 	const PAL_NPC_TREE   ; e
 	const PAL_NPC_ROCK   ; f

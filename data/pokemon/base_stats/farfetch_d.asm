@@ -1,6 +1,6 @@
 	db 0 ; species ID placeholder
 
-	db  55, 105,  70,  90,  68,  62
+	db  52,  65,  55,  60,  58,  62
 	;   hp  atk  def  spd  sat  sdf
 
 	db NORMAL, FLYING ; type

@@ -258,6 +258,7 @@ MoveDescriptions1:
 	dw BeatUpDescription
 	dw DracoMeteorDescription
 	dw MoonblastDescription
+.IndirectEnd::
 
 InvalidMoveDescription:
 	db "?@"
@@ -1272,4 +1273,4 @@ DracoMeteorDescription:
 
 MoonblastDescription:
 	db   "An attack that may"
-	next "lower SPCL.DEF.@"
+	next "lower SPCL.ATK.@"

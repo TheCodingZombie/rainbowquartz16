@@ -101,6 +101,7 @@ EvosAttacksPointers2::
 	dw LugiaEvosAttacks
 	dw HoOhEvosAttacks
 	dw CelebiEvosAttacks
+.IndirectEnd::
 
 ChikoritaEvosAttacks:
 	dbbw EVOLVE_LEVEL, 16, BAYLEEF
@@ -875,7 +876,7 @@ UnownEvosAttacks:
 	dbw 32, DISABLE
 	dbw 37, PSYBEAM
 	dbw 42, NIGHT_SHADE
-	dbww 53, PSYCHIC_M
+	dbw 53, PSYCHIC_M
 	dbw 61, SHADOW_BALL
 	dbw 68, METRONOME
 	dbw 74, FUTURE_SIGHT

@@ -16,13 +16,13 @@ GameTimer::
 	ld a, BANK(wGameTime)
 	ldh [rSVBK], a
 
-	call UpdateGameTimer
+	call .Function
 
 	pop af
 	ldh [rSVBK], a
 	ret
 
-UpdateGameTimer::
+.Function:
 ; Increment the game timer by one frame.
 ; The game timer is capped at 999:59:59.00.
 
@@ -32,13 +32,13 @@ UpdateGameTimer::
 	ret nz
 
 ; Is the timer paused?
-	ld hl, wGameTimerPause
-	bit GAMETIMERPAUSE_TIMER_PAUSED_F, [hl]
+	ld hl, wGameTimerPaused
+	bit GAME_TIMER_COUNTING_F, [hl]
 	ret z
 
 ; Is the timer already capped?
 	ld hl, wGameTimeCap
-	bit 0, [hl]
+	bit GAME_TIME_CAPPED, [hl]
 	ret nz
 
 ; +1 frame
@@ -103,7 +103,7 @@ UpdateGameTimer::
 	jr c, .ok
 
 	ld hl, wGameTimeCap
-	set 0, [hl]
+	set GAME_TIME_CAPPED, [hl]
 
 	ld a, 59 ; 999:59:59.00
 	ld [wGameTimeMinutes], a

@@ -281,6 +281,7 @@
         - 70 BP -> 120 BP
     - Egg Bomb
         - Now has a chance to burn
+        - Normal -> Grass
     - Spike Cannon
         - Normal -> Steel
     - Hi Jump Kick
@@ -361,6 +362,14 @@
         - 10 BP -> 60 BP
         - Power Increases for consecutive uses -> Attack increases 100% of the time
         - 90 ACC -> 100 ACC
+    - Kinesis
+        - 80 ACC -> 100 ACC
+    - Lovely Kiss
+        - Normal -> Fairy
+    - Perish Song
+        - Normal -> Ghost
+    - Present
+        - Normal -> Ice
 - Moveset Changes
     - All stone evolutions will still be able to learn level up moves from previous evolutions
     - Meganium

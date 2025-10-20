@@ -5,14 +5,14 @@ SelectMenu::
 
 .NotRegistered:
 	call OpenText
-	ld b, BANK(ItemMayBeRegisteredText)
-	ld hl, ItemMayBeRegisteredText
+	ld b, BANK(MayRegisterItemText)
+	ld hl, MayRegisterItemText
 	call MapTextbox
 	call WaitButton
 	jp CloseText
 
-ItemMayBeRegisteredText:
-	text_far UnknownText_0x1c1cf3
+MayRegisterItemText:
+	text_far _MayRegisterItemText
 	text_end
 
 CheckRegisteredItem:
@@ -109,7 +109,7 @@ CheckRegisteredItem:
 
 UseRegisteredItem:
 	farcall CheckItemMenu
-	ld a, [wItemAttributeParamBuffer]
+	ld a, [wItemAttributeValue]
 	ld hl, .SwitchTo
 	rst JumpTable
 	ret
@@ -139,7 +139,7 @@ UseRegisteredItem:
 	ret
 
 .Party:
-	call RefreshScreen
+	call ReanchorMap
 	call FadeToMenu
 	call DoItemEffect
 	call CloseSubmenu
@@ -148,7 +148,7 @@ UseRegisteredItem:
 	ret
 
 .Overworld:
-	call RefreshScreen
+	call ReanchorMap
 	ld a, 1
 	ld [wUsingItemWithSelect], a
 	call DoItemEffect
@@ -163,7 +163,7 @@ UseRegisteredItem:
 	ret
 
 .CantUse:
-	call RefreshScreen
+	call ReanchorMap
 
 ._cantuse
 	call CantUseItem

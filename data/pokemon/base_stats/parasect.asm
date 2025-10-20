@@ -1,9 +1,9 @@
 	db 0 ; species ID placeholder
 
-	db  60, 120,  70,  30,  80,  70
+	db  60,  95,  80,  30,  60,  80
 	;   hp  atk  def  spd  sat  sdf
 
-	db GHOST, GRASS ; type
+	db BUG, GRASS ; type
 	db 75 ; catch rate
 	db 128 ; base exp
 	db TINYMUSHROOM, BIG_MUSHROOM ; items

@@ -1,93 +1,62 @@
-HDMATransferAttrMapAndTileMapToWRAMBank3::
+HDMATransferAttrmapAndTilemapToWRAMBank3::
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
 	decoord 0, 0
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call PadTilemapForHDMATransfer
 	ld a, $0
 	ldh [rVBK], a
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call HDMATransferToWRAMBank3
 	ld a, $1
 	ldh [rVBK], a
-	ld hl, wScratchAttrMap
+	ld hl, wScratchAttrmap
 	call HDMATransferToWRAMBank3
 	ret
 
-HDMATransferTileMapToWRAMBank3::
+HDMATransferTilemapToWRAMBank3::
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
 	decoord 0, 0
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call PadTilemapForHDMATransfer
 	ld a, $0
 	ldh [rVBK], a
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call HDMATransferToWRAMBank3
 	ret
 
-HDMATransferAttrMapToWRAMBank3:
+HDMATransferAttrmapToWRAMBank3:
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
 	ld a, $1
 	ldh [rVBK], a
-	ld hl, wScratchAttrMap
+	ld hl, wScratchAttrmap
 	call HDMATransferToWRAMBank3
 	ret
 
-ReloadMapPart::
+HDMATransferTilemapAndAttrmap_Overworld::
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
 	decoord 0, 0
-	ld hl, wScratchTileMap
-	call PadTilemapForHDMATransfer
-	call DelayFrame
-
-	di
-	ldh a, [rVBK]
-	push af
-	ld a, $1
-	ldh [rVBK], a
-	ld hl, wScratchAttrMap
-	call HDMATransfer_Wait127Scanlines_toBGMap
-	ld a, $0
-	ldh [rVBK], a
-	ld hl, wScratchTileMap
-	call HDMATransfer_Wait127Scanlines_toBGMap
-	pop af
-	ldh [rVBK], a
-	ei
-
-	ret
-
-Mobile_ReloadMapPart:
-	ld hl, ReloadMapPart ; useless
-	ld hl, .Function
-	jp CallInSafeGFXMode
-
-.Function:
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
-	decoord 0, 0
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call PadTilemapForHDMATransfer
 	call DelayFrame
 
@@ -96,11 +65,42 @@ Mobile_ReloadMapPart:
 	push af
 	ld a, $1
 	ldh [rVBK], a
-	ld hl, wScratchAttrMap
+	ld hl, wScratchAttrmap
+	call HDMATransfer_WaitForScanline128_toBGMap
+	ld a, $0
+	ldh [rVBK], a
+	ld hl, wScratchTilemap
+	call HDMATransfer_WaitForScanline128_toBGMap
+	pop af
+	ldh [rVBK], a
+	ei
+
+	ret
+
+Mobile_HDMATransferTilemapAndAttrmap_Overworld:
+	ld hl, HDMATransferTilemapAndAttrmap_Overworld ; useless
+	ld hl, .Function
+	jp CallInSafeGFXMode
+
+.Function:
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
+	decoord 0, 0
+	ld hl, wScratchTilemap
+	call PadTilemapForHDMATransfer
+	call DelayFrame
+
+	di
+	ldh a, [rVBK]
+	push af
+	ld a, $1
+	ldh [rVBK], a
+	ld hl, wScratchAttrmap
 	call HDMATransfer_NoDI
 	ld a, $0
 	ldh [rVBK], a
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call HDMATransfer_NoDI
 	pop af
 	ldh [rVBK], a
@@ -108,11 +108,11 @@ Mobile_ReloadMapPart:
 
 	ret
 
-; unused
-	ld hl, .unreferenced_1040da
+Function1040d4: ; unreferenced
+	ld hl, .Function
 	jp CallInSafeGFXMode
 
-.unreferenced_1040da
+.Function
 	ld a, $1
 	ldh [rVBK], a
 	ld a, BANK(w3_d800)
@@ -131,11 +131,11 @@ Mobile_ReloadMapPart:
 	call WaitDMATransfer
 	ret
 
-; unused
-	ld hl, .unreferenced_104101
+Function1040fb: ; unreferenced
+	ld hl, .Function
 	jp CallInSafeGFXMode
 
-.unreferenced_104101
+.Function
 	ld a, $1
 	ldh [rVBK], a
 	ld a, BANK(w3_d800)
@@ -144,20 +144,19 @@ Mobile_ReloadMapPart:
 	call HDMATransferToWRAMBank3
 	ret
 
-OpenAndCloseMenu_HDMATransferTileMapAndAttrMap::
-; OpenText
+_HDMATransferTilemapAndAttrmap_Menu::
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
-	; Transfer wAttrMap and Tilemap to BGMap
+	; Transfer wAttrmap and Tilemap to BGMap
 	; Fill vBGAttrs with $00
 	; Fill vBGTiles with " "
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
 	decoord 0, 0
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call PadTilemapForHDMATransfer
 	call DelayFrame
 
@@ -166,41 +165,41 @@ OpenAndCloseMenu_HDMATransferTileMapAndAttrMap::
 	push af
 	ld a, $1
 	ldh [rVBK], a
-	ld hl, wScratchAttrMap
-	call HDMATransfer_Wait123Scanlines_toBGMap
+	ld hl, wScratchAttrmap
+	call HDMATransfer_WaitForScanline124_toBGMap
 	ld a, $0
 	ldh [rVBK], a
-	ld hl, wScratchTileMap
-	call HDMATransfer_Wait123Scanlines_toBGMap
+	ld hl, wScratchTilemap
+	call HDMATransfer_WaitForScanline124_toBGMap
 	pop af
 	ldh [rVBK], a
 	ei
 	ret
 
-Mobile_OpenAndCloseMenu_HDMATransferTileMapAndAttrMap:
+Mobile_HDMATransferTilemapAndAttrmap_Menu:
 	ld hl, .Function
 	jp CallInSafeGFXMode
 
 .Function:
-	; Transfer wAttrMap and Tilemap to BGMap
+	; Transfer wAttrmap and Tilemap to BGMap
 	; Fill vBGAttrs with $00
 	; Fill vBGTiles with $ff
-	decoord 0, 0, wAttrMap
-	ld hl, wScratchAttrMap
-	call PadAttrMapForHDMATransfer
+	decoord 0, 0, wAttrmap
+	ld hl, wScratchAttrmap
+	call PadAttrmapForHDMATransfer
 	ld c, $ff
 	decoord 0, 0
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	call PadMapForHDMATransfer
 
 	ld a, $1
 	ldh [rVBK], a
-	ld hl, wScratchAttrMap
-	call HDMATransfer_Wait127Scanlines_toBGMap
+	ld hl, wScratchAttrmap
+	call HDMATransfer_WaitForScanline128_toBGMap
 	ld a, $0
 	ldh [rVBK], a
-	ld hl, wScratchTileMap
-	call HDMATransfer_Wait127Scanlines_toBGMap
+	ld hl, wScratchTilemap
+	call HDMATransfer_WaitForScanline128_toBGMap
 	ret
 
 CallInSafeGFXMode:
@@ -213,7 +212,7 @@ CallInSafeGFXMode:
 	ldh [hMapAnims], a
 	ldh a, [rSVBK]
 	push af
-	ld a, BANK(wScratchTileMap)
+	ld a, BANK(wScratchTilemap)
 	ldh [rSVBK], a
 	ldh a, [rVBK]
 	push af
@@ -246,7 +245,7 @@ WaitDMATransfer:
 	jr nz, .loop
 	ret
 
-HDMATransfer_Wait127Scanlines_toBGMap:
+HDMATransfer_WaitForScanline128_toBGMap:
 ; HDMA transfer from hl to [hBGMapAddress]
 ; hBGMapAddress -> de
 ; 2 * SCREEN_HEIGHT -> c
@@ -255,9 +254,9 @@ HDMATransfer_Wait127Scanlines_toBGMap:
 	ldh a, [hBGMapAddress]
 	ld e, a
 	ld c, 2 * SCREEN_HEIGHT
-	jr HDMATransfer_Wait127Scanlines
+	jr HDMATransfer_WaitForScanline128
 
-HDMATransfer_Wait123Scanlines_toBGMap:
+HDMATransfer_WaitForScanline124_toBGMap:
 ; HDMA transfer from hl to [hBGMapAddress]
 ; hBGMapAddress -> de
 ; 2 * SCREEN_HEIGHT -> c
@@ -267,7 +266,7 @@ HDMATransfer_Wait123Scanlines_toBGMap:
 	ldh a, [hBGMapAddress]
 	ld e, a
 	ld c, 2 * SCREEN_HEIGHT
-	jr HDMATransfer_Wait123Scanlines
+	jr HDMATransfer_WaitForScanline124
 
 HDMATransfer_NoDI:
 ; HDMA transfer from hl to [hBGMapAddress]
@@ -328,11 +327,11 @@ HDMATransfer_NoDI:
 	res 7, [hl]
 	ret
 
-HDMATransfer_Wait123Scanlines:
+HDMATransfer_WaitForScanline124:
 	ld b, $7b
 	jr _continue_HDMATransfer
 
-HDMATransfer_Wait127Scanlines:
+HDMATransfer_WaitForScanline128:
 	ld b, $7f
 _continue_HDMATransfer:
 ; a lot of waiting around for hardware registers
@@ -410,16 +409,16 @@ PadTilemapForHDMATransfer:
 	ld c, " "
 	jr PadMapForHDMATransfer
 
-PadAttrMapForHDMATransfer:
+PadAttrmapForHDMATransfer:
 	ld c, $0
 
 PadMapForHDMATransfer:
 ; pad a 20x18 map to 32x18 for HDMA transfer
-; back up the padding value in c to hMapObjectIndexBuffer
-	ldh a, [hMapObjectIndexBuffer]
+; back up the padding value in c to hMapObjectIndex
+	ldh a, [hMapObjectIndex]
 	push af
 	ld a, c
-	ldh [hMapObjectIndexBuffer], a
+	ldh [hMapObjectIndex], a
 
 ; for each row on the screen
 	ld c, SCREEN_HEIGHT
@@ -435,7 +434,7 @@ PadMapForHDMATransfer:
 	jr nz, .loop2
 
 ; load the original padding value of c into hl for 32 - 20 = 12 rows
-	ldh a, [hMapObjectIndexBuffer]
+	ldh a, [hMapObjectIndex]
 	ld b, BG_MAP_WIDTH - SCREEN_WIDTH
 .loop3
 	ld [hli], a
@@ -445,23 +444,23 @@ PadMapForHDMATransfer:
 	dec c
 	jr nz, .loop1
 
-; restore the original value of hMapObjectIndexBuffer
+; restore the original value of hMapObjectIndex
 	pop af
-	ldh [hMapObjectIndexBuffer], a
+	ldh [hMapObjectIndex], a
 	ret
 
-_Get2bpp::
+HDMATransfer2bpp::
 	; 2bpp when [rLCDC] & $80
 	; switch to WRAM bank 6
 	ldh a, [rSVBK]
 	push af
-	ld a, BANK(wScratchTileMap)
+	ld a, BANK(wScratchTilemap)
 	ldh [rSVBK], a
 
 	push bc
 	push hl
 
-	; Copy c tiles of the 2bpp from b:de to wScratchTileMap
+	; Copy c tiles of the 2bpp from b:de to wScratchTilemap
 	ld a, b ; bank
 	ld l, c ; number of tiles
 	ld h, $0
@@ -474,7 +473,7 @@ _Get2bpp::
 	ld c, l
 	ld h, d ; address
 	ld l, e
-	ld de, wScratchTileMap
+	ld de, wScratchTilemap
 	call FarCopyBytes
 
 	pop hl
@@ -486,15 +485,15 @@ _Get2bpp::
 
 	ld d, h
 	ld e, l
-	ld hl, wScratchTileMap
-	call HDMATransfer_Wait127Scanlines
+	ld hl, wScratchTilemap
+	call HDMATransfer_WaitForScanline128
 
 	; restore the previous bank
 	pop af
 	ldh [rSVBK], a
 	ret
 
-_Get1bpp::
+HDMATransfer1bpp::
 	; 1bpp when [rLCDC] & $80
 .loop
 	ld a, c
@@ -523,7 +522,7 @@ _Get1bpp::
 .bankswitch
 	ldh a, [rSVBK]
 	push af
-	ld a, BANK(wScratchTileMap)
+	ld a, BANK(wScratchTilemap)
 	ldh [rSVBK], a
 
 	push bc
@@ -539,7 +538,7 @@ _Get1bpp::
 	ld b, h
 	ld h, d
 	ld l, e
-	ld de, wScratchTileMap
+	ld de, wScratchTilemap
 	call FarCopyBytesDouble_DoubleBankSwitch
 
 	pop hl
@@ -551,8 +550,8 @@ _Get1bpp::
 
 	ld d, h
 	ld e, l
-	ld hl, wScratchTileMap
-	call HDMATransfer_Wait127Scanlines
+	ld hl, wScratchTilemap
+	call HDMATransfer_WaitForScanline128
 
 	pop af
 	ldh [rSVBK], a
@@ -563,24 +562,24 @@ HDMATransfer_OnlyTopFourRows:
 	jp CallInSafeGFXMode
 
 .Function:
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	decoord 0, 0
 	call .Copy
-	ld hl, wScratchTileMap + $80
-	decoord 0, 0, wAttrMap
+	ld hl, wScratchTilemap + $80
+	decoord 0, 0, wAttrmap
 	call .Copy
 	ld a, $1
 	ldh [rVBK], a
 	ld c, $8
-	ld hl, wScratchTileMap + $80
+	ld hl, wScratchTilemap + $80
 	debgcoord 0, 0, vBGMap1
-	call HDMATransfer_Wait127Scanlines
+	call HDMATransfer_WaitForScanline128
 	ld a, $0
 	ldh [rVBK], a
 	ld c, $8
-	ld hl, wScratchTileMap
+	ld hl, wScratchTilemap
 	debgcoord 0, 0, vBGMap1
-	call HDMATransfer_Wait127Scanlines
+	call HDMATransfer_WaitForScanline128
 	ret
 
 .Copy:

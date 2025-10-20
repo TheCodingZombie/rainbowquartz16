@@ -1,4 +1,4 @@
-Unreferenced_StopRTC:
+StopRTC: ; unreferenced
 	ld a, SRAM_ENABLE
 	ld [MBC3SRamEnable], a
 	call LatchClock
@@ -6,7 +6,7 @@ Unreferenced_StopRTC:
 	ldh [hSRAMBank], a
 	ld [MBC3SRamBank], a
 	ld a, [MBC3RTC]
-	set 6, a ; halt
+	set RTC_DH_HALT, a
 	ld [MBC3RTC], a
 	call CloseSRAM
 	ret
@@ -19,7 +19,7 @@ StartRTC:
 	ldh [hSRAMBank], a
 	ld [MBC3SRamBank], a
 	ld a, [MBC3RTC]
-	res 6, a ; halt
+	res RTC_DH_HALT, a
 	ld [MBC3RTC], a
 	call CloseSRAM
 	ret
@@ -56,7 +56,7 @@ TimesOfDay:
 	db MAX_HOUR,  NITE_F
 	db -1, MORN_F
 
-Unreferenced_1404e:
+BetaTimesOfDay: ; unreferenced
 	db 20, NITE_F
 	db 40, MORN_F
 	db 60, DAY_F
@@ -76,14 +76,14 @@ StageRTCTimeForSave:
 	ret
 
 SaveRTC:
-	ld a, $a
+	ld a, SRAM_ENABLE
 	ld [MBC3SRamEnable], a
 	call LatchClock
 	ld hl, MBC3RTC
-	ld a, $c
+	ld a, RTC_DH
 	ldh [hSRAMBank], a
 	ld [MBC3SRamBank], a
-	res 7, [hl]
+	res RTC_DH_OVERFLOW, [hl]
 	ld a, BANK(sRTCStatusFlags)
 	ldh [hSRAMBank], a
 	ld [MBC3SRamBank], a
@@ -94,40 +94,37 @@ SaveRTC:
 
 StartClock::
 	call GetClock
-	call Function1409b
+	call _FixDays
 	call FixDays
 	jr nc, .skip_set
-	; bit 5: Day count exceeds 139
-	; bit 6: Day count exceeds 255
-	call RecordRTCStatus ; set flag on sRTCStatusFlags
+	call RecordRTCStatus
 
 .skip_set
 	call StartRTC
 	ret
 
-Function1409b:
+_FixDays:
 	ld hl, hRTCDayHi
-	bit 7, [hl]
-	jr nz, .set_bit_7
-	bit 6, [hl]
-	jr nz, .set_bit_7
+	bit RTC_DH_OVERFLOW, [hl]
+	jr nz, .reset_rtc
+	bit RTC_DH_HALT, [hl]
+	jr nz, .reset_rtc
 	xor a
 	ret
 
-.set_bit_7
-	; Day count exceeds 16383
-	ld a, %10000000
-	call RecordRTCStatus ; set bit 7 on sRTCStatusFlags
+.reset_rtc
+	ld a, RTC_RESET
+	call RecordRTCStatus
 	ret
 
-Function140ae:
+ClockContinue:
 	call CheckRTCStatus
 	ld c, a
-	and %11000000 ; Day count exceeded 255 or 16383
+	and RTC_RESET | RTC_DAYS_EXCEED_255
 	jr nz, .time_overflow
 
 	ld a, c
-	and %00100000 ; Day count exceeded 139
+	and RTC_DAYS_EXCEED_139
 	jr z, .dont_update
 
 	call UpdateTime
@@ -140,15 +137,14 @@ Function140ae:
 .time_overflow
 	farcall ClearDailyTimers
 	farcall Function170923
-; mobile
-	ld a, 5 ; MBC30 bank used by JP Crystal; inaccessible by MBC3
-	call GetSRAMBank
-	ld a, [$aa8c] ; address of MBC30 bank
+	ld a, BANK(s5_aa8c) ; aka BANK(s5_b2fa)
+	call OpenSRAM
+	ld a, [s5_aa8c]
 	inc a
-	ld [$aa8c], a ; address of MBC30 bank
-	ld a, [$b2fa] ; address of MBC30 bank
+	ld [s5_aa8c], a
+	ld a, [s5_b2fa]
 	inc a
-	ld [$b2fa], a ; address of MBC30 bank
+	ld [s5_b2fa], a
 	call CloseSRAM
 	ret
 

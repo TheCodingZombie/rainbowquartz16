@@ -75,7 +75,6 @@ MoveEffectsPointers:
 	dw SpecialDefenseDownHit
 	dw AccuracyDownHit
 	dw EvasionDownHit
-	dw SkyAttack
 	dw ConfuseHit
 	dw PoisonMultiHit
 	dw NormalHit
@@ -145,7 +144,6 @@ MoveEffectsPointers:
 	dw BellyDrum
 	dw PsychUp
 	dw MirrorCoat
-	dw SkullBash
 	dw Twister
 	dw Earthquake
 	dw FutureSight

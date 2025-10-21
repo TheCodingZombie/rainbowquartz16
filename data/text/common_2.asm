@@ -304,7 +304,7 @@ _CantUseItemText::
 
 _UseCutText::
 	text "You cut a"
-+	line "tree!"
+	line "tree!"
 	prompt
 
 _CutNothingText::

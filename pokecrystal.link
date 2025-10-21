@@ -170,6 +170,7 @@ ROMX $3e
 	"bank3E"
 ROMX $3f
 	"bank3F"
+	"Individual Move Effects"
 ROMX $40
 	"mobile_40"
 	"tetsuji"

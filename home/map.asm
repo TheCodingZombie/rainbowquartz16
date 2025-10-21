@@ -1887,6 +1887,7 @@ CloseSubmenu::
 ExitAllMenus::
 	call ClearBGPalettes
 	call ExitMenu
+ExitFlyMap::
 	call ReloadTilesetAndPalettes
 	call UpdateSprites
 FinishExitMenu::

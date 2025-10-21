@@ -30,7 +30,7 @@
 - In addition to the Fairy Changes, the following Pokemon now have type Changes:
     - Typhlosion (Fire -> Fire/Ghost)
     - Feraligatr (Water -> Water/Dark)
-    - Noctowl (Normal/Flying -> Dark/Flying)
+    - Noctowl (Normal/Flying -> Ghost/Flying)
     - Ledbya Line (Bug/Flying -> Bug/Fighting)
     - Dunsparce (Normal -> Normal/Dragon)
     - Unown (Psychic -> Psychic/Ghost)
@@ -142,7 +142,6 @@
         - 42 SDF -> 50 SDF
         - 91 SPD -> 110 SPD
         - 405 BST -> 460 BST
-        - Note: Since Noctowl is now a Dark type in this mod, I wanted to make it so that both of these Pokemon have distinct roles. So while Noctowl is a bulky Special Attacker, Murkrow is a quick Support Pokemon with a respectable Physical Attack.
     - Goldeen
         - 67 ATK -> 75 ATk
         - 60 DEF -> 65 DEF
@@ -793,3 +792,5 @@
         - Credits:
             - Tom Wang/froyomuffin (Chris Running Sprite)
             - Seasick (Kris Running Sprite)
+    - Added some items that let you use certain field moves without a Pokemon
+        - Also added features that give you these items when beating certain gyms

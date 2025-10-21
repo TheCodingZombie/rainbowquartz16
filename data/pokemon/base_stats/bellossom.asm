@@ -1,9 +1,9 @@
 	db 0 ; species ID placeholder
 
-	db  75,  80,  85,  50,  90, 100
+	db  75,  50,  85,  90,  80, 100
 	;   hp  atk  def  spd  sat  sdf
 
-	db GRASS, GRASS ; type
+	db GRASS, FAIRY ; type
 	db 45 ; catch rate
 	db 184 ; base exp
 	db NO_ITEM, NO_ITEM ; items

@@ -53,6 +53,9 @@ EcruteakGymMortyScript:
 	setevent EVENT_BEAT_MEDIUM_GRACE
 	writetext MortyText_FogBadgeSpeech
 	promptbutton
+	verbosegiveitem SURFBOARD
+	iffalse .NoRoomForShadowBall
+	writetext MortyText_SurfboardSpeech
 	verbosegiveitem TM_SHADOW_BALL
 	iffalse .NoRoomForShadowBall
 	setevent EVENT_GOT_TM30_SHADOW_BALL
@@ -246,6 +249,17 @@ MortyText_FogBadgeSpeech:
 
 	para "I want you to have"
 	line "this too."
+	done
+
+MortyText_SurfboardSpeech:
+	text "This is the item"
+	line "version of SURF."
+
+	para "Try to use it in"
+	line "bodies of water."
+
+	para "Have this special"
+	line "TM as well."
 	done
 
 MortyText_ShadowBallSpeech:

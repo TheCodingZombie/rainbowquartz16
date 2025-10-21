@@ -66,6 +66,14 @@ BlackthornGymClairScript:
 	iftrue .GotTM24
 	writetext BlackthornGymClairText_YouKeptMeWaiting
 	promptbutton
+	giveitem DIVE_KIT
+	iffalse .BagFull
+	getitemname STRING_BUFFER_3, DIVE_KIT
+	writetext BlackthornGymText_ReceivedDiveKit
+	playsound SFX_ITEM
+	waitsfx
+	itemnotify
+	writetext BlackthornGymClairText_DescribeDiveKit
 	giveitem TM_DRAGONBREATH
 	iffalse .BagFull
 	getitemname STRING_BUFFER_3, TM_DRAGONBREATH
@@ -227,6 +235,28 @@ BlackthornGymClairText_YouKeptMeWaiting:
 	line "waiting!"
 
 	para "Here! Take this!"
+	done
+
+BlackthornGymText_ReceivedDiveKit:
+	text "<PLAYER> received"
+	line "DIVE KIT."
+	done
+
+BlackthornGymClairText_DescribeDiveKit:
+	text "That's the DIVING"
+	line "KIT."
+
+	para "It lets you clear"
+	line "whirlpools"
+	cont "yourself."
+
+	para "It's pretty"
+	line "useless, so you"
+	cont "don't have to"
+	cont "take it."
+
+	para "Here's something"
+	line "else."
 	done
 
 BlackthornGymText_ReceivedTM24:

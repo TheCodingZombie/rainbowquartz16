@@ -1,6 +1,6 @@
 	db 0 ; species ID placeholder
 
-	db  60,  85,  69,  80,  65,  79
+	db  70,  85,  80,  80,  65,  80
 	;   hp  atk  def  spd  sat  sdf
 
 	db POISON, POISON ; type

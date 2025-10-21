@@ -42,6 +42,9 @@ MahoganyGymPryceScript:
 	setevent EVENT_BEAT_BOARDER_DOUGLAS
 	writetext PryceText_GlacierBadgeSpeech
 	promptbutton
+	verbosegiveitem ZORA_SUIT
+	iffalse MahoganyGym_NoRoomForIcyWind
+	writetext PryceText_ZoraSuitSpeech
 	verbosegiveitem TM_ICY_WIND
 	iffalse MahoganyGym_NoRoomForIcyWind
 	setevent EVENT_GOT_TM16_ICY_WIND
@@ -209,6 +212,18 @@ PryceText_GlacierBadgeSpeech:
 
 	para "And this… This is"
 	line "a gift from me!"
+	done
+
+PryceText_ZoraSuitSpeech:
+	text "This is the ZORA-"
+	line "SUIT!"
+
+	para "It allows you to"
+	line "swim up rough"
+	cont "waterfalls."
+
+	para "You can also"
+	line "have this TM."
 	done
 
 PryceText_IcyWindSpeech:

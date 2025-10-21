@@ -64,6 +64,9 @@ GoldenrodGymWhitneyScript:
 .GotPlainBadge:
 	writetext WhitneyPlainBadgeText
 	promptbutton
+	verbosegiveitem POWER_GLOVE
+	iffalse .NoRoomForAttract
+	writetext WhitneyPowerGloveText
 	verbosegiveitem TM_ATTRACT
 	iffalse .NoRoomForAttract
 	setevent EVENT_GOT_TM45_ATTRACT
@@ -240,12 +243,30 @@ WhitneyPlainBadgeText:
 	para "STRENGTH outside"
 	line "of battle."
 
-	para "It also boosts"
-	line "your #MON's"
-	cont "SPEED."
+	para "If you have it,"
+	line "#MON up to L40"
+
+	para "will obey you,"
+	line "even traded ones!"
 
 	para "Oh, you can have"
 	line "this too!"
+	done
+
+WhitneyPowerGloveText:
+	text "This is a POWER"
+	line "GLOVE! It's not"
+	cont "cute..."
+
+	para "It allows you to"
+	line "move boulders!"
+
+	para "Despite it being"
+	line "ugly, it's still"
+	cont "useful!"
+
+	para "Finally, have a"
+	line "cute TM!"
 	done
 
 WhitneyAttractText:

@@ -38,6 +38,8 @@ VioletGymFalknerScript:
 	specialphonecall SPECIALCALL_ASSISTANT
 	writetext FalknerZephyrBadgeText
 	promptbutton
+	verbosegiveitem FLASHLIGHT
+	iffalse .NoRoomForMudSlap
 	verbosegiveitem TM_MUD_SLAP
 	iffalse .NoRoomForMudSlap
 	setevent EVENT_GOT_TM31_MUD_SLAP
@@ -152,9 +154,14 @@ ReceivedZephyrBadgeText:
 	done
 
 FalknerZephyrBadgeText:
-	text "ZEPHYRBADGE"
-	line "raises the attack"
-	cont "power of #MON."
+	text "This is the"
+	line "ZEPHYRBADGE!"
+
+	para "If you have it,"
+	line "#MON up to L20"
+
+	para "will obey you,"
+	line "even traded ones."
 
 	para "It also enables"
 	line "#MON to use"
@@ -164,6 +171,19 @@ FalknerZephyrBadgeText:
 
 	para "Here--take this"
 	line "too."
+	done
+
+FalknerFlashlightText:
+	text "The FLASHLIGHT"
+	line "is an item"
+	cont "version of FLASH."
+
+	para "Use it in dark"
+	line "caves to light up"
+	cont "them!"
+
+	para "Here--take this"
+	line "TM too."
 	done
 
 FalknerTMMudSlapText:

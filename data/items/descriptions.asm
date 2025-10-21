@@ -45,12 +45,12 @@ ItemDescriptions:
 	dw SuperRepelDesc
 	dw MaxRepelDesc
 	dw DireHitDesc
-	dw QuestionMarkDesc
+	dw GoldAxeDesc
 	dw FreshWaterDesc
 	dw SodaPopDesc
 	dw LemonadeDesc
 	dw XAttackDesc
-	dw QuestionMarkDesc
+	dw PaperPlaneDesc
 	dw XDefendDesc
 	dw XSpeedDesc
 	dw XSpecialDesc
@@ -90,7 +90,7 @@ ItemDescriptions:
 	dw BigMushroomDesc
 	dw SilverPowderDesc
 	dw BluApricornDesc
-	dw QuestionMarkDesc
+	dw SurfboardDesc
 	dw AmuletCoinDesc
 	dw YlwApricornDesc
 	dw GrnApricornDesc
@@ -100,7 +100,7 @@ ItemDescriptions:
 	dw WhtApricornDesc
 	dw BlackbeltDesc
 	dw BlkApricornDesc
-	dw QuestionMarkDesc
+	dw PowerGloveDesc
 	dw PnkApricornDesc
 	dw BlackGlassesDesc
 	dw SlowpokeTailDesc
@@ -120,7 +120,7 @@ ItemDescriptions:
 	dw MiracleSeedDesc
 	dw ThickClubDesc
 	dw FocusBandDesc
-	dw QuestionMarkDesc
+	dw FlashlightDesc
 	dw EnergyPowderDesc
 	dw EnergyRootDesc
 	dw HealPowderDesc
@@ -135,8 +135,8 @@ ItemDescriptions:
 	dw StarPieceDesc
 	dw BasementKeyDesc
 	dw PassDesc
-	dw QuestionMarkDesc
-	dw QuestionMarkDesc
+	dw DiveKitDesc
+	dw ZoraSuitDesc
 	dw QuestionMarkDesc
 	dw CharcoalDesc
 	dw BerryJuiceDesc
@@ -431,6 +431,10 @@ DireHitDesc:
 	db   "Ups critical hit"
 	next "ratio. (1 BTL)@"
 
+GoldAxeDesc:
+	db	 "Cuts down small"
+	next "trees.@"
+
 FreshWaterDesc:
 	db   "Restores #MON"
 	next "HP by 50.@"
@@ -446,6 +450,10 @@ LemonadeDesc:
 XAttackDesc:
 	db   "Raises ATTACK."
 	next "(1 BTL)@"
+
+PaperPlaneDesc:
+	db   "An item that"
+	next "lets you fly.@"
 
 XDefendDesc:
 	db   "Raises DEFENSE."
@@ -597,6 +605,10 @@ SilverPowderDesc:
 BluApricornDesc:
 	db   "A blue APRICORN.@"
 
+SurfboardDesc:
+	db   "Lets you surf"
+	next "in the ocean.@"
+
 AmuletCoinDesc:
 	db   "Doubles monetary"
 	next "earnings. (HOLD)@"
@@ -629,6 +641,10 @@ BlackbeltDesc:
 BlkApricornDesc:
 	db   "A black APRICORN."
 	next "@"
+
+PowerGloveDesc:
+	db	 "A retro glove for"
+	next "pushing boulders.@"
 
 PnkApricornDesc:
 	db   "A pink APRICORN."
@@ -706,6 +722,10 @@ FocusBandDesc:
 	db   "May prevent faint-"
 	next "ing. (HOLD)@"
 
+FlashlightDesc:
+	db	 "Use to light up"
+	next "dark areas.@"
+
 EnergyPowderDesc:
 	db   "Restores #MON"
 	next "HP by 50. Bitter.@"
@@ -760,6 +780,14 @@ BasementKeyDesc:
 PassDesc:
 	db   "A ticket for the"
 	next "MAGNET TRAIN.@"
+
+DiveKitDesc:
+	db	 "Wear to dive"
+	next "underwater.@"
+
+ZoraSuitDesc:
+	db	 "Wear to swim"
+	next "up waterfalls.@"
 
 CharcoalDesc:
 	db   "Powers up fire-"

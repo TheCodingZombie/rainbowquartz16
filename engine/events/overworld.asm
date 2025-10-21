@@ -208,7 +208,6 @@ Script_CutFromMenu:
 	special UpdateTimePals
 
 Script_Cut:
-	callasm GetPartyNickname
 	writetext UseCutText
 	refreshmap
 	callasm CutDownTreeOrGrass
@@ -285,6 +284,18 @@ FlashFunction:
 	ld de, ENGINE_ZEPHYRBADGE
 	farcall CheckBadge
 	jr c, .nozephyrbadge
+
+	ld a, FLASHLIGHT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr c, .can_flash
+
+	ld d, FLASH
+	call CheckPartyMove
+	jr c, .nozephyrbadge
+
+.can_flash
 	push hl
 	farcall SpecialAerodactylChamber
 	pop hl
@@ -510,10 +521,17 @@ TrySurfOW::
 	call CheckEngineFlag
 	jr c, .quit
 
-	ld hl, SURF
-	call CheckPartyMoveIndex
+	ld a, SURFBOARD
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr c, .can_surf
+
+	ld d, SURF
+	call CheckPartyMove
 	jr c, .quit
 
+.can_surf
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_ALWAYS_ON_BIKE_F, [hl]
 	jr nz, .quit
@@ -596,11 +614,30 @@ FlyFunction:
 
 .illegal
 	call CloseWindow
+	ld a, [wFlyingWithHMItem]
+	and a
+	jr z, .done_tiles
+	ld a, [wUsingItemWithSelect]
+	and a
+	jr nz, .overworld
+	farcall Pack_InitGFX ; gets the pack GFX when exiting out of Fly by pressing B
+	farcall WaitBGMap_DrawPackGFX
+	farcall Pack_InitColors
+.done_tiles
 	call WaitBGMap
 	ld a, JUMPTABLE_EXIT
 	ret
 
+.overworld
+	call ExitFlyMap
+	jr .done_tiles
+
 .DoFly:
+	ld a, [wUsingItemWithSelect]
+	and a
+	jr z, .done_select
+	call ExitFlyMap
+.done_select
 	ld hl, .FlyScript
 	call QueueScript
 	ld a, JUMPTABLE_EXIT | $1
@@ -644,6 +681,10 @@ WaterfallFunction:
 	farcall CheckBadge
 	ld a, JUMPTABLE_EXIT
 	ret c
+	ld a, ZORA_SUIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
 	call CheckMapCanWaterfall
 	jr c, .failed
 	ld hl, Script_WaterfallFromMenu
@@ -676,7 +717,6 @@ Script_WaterfallFromMenu:
 	special UpdateTimePals
 
 Script_UsedWaterfall:
-	callasm GetPartyNickname
 	writetext .UseWaterfallText
 	waitbutton
 	closetext
@@ -1010,9 +1050,6 @@ Script_StrengthFromMenu:
 Script_UsedStrength:
 	callasm SetStrengthFlag
 	writetext .UseStrengthText
-	readmem wStrengthSpecies
-	cry 0 ; plays [wStrengthSpecies] cry
-	pause 3
 	writetext .MoveBoulderText
 	closetext
 	end
@@ -1058,13 +1095,21 @@ BouldersMayMoveText:
 	text_end
 
 TryStrengthOW:
-	ld hl, STRENGTH
-	call CheckPartyMoveIndex
-	jr c, .nope
-
 	ld de, ENGINE_PLAINBADGE
 	call CheckEngineFlag
 	jr c, .nope
+
+	ld a, POWER_GLOVE
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr c, .can_push
+
+	ld d, STRENGTH
+	call CheckPartyMove
+	jr c, .nope
+
+.can_push
 
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_STRENGTH_ACTIVE_F, [hl]
@@ -1104,6 +1149,10 @@ WhirlpoolFunction:
 	ld de, ENGINE_GLACIERBADGE
 	call CheckBadge
 	jr c, .noglacierbadge
+	ld a, DIVE_KIT
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
 	call TryWhirlpoolMenu
 	jr c, .failed
 	ld a, $1
@@ -1167,7 +1216,6 @@ Script_WhirlpoolFromMenu:
 	special UpdateTimePals
 
 Script_UsedWhirlpool:
-	callasm GetPartyNickname
 	writetext UseWhirlpoolText
 	refreshmap
 	callasm DisappearWhirlpool
@@ -1796,14 +1844,21 @@ GotOffBikeText:
 	text_end
 
 TryCutOW::
-	ld hl, CUT
-	call CheckPartyMoveIndex
-	jr c, .cant_cut
-
 	ld de, ENGINE_HIVEBADGE
 	call CheckEngineFlag
 	jr c, .cant_cut
 
+	ld a, GOLD_AXE
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	jr c, .can_cut
+
+	ld d, CUT
+	call CheckPartyMove
+	jr c, .cant_cut
+
+.can_cut
 	ld a, BANK(AskCutScript)
 	ld hl, AskCutScript
 	call CallScript

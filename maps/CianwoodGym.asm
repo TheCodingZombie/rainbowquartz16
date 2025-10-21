@@ -58,6 +58,9 @@ CianwoodGymChuckScript:
 	setevent EVENT_BEAT_BLACKBELT_LUNG
 	writetext ChuckExplainBadgeText
 	promptbutton
+	verbosegiveitem PAPER_PLANE
+	iffalse .BagFull
+	writetext ChuckExplainPlaneText
 	verbosegiveitem TM_DYNAMICPUNCH
 	iffalse .BagFull
 	setevent EVENT_GOT_TM01_DYNAMICPUNCH
@@ -213,6 +216,17 @@ ChuckExplainBadgeText:
 
 	para "Here, take this"
 	line "too!"
+	done
+
+ChuckExplainPlaneText:
+	text "This is a PAPER"
+	line "PLANE!"
+
+	para "It lets you fly"
+	line "to visited towns!"
+
+	para "Here's a useful"
+	line "TM as well!"
 	done
 
 ChuckExplainTMText:

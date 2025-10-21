@@ -303,9 +303,8 @@ _CantUseItemText::
 	prompt
 
 _UseCutText::
-	text_ram wStringBuffer2
-	text " used"
-	line "CUT!"
+	text "You cut a"
++	line "tree!"
 	prompt
 
 _CutNothingText::
@@ -322,9 +321,8 @@ _BlindingFlashText::
 	text_end ; unreferenced
 
 _UsedSurfText::
-	text_ram wStringBuffer2
-	text " used"
-	line "SURF!"
+	text "You started"
+	line "surfing!"
 	done
 
 _CantSurfText::
@@ -392,9 +390,8 @@ _AlreadyUsingStrengthText::
 	prompt
 
 _UseStrengthText::
-	text_ram wStringBuffer2
-	text " used"
-	line "STRENGTH!"
+	text "You got ready to"
+	line "move boulders!"
 	done
 
 _MoveBoulderText::

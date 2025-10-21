@@ -704,3 +704,6 @@ DEF KRIS EQU __trainer_class__
 	const EUSINE
 
 DEF NUM_TRAINER_CLASSES EQU __trainer_class__ - 1
+
+const_def
+const RANDOMLIST_0

@@ -159,3 +159,5 @@ MoveEffectsPointers:
 	dw DefenseCurl
 	dw NormalHit
 	dw SelfSpecialAtkDown
+	dw FreezeHit
+	dw Hail

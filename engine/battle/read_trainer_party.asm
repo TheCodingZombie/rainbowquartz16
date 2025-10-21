@@ -84,6 +84,90 @@ ReadTrainerPartyPieces:
 	ld h, d
 	ld l, e
 
+; Variable?
+	bit TRAINERTYPE_VARIABLE_F, a
+	jr z, .not_variable
+	; get badge count in c
+	push hl
+	ld hl, wBadges
+	ld b, 2
+	call CountSetBits
+	pop hl
+	; Skip that many $fe delimiters
+.outerloop
+	ld a, c
+	and a
+	jr z, .continue
+.innerloop
+	call GetNextTrainerDataByte
+	cp $fe
+	jr nz, .innerloop
+	dec c
+	jr .outerloop
+
+.continue
+	; Get trainer type of variable stage
+	call GetNextTrainerDataByte
+	ld [wOtherTrainerType], a
+	; fallthrough
+.not_variable
+
+; Random?
+	bit TRAINERTYPE_RANDOM_F, a
+	jr z, .not_random
+	call GetNextTrainerDataByte
+	ld [wRandomTrainerNumPokemon], a
+	call GetNextTrainerDataByte
+	ld b, a ; list number, skip this many $ff after bank switch
+	ld a, BANK(RandomPartyLists)
+	ld [wTrainerGroupBank], a
+	ld hl, RandomPartyLists
+.random_skiploop
+	ld a, b
+	and a
+	jr z, .skipdone
+.random_innerskiploop
+	call GetNextTrainerDataByte
+	cp -1
+	jr nz, .random_innerskiploop
+	dec b
+	jr .random_skiploop
+.skipdone
+	call GetNextTrainerDataByte
+	ld [wRandomTrainerTotalPokemon], a
+	push hl
+.start_random
+	ld hl, wRandomTrainerRandomNumbers
+	ld a, [wRandomTrainerTotalPokemon]
+	call RandomRange
+	ld b, a
+	ld a, [wOTPartyCount]
+	ld c, a
+	inc c
+.repeats_loop
+	dec c
+	jr z, .no_repeats
+	ld a, [hli]
+	cp b
+	jr z, .start_random
+	jr .repeats_loop
+.no_repeats
+	ld [hl], b
+	pop hl
+	push hl
+; skip b $fe delimiters
+.random_skiploop2
+	ld a, b
+	and a
+	jr z, .skipdone2
+.random_innerskiploop2
+	call GetNextTrainerDataByte
+	cp $fe
+	jr nz, .random_innerskiploop2
+	dec b
+	jr .random_skiploop2
+.skipdone2
+.not_random
 .loop
 	call GetNextTrainerDataByte
 	cp $ff
@@ -106,6 +190,132 @@ ReadTrainerPartyPieces:
 	pop hl
 	inc hl ;because hl was pushed before the last call to GetNextTrainerDataByte
 
+; nickname?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_NICKNAME_F, a
+	jr z, .no_nickname
+
+	push de
+	ld de, wStringBuffer2
+.copy_nickname
+	call GetNextTrainerDataByte
+	ld [de], a
+	inc de
+	cp "@"
+	jr nz, .copy_nickname
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMonNicknames
+	ld bc, MON_NAME_LENGTH
+	call AddNTimes
+	ld d, h
+	ld e, l
+	ld hl, wStringBuffer2
+	ld bc, MON_NAME_LENGTH
+	call CopyBytes
+	pop hl
+	pop de
+.no_nickname
+; dvs?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_DVS_F, a
+	jr z, .no_dvs
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1DVs
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop hl
+
+; When reading DVs, treat PERFECT_DV as $ff
+	call GetNextTrainerDataByte
+	cp PERFECT_DV
+	jr nz, .atk_def_dv_nonzero
+	ld a, $ff
+.atk_def_dv_nonzero
+	ld [de], a
+	inc de
+	call GetNextTrainerDataByte
+	cp PERFECT_DV
+	jr nz, .spd_spc_dv_nonzero
+	ld a, $ff
+.spd_spc_dv_nonzero
+	ld [de], a
+.no_dvs
+
+; stat exp?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_STAT_EXP_F, a
+	jr z, .no_stat_exp
+
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1StatExp
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop hl
+
+	ld c, NUM_EXP_STATS
+.stat_exp_loop
+; When reading stat experience, treat PERFECT_STAT_EXP as $FFFF
+	call GetNextTrainerDataByte
+	dec hl
+	cp LOW(PERFECT_STAT_EXP)
+	jr nz, .not_perfect_stat_exp
+	inc hl
+	call GetNextTrainerDataByte
+	dec hl
+	cp HIGH(PERFECT_STAT_EXP)
+	dec hl
+	jr nz, .not_perfect_stat_exp
+	ld a, $ff
+rept 2
+	ld [de], a
+	inc de
+	inc hl
+endr
+	jr .continue_stat_exp
+
+.not_perfect_stat_exp
+rept 2
+	call GetNextTrainerDataByte
+	ld [de], a
+	inc de
+endr
+.continue_stat_exp
+	dec c
+	jr nz, .stat_exp_loop
+.no_stat_exp
+
+; happpiness?
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_HAPPINESS_F, a
+	jr z, .no_happiness
+	push hl
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1Happiness
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+	pop hl
+
+	call GetNextTrainerDataByte
+	cp MAX_HAPPINESS
+	jr nz, .happiness_ok
+	ld a, $ff
+.happiness_ok
+	ld [de], a
+	
+.no_happiness
+; item?
 	ld a, [wOtherTrainerType]
 	and TRAINERTYPE_ITEM
 	jr z, .no_item
@@ -187,7 +397,56 @@ ReadTrainerPartyPieces:
 	pop hl
 .no_moves
 
+; Custom DVs or stat experience affect stats,
+; so recalculate them after TryAddMonToParty
+	ld a, [wOtherTrainerType]
+	and TRAINERTYPE_DVS | TRAINERTYPE_STAT_EXP
+	jr z, .no_stat_recalc
+
+	push hl
+
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1MaxHP
+	call GetPartyLocation
+	ld d, h
+	ld e, l
+
+	ld a, [wOTPartyCount]
+	dec a
+	ld hl, wOTPartyMon1StatExp - 1
+	call GetPartyLocation
+
+; recalculate stats
+	ld b, TRUE
+	push de
+	predef CalcMonStats
+	pop hl
+
+; copy max HP to current HP
+	inc hl
+	ld c, [hl]
+	dec hl
+	ld b, [hl]
+	dec hl
+	ld [hl], c
+	dec hl
+	ld [hl], b
+
+	pop hl
+.no_stat_recalc
+	ld a, [wOtherTrainerType]
+	bit TRAINERTYPE_RANDOM_F, a
+	jr nz, .random_loop
 	jp .loop
+
+.random_loop
+	ld a, [wRandomTrainerNumPokemon]
+	dec a
+	ld [wRandomTrainerNumPokemon], a
+	jp nz, .start_random
+	pop hl
+	ret
 
 ComputeTrainerReward:
 	ld hl, hProduct

@@ -210,10 +210,19 @@ TryWildEncounter::
 
 .EncounterRate:
 	call GetMapEncounterRate
+	call ApplyRunningEffectOnEncounterRate
 	call ApplyMusicEffectOnEncounterRate
 	call ApplyCleanseTagEffectOnEncounterRate
 	call Random
 	cp b
+	ret
+
+ApplyRunningEffectOnEncounterRate::
+; Running doubles encounter rate.
+	ld a, [wPlayerState]
+	cp PLAYER_RUN
+	ret nz
+	sla b
 	ret
 
 GetMapEncounterRate:
@@ -947,13 +956,92 @@ RandomPhoneMon:
 	ld a, [wTrainerGroupBank]
 	call GetFarByte
 	inc hl
+; b = trainer type
+	ld b, a
+
+; TRAINERTYPE_VARIABLE increment trainer group.
+	bit TRAINERTYPE_VARIABLE_F, b
+	jr z, .no_variance
+	; get badge count in c
+	push hl
+	ld hl, wBadges
+	ld b, 2
+	call CountSetBits
+	pop hl
+	; Skip that many $fe delimiters
+.countbadges
+	ld a, c
+	and a
+	jr z, .lastincrement
+.find_delimiter ;Find delimiter then load next byte
+	ld a, [wTrainerGroupBank]
+	call GetFarByte
+	inc hl
+	cp $fe
+	jr nz, .find_delimiter
+	dec c
+	jr .countbadges
+.lastincrement
+	ld a, [wTrainerGroupBank]
+	call GetFarByte
+	inc hl
+	ld b, a
+.no_variance
+
+;TRAINERTYPE_RANDOM is a completely different format
+	bit TRAINERTYPE_RANDOM_F, b
+	jr z, .continue_checks
+	inc hl
+	ld a, [wTrainerGroupBank]
+	call GetFarByte
+	ld b, a
+	ld a, BANK(RandomPartyLists)
+	ld [wTrainerGroupBank], a
+	ld hl, RandomPartyLists
+.skip_randoms
+	inc hl
+	ld a, b
+	and a
+	jr z, .got_mon
+.skip_randoms_inner
+	ld a, [wTrainerGroupBank]
+	call GetFarByte
+	inc hl
+	cp -1
+	jr nz, .skip_randoms_inner
+	dec b
+	jr .skip_randoms
+.continue_checks
+; TRAINERTYPE_NICKNAME has uneven length, so always use the first mon
+	bit TRAINERTYPE_NICKNAME_F, b
+	jr nz, .got_mon
+; c = mon length
+; All trainers use 3 bytes for level and species
+	ld c, 3
+; TRAINERTYPE_DVS uses 2 more bytes
+	bit TRAINERTYPE_DVS_F, b
+	jr z, .no_dvs
+	inc c
+	inc c
+.no_dvs
+; TRAINERTYPE_STAT_EXP uses NUM_EXP_STATS * 2 (10) more bytes
+	bit TRAINERTYPE_STAT_EXP_F, b
+	jr z, .no_stat_exp
+	ld a, NUM_EXP_STATS * 2
+	add c
 	ld c, a
-	ld a, 3
-	bit TRAINERTYPE_ITEM_F, c
+.no_stat_exp
+; TRAINERTYPE_HAPPINESS uses 1 more byte
+	bit TRAINERTYPE_HAPPINESS_F, b
+	jr z, .no_happiness
+	inc c
+.no_happiness
+; TRAINERTYPE_ITEM uses 1 more byte
+	bit TRAINERTYPE_ITEM_F, b
 	jr z, .no_item
 	inc a
 .no_item
-	bit TRAINERTYPE_MOVES_F, c
+	bit TRAINERTYPE_MOVES_F, b
 	jr z, .no_moves
 	add a, NUM_MOVES * 2
 .no_moves
@@ -967,8 +1055,11 @@ RandomPhoneMon:
 	add hl, bc
 	ld a, [wTrainerGroupBank]
 	call GetFarByte
+	cp $fe
+	jr z, .delimiter
 	cp -1
 	jr nz, .count_mon
+.delimiter	
 	pop hl
 
 .rand

@@ -21,6 +21,10 @@
         - 95 BP, may lower target's Sp. Atk by 1 stage
         - Fairy Type
         - Also added Moonblast to several Fairy-type Pokemon's movesets 
+    - Hail
+        - Sets Hail for 5 turns
+        - Hail deals damage to non-Ice types and boosts the damage of Ice-type moves
+        - Much like other weather moves, this move has heightened priority.
 
 # Changes
 - In addition to the Fairy Changes, the following Pokemon now have type Changes:
@@ -370,6 +374,7 @@
         - Normal -> Ghost
     - Present
         - Normal -> Ice
+    - Tackle
         - 95 ACC -> 100 ACC
 - Moveset Changes
     - All stone evolutions will still be able to learn level up moves from previous evolutions
@@ -760,6 +765,10 @@
         - Bug now resists Psychic, Dark, and Poison
     - Poison
         - Poison is now Super Effective against Fighting
+        - Poison no longer is affected by Fairy type Attacks
+    - Ghost
+        - Ghost is now super effective against Fairy
+        - Ghost now resists Fairy
 - Evolution Changes
     - All Trade Evos are now just item or level up Evos
     - Goldeen now evolves with a Water Stone instead
@@ -773,4 +782,14 @@
     - Apricorn Trees are now more plentiful
     - Physical/Special Split is now fully implemented
     - New Instant Text Speed
-    - TMs are now infinitely reusable, much like Gen 5 or HMs! 
+    - TMs are now infinitely reusable, much like Gen 5 or HMs!
+    - Trainers are now much more capable and can have all of the following specified in their data:
+        -  Custom DVs and Stat EXP
+        -  Custom Friendship
+        -  Custom Nicknames
+        -  Trainer Parties can scale with Badges
+        -  Trainer Parties can be random each time the trainer is fought
+    - Added Running!
+        - Credits:
+            - Tom Wang/froyomuffin (Chris Running Sprite)
+            - Seasick (Kris Running Sprite)

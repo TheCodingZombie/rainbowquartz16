@@ -253,4 +253,5 @@ MoveNames::
 	li "BEAT UP"
 	li "DRACO METEOR"
 	li "MOONBLAST"
+	li "HAIL"
 	assert_list_length NUM_ATTACKS

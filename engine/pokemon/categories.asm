@@ -3,10 +3,9 @@ GetMoveCategoryName:
 
 	ld a, b
 	dec a
-	ld bc, MOVE_LENGTH
-	ld hl, Moves + MOVE_TYPE
-	call AddNTimes
-	ld a, BANK(Moves)
+	ld de, wStringBuffer1
+	call GetMoveData
+	ld a, [wStringBuffer1 + MOVE_TYPE]
 	call GetFarByte
 
 ; Mask out the type
@@ -14,7 +13,6 @@ GetMoveCategoryName:
 ; Shift the category bits into the range 0-2
 	rlc a
 	rlc a
-	dec a
 
 	ld hl, CategoryNames
 	ld e, a

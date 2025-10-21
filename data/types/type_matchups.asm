@@ -101,6 +101,7 @@ TypeMatchups:
 	db GHOST,        DARK,         NOT_VERY_EFFECTIVE
 	db GHOST,        STEEL,        NOT_VERY_EFFECTIVE
 	db GHOST,        GHOST,        SUPER_EFFECTIVE
+	db GHOST,        FAIRY,        SUPER_EFFECTIVE
 	db DRAGON,       DRAGON,       SUPER_EFFECTIVE
 	db DRAGON,       STEEL,        NOT_VERY_EFFECTIVE
 	db DRAGON,       FAIRY,        NO_EFFECT
@@ -121,10 +122,11 @@ TypeMatchups:
 	db STEEL,     	 FAIRY,        SUPER_EFFECTIVE
 	db FAIRY,     	 FIRE,         NOT_VERY_EFFECTIVE
 	db FAIRY,     	 FIGHTING,     SUPER_EFFECTIVE
-	db FAIRY,     	 POISON,       NOT_VERY_EFFECTIVE
+	db FAIRY,     	 POISON,       NO_EFFECT
 	db FAIRY,     	 DRAGON,       SUPER_EFFECTIVE
 	db FAIRY,     	 DARK,         SUPER_EFFECTIVE
 	db FAIRY,     	 STEEL,        NOT_VERY_EFFECTIVE
+	db FAIRY,     	 GHOST,        NOT_VERY_EFFECTIVE
 
 	db -2 ; end (with Foresight)
 

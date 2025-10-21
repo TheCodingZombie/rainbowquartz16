@@ -258,6 +258,7 @@ MoveDescriptions1:
 	dw BeatUpDescription
 	dw DracoMeteorDescription
 	dw MoonblastDescription
+	dw HailDescription
 .IndirectEnd::
 
 InvalidMoveDescription:
@@ -1274,3 +1275,7 @@ DracoMeteorDescription:
 MoonblastDescription:
 	db   "An attack that may"
 	next "lower SPCL.ATK.@"
+
+HailDescription:
+	db	 "Starts HAIL for"
+	next "5 turns.@"

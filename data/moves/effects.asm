@@ -2097,3 +2097,10 @@ SelfSpecialAtkDown:
 	specialattackdown2
 	statupmessage
 	endmove
+
+Hail:
+	checkobedience
+	usedmovetext
+	doturn
+	starthail
+	endmove

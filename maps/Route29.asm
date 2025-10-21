@@ -44,14 +44,7 @@ Route29Tutorial1:
 	setevent EVENT_DUDE_TALKED_TO_YOU
 	opentext
 	writetext CatchingTutorialIntroText
-	yesorno
-	iffalse Script_RefusedTutorial1
-	closetext
-	follow ROUTE29_COOLTRAINER_M1, PLAYER
-	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData1b
-	stopfollow
-	loadwildmon RATTATA, 5
-	catchtutorial BATTLETYPE_TUTORIAL
+	waitbutton
 	turnobject ROUTE29_COOLTRAINER_M1, UP
 	opentext
 	writetext CatchingTutorialDebriefText
@@ -69,14 +62,7 @@ Route29Tutorial2:
 	setevent EVENT_DUDE_TALKED_TO_YOU
 	opentext
 	writetext CatchingTutorialIntroText
-	yesorno
-	iffalse Script_RefusedTutorial2
-	closetext
-	follow ROUTE29_COOLTRAINER_M1, PLAYER
-	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData2b
-	stopfollow
-	loadwildmon RATTATA, 5
-	catchtutorial BATTLETYPE_TUTORIAL
+	waitbutton
 	turnobject ROUTE29_COOLTRAINER_M1, UP
 	opentext
 	writetext CatchingTutorialDebriefText
@@ -261,14 +247,20 @@ CatchingTutorialIntroText:
 	para "many #MON have"
 	line "you caught?"
 
-	para "Would you like me"
-	line "to show you how to"
-	cont "catch #MON?"
+	para "Oh, you seem like"
+	line "the kind of"
+	cont "Trainer who knows"
+	cont "what they're doing!"
+
+	para "You don't need my"
+	line "help, that's for"
+	cont "sure!"
 	done
 
 CatchingTutorialDebriefText:
-	text "That's how you do"
-	line "it."
+	text "To be brief, here"
+	line "is how you catch"
+	cont "#MON."
 
 	para "If you weaken them"
 	line "first, #MON are"

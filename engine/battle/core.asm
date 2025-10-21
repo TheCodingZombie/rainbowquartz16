@@ -6374,7 +6374,6 @@ ld a, [wBattleMode]
 	call GetPartyLocation
 	ld a, [hl]
 .load_happiness
-	ld a, BASE_HAPPINESS
 	ld [wEnemyMonHappiness], a
 ; Set level
 	ld a, [wCurPartyLevel]

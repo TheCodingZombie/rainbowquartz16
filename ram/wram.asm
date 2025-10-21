@@ -2626,8 +2626,6 @@ wMagikarpLength:: dw
 NEXTU
 ; 16-bit wram
 	ds 13
-wOtherTrainerType:: db
-wTrainerGroupBank:: db
 
 ENDU
 
@@ -2799,6 +2797,8 @@ wDudeNumBalls:: db
 wDudeBalls:: ds 2 * 4 + 1
 ENDU
 
+wOtherTrainerType:: db
+wTrainerGroupBank:: db
 wRandomTrainerNumPokemon:: db
 wRandomTrainerTotalPokemon:: db
 wRandomTrainerRandomNumbers:: ds 6

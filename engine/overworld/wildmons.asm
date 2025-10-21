@@ -1041,6 +1041,7 @@ RandomPhoneMon:
 	jr z, .no_item
 	inc a
 .no_item
+; TRAINERTYPE_MOVES uses NUM_MOVES (4) more bytes
 	bit TRAINERTYPE_MOVES_F, b
 	jr z, .no_moves
 	add a, NUM_MOVES * 2

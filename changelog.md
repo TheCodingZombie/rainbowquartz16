@@ -794,3 +794,6 @@
             - Seasick (Kris Running Sprite)
     - Added some items that let you use certain field moves without a Pokemon
         - Also added features that give you these items when beating certain gyms
+    - Removed the Catching Tutorial
+        - Because for some reason it was causing issues...
+        - But instead of just removing it in a clunky way, I made it so that it makes a bit more sense with their dialogue

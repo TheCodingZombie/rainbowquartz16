@@ -257,10 +257,9 @@ BattleAnimations::
 	dw BattleAnim_Moonblast
 	dw BattleAnim_Hail
 	assert_table_length NUM_ATTACKS + 1
-	dw BattleAnim_Dummy
+	dw BattleAnim_SweetScent2
 	assert_table_length $100
 ; $100
-	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon
 	dw BattleAnim_ReturnMon
@@ -284,7 +283,7 @@ BattleAnimations::
 	dw BattleAnim_Shake
 	dw BattleAnim_HitConfusion
 	dw BattleAnim_InHail
-	assert_table_length NUM_BATTLE_ANIMS + 2
+	assert_table_length NUM_BATTLE_ANIMS + 1
 
 BattleAnim_Dummy:
 BattleAnim_MirrorMove:

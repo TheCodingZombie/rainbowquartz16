@@ -1,12 +1,13 @@
 ; Trainer data structure:
 ; - db "NAME@", TRAINERTYPE_* constants |ed together
 ; - 1 to 6 Pokémon:
-;	 * in all cases:              db level, species
+;	 * in all cases:              db level \ dw species
+;	 * with TRAINERTYPE_NICKNAME: db "NICKNAME@"
 ;    * with TRAINERTYPE_DVS:      db atk|def dv, spd|spc dv
 ;    * with TRAINERTYPE_STAT_EXP: dw hp, atk, def, spd, spc
 ;	 * with TRAINERTYPE_HAPPINESS:  db happiness
 ;    * with TRAINERTYPE_ITEM:       db item
-;	 * with TRAINERTYPE_MOVES:      db move 1, move 2, move 3, move 4
+;	 * with TRAINERTYPE_MOVES:      dw move 1, move 2, move 3, move 4
 ;    (TRAINERTYPE_ITEM_MOVES is just TRAINERTYPE_ITEM | TRAINERTYPE_MOVES)
 ; - db -1 ; end
 
@@ -643,17 +644,27 @@ ErikaGroup:
 
 YoungsterGroup:
 	next_list_item ; YOUNGSTER (1)
-	db "JOEY@", TRAINERTYPE_NORMAL
+	db "JOEY@", TRAINERTYPE_NICKNAME | TRAINERTYPE_DVS | TRAINERTYPE_ITEM_MOVES
 	db 4
 	dw RATTATA
+	db "CHOMPY@"
+	db PERFECT_DV, PERFECT_DV
+	db NO_ITEM
+	dw TACKLE, GROWL, NO_MOVE, NO_MOVE
 	db -1 ; end
 
 	next_list_item ; YOUNGSTER (2)
-	db "MIKEY@", TRAINERTYPE_NORMAL
-	db 2
-	dw PIDGEY
+	db "MIKEY@", TRAINERTYPE_DVS | TRAINERTYPE_ITEM_MOVES
 	db 4
+	dw PIDGEY
+	db PERFECT_DV, PERFECT_DV
+	db BERRY
+	dw TACKLE, GROWL, NO_MOVE, NO_MOVE
+	db 6
 	dw RATTATA
+	db PERFECT_DV, PERFECT_DV
+	db BERRY
+	dw TACKLE, GROWL, QUICK_ATTACK, NO_MOVE
 	db -1 ; end
 
 	next_list_item ; YOUNGSTER (3)

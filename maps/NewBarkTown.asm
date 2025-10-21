@@ -23,6 +23,8 @@ NewBarkTownFlypointCallback:
 	endcallback
 
 NewBarkTown_TeacherStopsYouScene1:
+	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
+	iftrue NewBarkTownNoop2Scene 
 	playmusic MUSIC_MOM
 	turnobject NEWBARKTOWN_TEACHER, LEFT
 	opentext
@@ -46,6 +48,8 @@ NewBarkTown_TeacherStopsYouScene1:
 	end
 
 NewBarkTown_TeacherStopsYouScene2:
+	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
+	iftrue NewBarkTownNoop2Scene
 	playmusic MUSIC_MOM
 	turnobject NEWBARKTOWN_TEACHER, LEFT
 	opentext

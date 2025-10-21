@@ -169,10 +169,14 @@ ReadTrainerPartyPieces:
 .skipdone2
 .not_random
 .loop
+; end?
 	call GetNextTrainerDataByte
 	cp $ff
 	ret z
+	cp $fe
+	ret z
 
+; level
 	ld [wCurPartyLevel], a
 	call GetNextTrainerDataByte
 	push hl
@@ -181,9 +185,11 @@ ReadTrainerPartyPieces:
 	ld h, a
 	pop af
 	ld l, a
+; species
 	call GetPokemonIDFromIndex
 	ld [wCurPartySpecies], a
 
+; add to party
 	ld a, OTPARTYMON
 	ld [wMonType], a
 	predef TryAddMonToParty
@@ -293,7 +299,6 @@ endr
 	dec c
 	jr nz, .stat_exp_loop
 .no_stat_exp
-
 ; happpiness?
 	ld a, [wOtherTrainerType]
 	bit TRAINERTYPE_HAPPINESS_F, a
@@ -317,8 +322,9 @@ endr
 .no_happiness
 ; item?
 	ld a, [wOtherTrainerType]
-	and TRAINERTYPE_ITEM
+	bit TRAINERTYPE_ITEM_F, a
 	jr z, .no_item
+
 	push hl
 	ld a, [wOTPartyCount]
 	dec a
@@ -327,13 +333,16 @@ endr
 	ld d, h
 	ld e, l
 	pop hl
+
 	call GetNextTrainerDataByte
 	ld [de], a
 .no_item
 
+; moves?
 	ld a, [wOtherTrainerType]
-	rra ; TRAINERTYPE_MOVES_F == 0
-	jr nc, .no_moves
+	bit TRAINERTYPE_MOVES_F, a
+	jr z, .no_moves
+
 	push hl
 	ld a, [wOTPartyCount]
 	dec a
@@ -472,7 +481,7 @@ Battle_GetTrainerName::
 	ld a, [wInBattleTowerBattle]
 	bit IN_BATTLE_TOWER_BATTLE_F, a
 	ld hl, wOTPlayerName
-	ld a, BANK(@)
+	ld a, BANK(Battle_GetTrainerName)
 	ld [wTrainerGroupBank], a
 	jp nz, CopyTrainerName
 

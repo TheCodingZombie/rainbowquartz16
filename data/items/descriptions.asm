@@ -137,11 +137,11 @@ ItemDescriptions:
 	dw PassDesc
 	dw DiveKitDesc
 	dw ZoraSuitDesc
-	dw QuestionMarkDesc
+	dw ZincDesc
 	dw CharcoalDesc
 	dw BerryJuiceDesc
 	dw ScopeLensDesc
-	dw QuestionMarkDesc
+	dw MachoBraceDesc
 	dw QuestionMarkDesc
 	dw MetalCoatDesc
 	dw DragonFangDesc
@@ -360,24 +360,24 @@ HPUpDesc:
 	next "one #MON.@"
 
 ProteinDesc:
-	db   "Raises ATTACK of"
-	next "one #MON.@"
+	db   "Raises ATTACK EVs"
+	next "of one #MON.@"
 
 IronDesc:
-	db   "Raises DEFENSE of"
-	next "one #MON.@"
+	db   "Raises DEFENSE EV"
+	next "of one #MON.@"
 
 CarbosDesc:
-	db   "Raises SPEED of"
-	next "one #MON.@"
+	db   "Raises SPEED EVs"
+	next "of one #MON.@"
 
 LuckyPunchDesc:
 	db   "Ups critical hit"
 	next "ratio of CHANSEY.@"
 
 CalciumDesc:
-	db   "Ups SPECIAL stats"
-	next "of one #MON.@"
+	db   "Raises SPCL. ATK"
+	next "EVs of one #MON.@"
 
 RareCandyDesc:
 	db   "Raises level of a"
@@ -477,7 +477,7 @@ ItemfinderDesc:
 
 ExpShareDesc:
 	db   "Shares battle EXP."
-	next "Points. (HOLD)@"
+	next "Points.@"
 
 OldRodDesc:
 	db   "Use by water to"
@@ -789,6 +789,10 @@ ZoraSuitDesc:
 	db	 "Wear to swim"
 	next "up waterfalls.@"
 
+ZincDesc:
+	db   "Raises SPCL. DEF"
+	next "EVs of one #MON.@"
+
 CharcoalDesc:
 	db   "Powers up fire-"
 	next "type moves. (HOLD)@"
@@ -800,6 +804,10 @@ BerryJuiceDesc:
 ScopeLensDesc:
 	db   "Raises critical"
 	next "hit ratio. (HOLD)@"
+
+MachoBraceDesc:
+	db	 "Lowers SPEED, but"
+	next "increases growth."
 
 MetalCoatDesc:
 	db   "Powers up steel-"

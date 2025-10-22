@@ -4,7 +4,7 @@
 ;	 * in all cases:              db level \ dw species
 ;	 * with TRAINERTYPE_NICKNAME: db "NICKNAME@"
 ;    * with TRAINERTYPE_DVS:      db atk|def dv, spd|spc dv
-;    * with TRAINERTYPE_STAT_EXP: dw hp, atk, def, spd, spc
+;    * with TRAINERTYPE_EVS:	  db hp, atk, def, spd, sat, sdf
 ;	 * with TRAINERTYPE_HAPPINESS:  db happiness
 ;    * with TRAINERTYPE_ITEM:       db item
 ;	 * with TRAINERTYPE_MOVES:      dw move 1, move 2, move 3, move 4

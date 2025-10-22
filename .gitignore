@@ -1,3 +1,6 @@
+# python
+*.py
+
 # compiled objects
 *.o
 

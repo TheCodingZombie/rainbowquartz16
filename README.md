@@ -10,6 +10,6 @@ Something like a single stage Pokemon should therefore, not be hovering around t
 
 With the higher power level of such evolutions, later trainers will be scaled in accomodation for that. Levels will curve higher than before.
 
-As such, Kanto will be seen as a late late game, designed to be much harder. Red and Blue will be the only trainers with level 100 Pokemon, and all other trainers in Kanto will be scaled accordingly as well. Johto will have its upper level be around 50-60.
+As such, Kanto will be seen as a late late game, designed to be much harder. Red and Blue will be the only trainers with level 100 Pokemon, and all other trainers in Kanto will be scaled accordingly as well. Johto will have its upper level be around 60-70.
 
 Also, many learnsets will be adjusted so that Pokemon can actually learn useful moves!

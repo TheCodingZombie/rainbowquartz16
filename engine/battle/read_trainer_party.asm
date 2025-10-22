@@ -224,7 +224,7 @@ ReadTrainerPartyPieces:
 	pop hl
 	pop de
 .no_nickname
-; dvs?
+	; dvs?
 	ld a, [wOtherTrainerType]
 	bit TRAINERTYPE_DVS_F, a
 	jr z, .no_dvs
@@ -252,54 +252,52 @@ ReadTrainerPartyPieces:
 	ld a, $ff
 .spd_spc_dv_nonzero
 	ld [de], a
+
 .no_dvs
-
-; stat exp?
+	; evs?
+	; get the trainer type first
 	ld a, [wOtherTrainerType]
-	bit TRAINERTYPE_STAT_EXP_F, a
-	jr z, .no_stat_exp
+	bit TRAINERTYPE_EVS_F, a
+	; jump if there isn't an EV flag set
+	jr z, .no_evs
 
+	; Get the EVs data struct if there is an EV flag set.
 	push hl
 	ld a, [wOTPartyCount]
 	dec a
-	ld hl, wOTPartyMon1StatExp
+	; load into hl the EVs struct
+	ld hl, wOTPartyMon1EVs
 	call GetPartyLocation
 	ld d, h
 	ld e, l
 	pop hl
 
-	ld c, NUM_EXP_STATS
-.stat_exp_loop
-; When reading stat experience, treat PERFECT_STAT_EXP as $FFFF
+	; c is a counter
+	ld c, NUM_STATS
+	; for loop, loops for NUM_STATS and goes through each stat EV
+.evs_loop
+	; Get the next EV stat
 	call GetNextTrainerDataByte
-	dec hl
-	cp LOW(PERFECT_STAT_EXP)
-	jr nz, .not_perfect_stat_exp
-	inc hl
-	call GetNextTrainerDataByte
-	dec hl
-	cp HIGH(PERFECT_STAT_EXP)
-	dec hl
-	jr nz, .not_perfect_stat_exp
-	ld a, $ff
-rept 2
-	ld [de], a
-	inc de
-	inc hl
-endr
-	jr .continue_stat_exp
+	; get the PERFECT_EV (FC)
+	cp PERFECT_EV
+	; if it's not 252, jump to not_perfect_evs
+	jr nz, .not_perfect_evs
+	; otherwise, copy $fc to the EV
+	ld a, $fc
 
-.not_perfect_stat_exp
-rept 2
-	call GetNextTrainerDataByte
+.not_perfect_evs
+	; copy the ev to the state
 	ld [de], a
 	inc de
-endr
-.continue_stat_exp
+	; decrease the counter
 	dec c
-	jr nz, .stat_exp_loop
-.no_stat_exp
-; happpiness?
+	; loop back to the evs_loop if c > 0, aka if we still have stats to get
+	; otherwise, move onto happiness.
+	jr nz, .evs_loop
+	;btw no checking for 510 max EVs because it is assumed that the person making this hack will not go over 510 EVs
+
+.no_evs
+	; happpiness?
 	ld a, [wOtherTrainerType]
 	bit TRAINERTYPE_HAPPINESS_F, a
 	jr z, .no_happiness
@@ -409,7 +407,7 @@ endr
 ; Custom DVs or stat experience affect stats,
 ; so recalculate them after TryAddMonToParty
 	ld a, [wOtherTrainerType]
-	and TRAINERTYPE_DVS | TRAINERTYPE_STAT_EXP
+	and TRAINERTYPE_DVS | TRAINERTYPE_EVS
 	jr z, .no_stat_recalc
 
 	push hl
@@ -423,7 +421,7 @@ endr
 
 	ld a, [wOTPartyCount]
 	dec a
-	ld hl, wOTPartyMon1StatExp - 1
+	ld hl, wOTPartyMon1EVs - 1
 	call GetPartyLocation
 
 ; recalculate stats

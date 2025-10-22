@@ -23,7 +23,7 @@
         - Also added Moonblast to several Fairy-type Pokemon's movesets 
     - Hail
         - Sets Hail for 5 turns
-        - Hail deals damage to non-Ice types and boosts the damage of Ice-type moves
+        - Hail deals damage to non-Ice types, boosts the damage of Ice-type moves, increases Ice-type Defense.
         - Much like other weather moves, this move has heightened priority.
 
 # Changes
@@ -333,6 +333,8 @@
     - Rain Dance and Sunny Day and Sandstorm
         - All Weather moves will have higher priority
         - All Weather moves now are 100% accurate (idk why they had a chance to miss)
+    - Sandstorm (specifically)
+        - Rocks now have a 50% increase in SPDF while in sandstorm
     - Mud Slap
         - 20 BP -> 60 BP
     - Dig
@@ -780,7 +782,6 @@
     - Added a Pocket PC
     - Apricorn Trees are now more plentiful
     - Physical/Special Split is now fully implemented
-    - New Instant Text Speed
     - TMs are now infinitely reusable, much like Gen 5 or HMs!
     - Trainers are now much more capable and can have all of the following specified in their data:
         -  Custom DVs and Stat EXP
@@ -797,3 +798,14 @@
     - Removed the Catching Tutorial
         - Because for some reason it was causing issues...
         - But instead of just removing it in a clunky way, I made it so that it makes a bit more sense with their dialogue
+    - AI Trainers can no longer randomly miss their status moves. No more 25% chance Tail Whip fails.
+    - Badge Boosts no longer exist.
+    - You now gain experience for catching Pokemon.
+    - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
+    - Switched out the Stat EXP system for the EV system from modern games.
+        - Also added the Macho Brace to help quicken the process
+- Visual Changes
+    - Balls now have special colors
+    - New Instant Text Speed
+    - TMs now show their name when received or buying
+

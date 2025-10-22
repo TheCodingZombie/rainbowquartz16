@@ -1024,13 +1024,13 @@ RandomPhoneMon:
 	inc c
 	inc c
 .no_dvs
-; TRAINERTYPE_STAT_EXP uses NUM_EXP_STATS * 2 (10) more bytes
-	bit TRAINERTYPE_STAT_EXP_F, b
-	jr z, .no_stat_exp
-	ld a, NUM_EXP_STATS * 2
+; TRAINERTYPE_EVS uses NUM_STATS (6) more bytes
+	bit TRAINERTYPE_EVS_F, b
+	jr z, .no_evs
+	ld a, NUM_STATS
 	add c
 	ld c, a
-.no_stat_exp
+.no_evs
 ; TRAINERTYPE_HAPPINESS uses 1 more byte
 	bit TRAINERTYPE_HAPPINESS_F, b
 	jr z, .no_happiness

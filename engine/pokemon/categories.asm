@@ -13,6 +13,7 @@ GetMoveCategoryName:
 ; Shift the category bits into the range 0-2
 	rlc a
 	rlc a
+	dec a
 
 	ld hl, CategoryNames
 	ld e, a

@@ -142,7 +142,7 @@ ItemDescriptions:
 	dw BerryJuiceDesc
 	dw ScopeLensDesc
 	dw MachoBraceDesc
-	dw QuestionMarkDesc
+	dw CandyCaseDesc
 	dw MetalCoatDesc
 	dw DragonFangDesc
 	dw QuestionMarkDesc
@@ -807,7 +807,11 @@ ScopeLensDesc:
 
 MachoBraceDesc:
 	db	 "Lowers SPEED, but"
-	next "increases growth."
+	next "increases growth.@"
+
+CandyCaseDesc:
+	db	 "Gives you candy"
+	next "to grow #MON.@"
 
 MetalCoatDesc:
 	db   "Powers up steel-"

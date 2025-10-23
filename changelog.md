@@ -377,6 +377,8 @@
         - Normal -> Ice
     - Tackle
         - 95 ACC -> 100 ACC
+    - Hidden Power
+        - Variable BP -> 70 BP
 - Moveset Changes
     - All stone evolutions will still be able to learn level up moves from previous evolutions
     - Meganium
@@ -779,7 +781,7 @@
         - Light Ball now boosts both Pikachu and Raichu
 - Misc Changes
     - Kurt now instantly makes his Apricorn Balls
-    - Added a Pocket PC
+    - Added a Pocket PC and Candy Case
     - Apricorn Trees are now more plentiful
     - Physical/Special Split is now fully implemented
     - TMs are now infinitely reusable, much like Gen 5 or HMs!
@@ -804,6 +806,7 @@
     - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
     - Switched out the Stat EXP system for the EV system from modern games.
         - Also added the Macho Brace to help quicken the process
+    - Added Badge-specific Level Caps (so you can't abuse the Candy Case to get OP)
 - Visual Changes
     - Balls now have special colors
     - New Instant Text Speed

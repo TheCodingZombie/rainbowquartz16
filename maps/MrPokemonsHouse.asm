@@ -96,6 +96,14 @@ MrPokemonsHouse_OakScript:
 	writetext MrPokemonsHouse_OakText2
 	waitbutton
 	closetext
+	writetext MrPokemonsHouse_GetCandyBoxText
+	giveitem CANDY_CASE
+	playsound SFX_KEY_ITEM
+	waitsfx
+	itemnotify
+	writetext MrPokemonsHouse_OakText3
+	waitbutton
+	closetext
 	turnobject PLAYER, DOWN
 	applymovement MRPOKEMONSHOUSE_OAK, MrPokemonsHouse_OakExits
 	playsound SFX_EXIT_BUILDING
@@ -308,12 +316,29 @@ MrPokemonsHouse_GetDexText:
 	line "#DEX!"
 	done
 
+MrPokemonsHouse_GetCandyBoxText:
+	text "<PLAYER> received"
+	line "CANDY CASE!"
+	done
+
 MrPokemonsHouse_OakText2:
 	text "Go meet many kinds"
 	line "of #MON and"
 
 	para "complete that"
 	line "#DEX!"
+
+	para "Also, have this."
+	done
+
+MrPokemonsHouse_OakText3:
+	text "That there's a"
+	line "CANDY BOX."
+
+	para "With it, your"
+	line "#MON will be"
+	cont "strong in no"
+	cont "time!"
 
 	para "But I've stayed"
 	line "too long."

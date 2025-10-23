@@ -141,7 +141,7 @@ ItemNames::
 	li "BERRY JUICE"
 	li "SCOPE LENS"
 	li "MACHO BRACE"
-	li "TERU-SAMA"
+	li "CANDY CASE"
 	li "METAL COAT"
 	li "DRAGON FANG"
 	li "TERU-SAMA"

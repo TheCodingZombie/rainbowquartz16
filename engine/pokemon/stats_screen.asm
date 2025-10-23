@@ -706,7 +706,14 @@ LoadPinkPage:
 	dec hl
 	ld [wExpToNextLevel + 1], a
 	ldh a, [hQuotient + 1]
-	sbc [hl]
+	push af
+	ld e, a
+	ld a, [hl]
+	and EXP_MASK
+	ld d, a
+	pop af
+	ld a, e
+	sbc d
 	ld [wExpToNextLevel], a
 	ret
 

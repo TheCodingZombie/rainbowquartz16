@@ -33,7 +33,7 @@ ItemEffects:
 	dw RestoreHPEffect     ; SUPER_POTION
 	dw RestoreHPEffect     ; POTION
 	dw EscapeRopeEffect    ; ESCAPE_ROPE
-	dw RepelEffect         ; REPEL
+	dw NoEffect	           ; REPEL
 	dw RestorePPEffect     ; MAX_ELIXER
 	dw EvoStoneEffect      ; FIRE_STONE
 	dw EvoStoneEffect      ; THUNDERSTONE
@@ -155,7 +155,7 @@ ItemEffects:
 	dw RestoreHPEffect     ; BERRY_JUICE
 	dw NoEffect            ; SCOPE_LENS
 	dw NoEffect            ; MACHO_BRACE
-	dw NoEffect            ; ITEM_8E
+	dw CandyCaseEffect     ; CANDY_CASE
 	dw NoEffect            ; METAL_COAT
 	dw NoEffect            ; DRAGON_FANG
 	dw NoEffect            ; ITEM_91
@@ -1318,8 +1318,12 @@ RareCandyEffect:
 	ld a, MON_LEVEL
 	call GetPartyParamLocation
 
+	push hl
+	farcall GetMaxLevel
+	pop hl
+
 	ld a, [hl]
-	cp MAX_LEVEL
+	cp b
 	jp nc, NoEffectMessage
 
 	inc a
@@ -1995,30 +1999,33 @@ GetOneFifthMaxHP:
 	ret
 
 GetHealingItemAmount:
-	push hl
 	ld a, [wCurItem]
-	ld hl, HealingHPAmounts
-	ld d, a
-.next
-	ld a, [hli]
-	cp -1
-	jr z, .NotFound
-	cp d
-	jr z, .done
-	inc hl
-	inc hl
-	jr .next
-
-.NotFound:
+	cp HYPER_POTION ; assumes Max Potion and Full Restore come before, and all others come after
+	jr c, .FullHP
+	push bc
+	ld b, a
+	farcall GetItemHeldEffect
+	ld e, c
+	ld d, 0
+	ld a, c
+	and a
+	jr nz, .no_carry
 	scf
-.done
+.no_carry
+	pop bc
+	ret
+
+.FullHP:
+	push hl
+	ld hl, .MaxStatValue
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
 	pop hl
 	ret
 
-INCLUDE "data/items/heal_hp.asm"
+.MaxStatValue:
+	dw MAX_STAT_VALUE
 
 Softboiled_MilkDrinkFunction:
 ; Softboiled/Milk Drink in the field
@@ -2097,31 +2104,6 @@ EscapeRopeEffect:
 	cp 1
 	call z, UseDisposableItem
 	ret
-
-RepelEffect:
-	ld b, 1
-	ld a, [wRepelEffect]
-	and a
-
-	jr nz, .RepelisOn
-	ld a, b
-	ld [wRepelEffect], a
-	ld hl, RepelTurnOnText
-	jp PrintText
-
-.RepelisOn
-	xor a
-	ld [wRepelEffect], a
-	ld hl, RepelTurnOffText
-	jp PrintText
-
-RepelTurnOffText:
-	text_far _RepelTurnOffText
-	text_end
-	
-RepelTurnOnText:
-	text_far _RepelTurnOnText
-	text_end
 
 XAccuracyEffect:
 	ld hl, wPlayerSubStatus4
@@ -2655,6 +2637,15 @@ ZoraSuitEffect:
 	ld a, 1
 	ld [wUsingHMItem], a
 	farcall WaterfallFunction
+	ret
+
+CandyCaseEffect:
+	ld a, RARE_CANDY
+	ld [wCurItem], a
+	ld a, 99
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
 	ret
 
 SacredAshEffect:

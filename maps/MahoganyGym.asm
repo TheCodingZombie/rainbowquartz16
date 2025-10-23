@@ -203,7 +203,7 @@ Text_ReceivedGlacierBadge:
 PryceText_GlacierBadgeSpeech:
 	text "That BADGE will"
 	line "makes #MON up"
-	cont "to L80 obey you.
+	cont "to L80 obey you."
 
 	para "It also lets your"
 	line "#MON use WHIRL-"

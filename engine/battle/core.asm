@@ -7219,10 +7219,20 @@ GiveExperiencePoints:
 	ld [hl], a
 	jr nc, .no_exp_overflow
 	dec hl
+	push bc
+	push af
+	ld a, [hl]
+	and EXP_MASK
+	ld b, a
 	inc [hl]
+	pop af
+	ld a, b
+	pop bc
+	inc a
 	jr nz, .no_exp_overflow
-	ld a, $ff
+	ld a, EXP_MASK
 	ld [hli], a
+	ld a, $ff
 	ld [hli], a
 	ld [hl], a
 
@@ -7253,13 +7263,19 @@ GiveExperiencePoints:
 	ld a, [hld]
 	sbc c
 	ld a, [hl]
+	push af
+	and EXP_MASK
+	ld d, a
+	pop af
+	ld a, d
 	sbc b
 	jr c, .not_max_exp
 	ld a, b
 	ld [hli], a
 	ld a, c
 	ld [hli], a
-	ld a, d
+	ldh a, [hQuotient + 3]
+	ld d, a
 	ld [hld], a
 
 .not_max_exp
@@ -7438,13 +7454,13 @@ GiveExperiencePoints:
 	jp ResetBattleParticipants
 
 IsEvsGreaterThan510:
-+; Total EVs in bc. Set Carry flag if bc > 510.
-+       ld a, HIGH(MAX_TOTAL_EV)
-+	cp b
-+	ret nz
-+	ld a, LOW(MAX_TOTAL_EV)
-+	cp c
-+	ret
+; Total EVs in bc. Set Carry flag if bc > 510.
+    ld a, HIGH(MAX_TOTAL_EV)
+	cp b
+	ret nz
+	ld a, LOW(MAX_TOTAL_EV)
+	cp c
+	ret
 
 BoostExp:
 ; Multiply experience by 1.5x
@@ -7524,9 +7540,13 @@ AnimateExpBar:
 	ld [hld], a
 	jr nc, .NoOverflow
 	inc [hl]
+	ld a, [hl]
+	and EXP_MASK
+	and a
 	jr nz, .NoOverflow
-	ld a, $ff
+	ld a, EXP_MASK
 	ld [hli], a
+	ld a, $ff
 	ld [hli], a
 	ld [hl], a
 
@@ -7545,13 +7565,22 @@ AnimateExpBar:
 	ld a, [hld]
 	sbc c
 	ld a, [hl]
+	push de
+	push af
+	and EXP_MASK
+	ld d, a
+	pop af
+	ld a, d
 	sbc b
+	pop de
 	jr c, .AlreadyAtMaxExp
 	ld a, b
 	ld [hli], a
 	ld a, c
 	ld [hli], a
-	ld a, d
+	ld a, [hl]
+	and CAUGHT_TIME_MASK
+	or d
 	ld [hld], a
 
 .AlreadyAtMaxExp:
@@ -7933,6 +7962,13 @@ CalcExpBar:
 	sbc b
 	ld [hld], a
 	ld a, [de]
+	push de
+	push af
+	and EXP_MASK
+	ld d, a
+	pop af
+	ld a, d
+	pop de
 	ld c, a
 	ldh a, [hMathBuffer]
 	sbc c

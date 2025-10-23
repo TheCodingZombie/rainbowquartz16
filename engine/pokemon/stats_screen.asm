@@ -645,6 +645,14 @@ LoadPinkPage:
 	hlcoord 13, 10
 	lb bc, 3, 7
 	ld de, wTempMonExp
+	ld a, [de]
+	and EXP_MASK
+	ld [wStringBuffer1], a
+	ld a, [wTempMonExp + 1]
+	ld [wStringBuffer1 + 1], a
+	ld a, [wTempMonExp + 2]
+	ld [wStringBuffer1 + 2], a
+	ld de, wStringBuffer1
 	call PrintNum
 	call .CalcExpToNextLevel
 	hlcoord 13, 13
@@ -688,7 +696,6 @@ LoadPinkPage:
 	inc a
 	ld d, a
 	farcall CalcExpAtLevel
-	ld hl, wTempMonExp + 2
 	ld hl, wTempMonExp + 2
 	ldh a, [hQuotient + 3]
 	sub [hl]

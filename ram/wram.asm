@@ -1797,6 +1797,7 @@ wGBPrinterBrightness::
 	db
 wOptions2::
 ; bit 1: menu account off/on
+; bit 2: repel off/on
 	db
 	ds 2
 wOptionsEnd::
@@ -1853,7 +1854,7 @@ wSeerOT:: ds NAME_LENGTH
 wSeerOTGrammar:: db
 wSeerCaughtLevelString:: ds 4
 wSeerCaughtLevel:: db
-wSeerCaughtData:: db
+wSeerCaughtTime:: db
 wSeerCaughtGender:: db
 
 

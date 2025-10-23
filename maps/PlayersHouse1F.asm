@@ -309,6 +309,15 @@ SoWhatWasProfElmsErrandText:
 	para "But, you should be"
 	line "proud that people"
 	cont "rely on you."
+
+	para "Just remember to"
+	line "turn on your"
+	cont "REPEL in the"
+	cont "options menu!"
+
+	para "While it's on,"
+	line "weaker #MON"
+	cont "won't attack you."
 	done
 
 ImBehindYouText:

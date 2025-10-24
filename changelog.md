@@ -811,4 +811,6 @@
     - Balls now have special colors
     - New Instant Text Speed
     - TMs now show their name when received or buying
+    - Full Color Pokemon Pics when seeing them in the overworld
+    - Added custom icons (credits to LuigiTKO) to the party screen as well as custom palettes for each of them.
 

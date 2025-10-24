@@ -1261,12 +1261,9 @@ _ItemCantUseOnMonText::
 	line "on this #MON."
 	prompt
 
-_RepelTurnOffText::
-	text "The REPEL is off."
-	prompt
-	
-_RepelTurnOnText::
-	text "The REPEL is on."
+_CandyCaseUsedText::
+	text "Received"
+	line "RARE CANDIES."
 	prompt	
 
 _PlayedFluteText::

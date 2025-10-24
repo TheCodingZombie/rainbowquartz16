@@ -1011,6 +1011,7 @@ RandomPhoneMon:
 	jr nz, .skip_randoms_inner
 	dec b
 	jr .skip_randoms
+	
 .continue_checks
 ; TRAINERTYPE_NICKNAME has uneven length, so always use the first mon
 	bit TRAINERTYPE_NICKNAME_F, b

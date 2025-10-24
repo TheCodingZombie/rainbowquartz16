@@ -2,11 +2,9 @@ GetMoveCategoryName:
 ; Copy the category name of move b to wStringBuffer1.
 
 	ld a, b
-	dec a
 	ld de, wStringBuffer1
 	call GetMoveData
 	ld a, [wStringBuffer1 + MOVE_TYPE]
-	call GetFarByte
 
 ; Mask out the type
 	and ~TYPE_MASK

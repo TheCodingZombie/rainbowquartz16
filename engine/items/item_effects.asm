@@ -2646,7 +2646,8 @@ CandyCaseEffect:
 	ld [wItemQuantityChange], a
 	ld hl, wNumItems
 	call ReceiveItem
-	ret
+	ld hl, CandyCaseText
+	jp PrintText
 
 SacredAshEffect:
 	farcall _SacredAsh
@@ -2815,6 +2816,10 @@ ExpShareToggleOff:
  
 ExpShareToggleOn:
 	text_far _ExpShareToggleOn
+	text_end
+
+CandyCaseText:
+	text_far _CandyCaseUsedText
 	text_end
 
 ApplyPPUp:

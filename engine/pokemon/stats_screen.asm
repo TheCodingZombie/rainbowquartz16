@@ -1,8 +1,9 @@
-	const_def 1
-	const PINK_PAGE  ; 1
-	const GREEN_PAGE ; 2
-	const BLUE_PAGE  ; 3
-DEF NUM_STAT_PAGES EQU const_value - 1
+	const_def
+	const PINK_PAGE   ; 0
+	const GREEN_PAGE  ; 1
+	const BLUE_PAGE   ; 2
+	const ORANGE_PAGE ; 3
+DEF NUM_STAT_PAGES EQU const_value
 
 DEF STAT_PAGE_MASK EQU %00000011
 	const_def 4
@@ -68,11 +69,7 @@ StatsScreenMain:
 	ld [wJumptableIndex], a
 	ld [wStatsScreenFlags], a
 
-	ld a, [wStatsScreenFlags]
-	and ~STAT_PAGE_MASK
-	or PINK_PAGE ; first_page
-	ld [wStatsScreenFlags], a
-
+	ld [wStatsScreenFlags], a ; PINK_PAGE
 .loop
 	ld a, [wJumptableIndex]
 	and ~(1 << 7)
@@ -89,11 +86,7 @@ StatsScreenMobile:
 	ld [wJumptableIndex], a
 	ld [wStatsScreenFlags], a
 
-	ld a, [wStatsScreenFlags]
-	and ~STAT_PAGE_MASK
-	or PINK_PAGE ; first_page
-	ld [wStatsScreenFlags], a
-
+	ld [wStatsScreenFlags], a ; PINK_PAGE
 .loop
 	farcall Mobile_SetOverworldDelay
 	ld a, [wJumptableIndex]
@@ -379,20 +372,22 @@ StatsScreen_JoypadAction:
 
 .a_button
 	ld a, c
-	cp BLUE_PAGE ; last page
+	cp ORANGE_PAGE ; last page
 	jr z, .b_button
 .d_right
 	inc c
-	ld a, BLUE_PAGE ; last page
+	ld a, ORANGE_PAGE ; last page
 	cp c
 	jr nc, .set_page
 	ld c, PINK_PAGE ; first page
 	jr .set_page
 
 .d_left
-	dec c
-	jr nz, .set_page
-	ld c, BLUE_PAGE ; last page
+	ld a, c
+ 	dec c
+	and a ; cp PINK_PAGE ; first page
+ 	jr nz, .set_page
+	ld c, ORANGE_PAGE ; last page
 	jr .set_page
 
 .done
@@ -519,7 +514,7 @@ StatsScreen_PlaceHorizontalDivider:
 	ret
 
 StatsScreen_PlacePageSwitchArrows:
-	hlcoord 12, 6
+	hlcoord 10, 6
 	ld [hl], "◀"
 	hlcoord 19, 6
 	ld [hl], "▶"
@@ -575,7 +570,6 @@ StatsScreen_LoadGFX:
 .PageTilemap:
 	ld a, [wStatsScreenFlags]
 	maskbits NUM_STAT_PAGES
-	dec a
 	ld hl, .Jumptable
 	rst JumpTable
 	ret
@@ -586,14 +580,29 @@ StatsScreen_LoadGFX:
 	dw LoadPinkPage
 	dw LoadGreenPage
 	dw LoadBluePage
+	dw LoadOrangePage
 	assert_table_length NUM_STAT_PAGES
 
 LoadPinkPage:
-	hlcoord 0, 9
+	hlcoord 0, 8
 	ld b, $0
 	predef DrawPlayerHP
-	hlcoord 8, 9
+	hlcoord 8, 8
 	ld [hl], $41 ; right HP/exp bar end cap
+	ld de, DVString
+	hlcoord 1, 10
+	call PlaceString
+	hlcoord 1, 11
+	call .PrintHPDV
+	ld de, EVString
+	hlcoord 5, 10
+	call PlaceString
+	hlcoord 5, 11
+	ld a, [wTempMonHPEV]
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	call PrintStat
 	ld de, .Status_Type
 	hlcoord 0, 12
 	call PlaceString
@@ -725,6 +734,56 @@ LoadPinkPage:
 	ld [hl], a
 	ret
 
+.PrintHPDV:
+	; first calc the HP DV
+	ld a, [wTempMonDVs] ; atk/def
+	and $f0
+	swap a
+	and 1
+	jr z, .atk_not_odd
+	ld a, 0
+	add 8
+	ld b, 0
+	ld c, a
+
+.atk_not_odd
+	ld a, [wTempMonDVs] ; atk/def
+	and $01 ; get the second part of the byte
+	jr z, .def_not_odd
+	ld a, c
+	add 4
+	ld b, 0
+	ld c, a
+
+.def_not_odd
+	ld a, [wTempMonDVs + 1] ; spd/spc
+	and $f0
+	swap a
+	and 1
+	jr z, .speed_not_odd
+	ld a, c
+	add 2
+	ld b, 0
+	ld c, a 
+
+.speed_not_odd
+	ld a, [wTempMonDVs + 1] ; spd/spc
+	and $f
+	and 1
+	jr z, .spc_not_odd
+	ld a, c
+	add 1
+	ld b, 0
+	ld c, a
+
+.spc_not_odd
+	ld a, c
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	lb bc, PRINTNUM_LEADINGZEROS | 1, 2
+	hlcoord 1, 11
+	jp PrintNum 
+
 .Status_Type:
 	db   "STATUS/"
 	next "TYPE/@"
@@ -842,6 +901,122 @@ LoadBluePage:
 	dw wOTPartyMonOTs
 	dw sBoxMonOTs
 	dw wBufferMonOT
+
+LoadOrangePage:
+	ld de, DVString
+	hlcoord 0, 8
+	call PlaceString
+	hlcoord 0, 9
+	ld de, .DVStatNames
+	call PlaceString
+	hlcoord 7, 9
+	call PrintMonDVs
+	hlcoord 9, 8
+	ld de, SCREEN_WIDTH
+	ld b, 10
+	ld a, $31 ; vertical divider
+.vertical_divider
+	ld [hl], a
+	add hl, de
+	dec b
+	jr nz, .vertical_divider
+	ld de, EVString
+	hlcoord 10, 8
+	call PlaceString
+	hlcoord 10, 9
+	ld bc, 5
+	push bc
+	push hl
+	ld de, .EVStatNames
+	call PlaceString
+	pop hl
+	pop bc
+	hlcoord 12, 8
+	call PrintMonEVs
+	ret
+
+.DVStatNames:
+	db "ATTACK"
+	next "DEFENSE"
+	next "SPECIAL"
+	next "SPEED"
+	next "@"
+
+.EVStatNames:
+	db   "ATTACK"
+	next "DEF"
+	next "SP.ATK"
+	next "SP.DEF"
+	next "SPEED"
+	next "@"
+
+PrintMonDVs:
+; Print wTempMon's DVs at hl, with spacing bc.
+	ld a, [wTempMonDVs] ; ATK
+	and $f0
+	swap a
+	lb bc, PRINTNUM_LEADINGZEROS | 1, 2
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonDVs] ; DEF
+	and $f
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonDVs+1] ; SPC
+	and $f
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonDVs+1] ; SPEED
+	and $f0
+	swap a
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	jp PrintNum
+
+PrintMonEVs:
+; Print wTempMon's EVs at hl, with spacing bc.
+	add hl, bc
+	ld bc, SCREEN_WIDTH
+	add hl, bc
+	ld a, [wTempMonAtkEV]
+	ld [wPokedexStatus], a
+	ld c, 0
+	ld de, wPokedexStatus
+	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	call PrintStat
+	ld a, [wTempMonDefEV]
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonSpclAtkEV]
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonSpclDefEV]
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	call PrintStat
+	ld a, [wTempMonSpdEV]
+	ld [wPokedexStatus], a
+	ld de, wPokedexStatus
+	jp PrintNum
+
+PrintStat:
+	push hl
+	call PrintNum
+	pop hl
+	ld de, SCREEN_WIDTH * 2
+	add hl, de
+	ret
+
+DVString:
+	db "DVs@"
+
+EVString:
+	db "EVs@"
 
 IDNoString:
 	db "<ID>№.@"
@@ -1148,6 +1323,9 @@ StatsScreen_AnimateEgg:
 	ret
 
 StatsScreen_LoadPageIndicators:
+	hlcoord 11, 5
+	ld a, $36 ; " " " "
+	call .load_square
 	hlcoord 13, 5
 	ld a, $36 ; first of 4 small square tiles
 	call .load_square
@@ -1158,13 +1336,19 @@ StatsScreen_LoadPageIndicators:
 	ld a, $36 ; " " " "
 	call .load_square
 	ld a, c
+	cp PINK_PAGE
+	hlcoord 11, 5
+	jr z, .load_highlighted_square
 	cp GREEN_PAGE
+	hlcoord 13, 5
+	jr z, .load_highlighted_square
+	cp BLUE_PAGE
+	hlcoord 15, 5
+	jr z, .load_highlighted_square
+	; must be ORANGE_PAGE
+	hlcoord 17, 5
+.load_highlighted_square
 	ld a, $3a ; first of 4 large square tiles
-	hlcoord 13, 5 ; PINK_PAGE (< GREEN_PAGE)
-	jr c, .load_square
-	hlcoord 15, 5 ; GREEN_PAGE (= GREEN_PAGE)
-	jr z, .load_square
-	hlcoord 17, 5 ; BLUE_PAGE (> GREEN_PAGE)
 .load_square
 	push bc
 	ld [hli], a

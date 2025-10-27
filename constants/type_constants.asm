@@ -16,7 +16,6 @@
 	const BUG
 	const GHOST
 	const STEEL
-	const DARK
 
 DEF UNUSED_TYPES EQU const_value
 	const_next 19
@@ -30,6 +29,7 @@ DEF UNUSED_TYPES_END EQU const_value
 	const PSYCHIC_TYPE
 	const ICE
 	const DRAGON
+	const DARK
 	const FAIRY
 DEF TYPES_END EQU const_value
 

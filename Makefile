@@ -1,6 +1,6 @@
 roms := \
-	pokecrystal.gbc
-patches := pokecrystal.patch
+	rainbowquartz.gbc
+patches := rainbowquartz.patch
 
 rom_obj := \
 	audio.o \

@@ -1339,6 +1339,7 @@ BattleCommand_Stab:
 .SkipStab:
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
+	and TYPE_MASK
 	ld b, a
 	ld hl, TypeMatchups
 
@@ -1448,20 +1449,20 @@ BattleCheckTypeMatchup:
 	ld hl, wEnemyMonType1
 	ldh a, [hBattleTurn]
 	and a
-	jr z, CheckTypeMatchup
+	jr z, .get_type
 	ld hl, wBattleMonType1
+.get_type
+	ld a, BATTLE_VARS_MOVE_TYPE
+	call GetBattleVar ; preserves hl, de, and bc
+	and TYPE_MASK
 	; fallthrough
 CheckTypeMatchup:
-; BUG: AI makes a false assumption about CheckTypeMatchup (see docs/bugs_and_glitches.md)
 	push hl
 	push de
 	push bc
-	ld a, BATTLE_VARS_MOVE_TYPE
-	call GetBattleVar
-	and TYPE_MASK
 	ld d, a
-	ld b, [hl]
-	inc hl
+	ld a, [hli]
+	ld b, a
 	ld c, [hl]
 	ld a, EFFECTIVE
 	ld [wTypeMatchup], a
@@ -1914,8 +1915,11 @@ BattleCommand_EffectChance:
 	jr z, .got_move_chance
 	ld hl, wEnemyMoveStruct + MOVE_CHANCE
 .got_move_chance
-; BUG: Moves with a 100% secondary effect chance will not trigger it in 1/256 uses (see docs/bugs_and_glitches.md)
-	call BattleRandom
+	ld a, [hl]
+	sub 100 percent
+	; If chance was 100%, RNG won't be called (carry not set)
+	; Thus chance will be subtracted from 0, guaranteeing a carry
+	call c, BattleRandom
 	cp [hl]
 	pop hl
 	ret c
@@ -2134,12 +2138,13 @@ BattleCommand_FailureText:
 	inc hl
 	ld a, [hl]
 
-; BUG: Beat Up may fail to raise Substitute (see docs/bugs_and_glitches.md)
 	cp EFFECT_MULTI_HIT
 	jr z, .multihit
 	cp EFFECT_DOUBLE_HIT
 	jr z, .multihit
 	cp EFFECT_POISON_MULTI_HIT
+	jr z, .multihit
+	cp EFFECT_BEAT_UP
 	jr z, .multihit
 	jp EndMoveEffect
 
@@ -2577,21 +2582,24 @@ DittoMetalPowder:
 	pop bc
 	ret nz
 
-; BUG: Metal Powder can increase damage taken with boosted (Special) Defense (see docs/bugs_and_glitches.md)
-	ld a, c
-	srl a
-	add c
-	ld c, a
+	ld h, b
+	ld l, c
+	srl b
+	rr c
+	add hl, bc
+	ld b, h
+	ld c, l
+
+	ld a, HIGH(MAX_STAT_VALUE)
+	cp b
+	jr c, .cap
+	ret nz
+	ld a, LOW(MAX_STAT_VALUE)
+	cp c
 	ret nc
 
-	srl b
-	ld a, b
-	and a
-	jr nz, .done
-	inc b
-.done
-	scf
-	rr c
+.cap
+	ld bc, MAX_STAT_VALUE
 	ret
 
 BattleCommand_DamageStats:
@@ -2677,11 +2685,14 @@ PlayerAttackDamage:
 	call ThickClubBoost
 
 .done
+	push hl
+	call DittoMetalPowder
+	pop hl
+	
 	call TruncateHL_BC
 
 	ld a, [wBattleMonLevel]
 	ld e, a
-	call DittoMetalPowder
 
 	ld a, 1
 	and a
@@ -2857,9 +2868,19 @@ DoubleStatIfSpeciesHoldingItem:
 	ret nz
 
 ; Double the stat
-; BUG: Thick Club and Light Ball can make (Special) Attack wrap around above 1024 (see docs/bugs_and_glitches.md)
 	sla l
 	rl h
+
+	ld a, HIGH(MAX_STAT_VALUE)
+	cp h
+	jr c, .cap
+	ret nz
+	ld a, LOW(MAX_STAT_VALUE)
+	cp l
+	ret nc
+
+.cap
+	ld hl, MAX_STAT_VALUE
 	ret
 
 EnemyAttackDamage:
@@ -2934,11 +2955,14 @@ EnemyAttackDamage:
 	call ThickClubBoost
 
 .done
+	push hl
+	call DittoMetalPowder
+	pop hl
+
 	call TruncateHL_BC
 
 	ld a, [wEnemyMonLevel]
 	ld e, a
-	call DittoMetalPowder
 
 	ld a, 1
 	and a
@@ -3094,6 +3118,7 @@ BattleCommand_DamageCalc:
 	ld b, a
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
+	and TYPE_MASK
 	cp b
 	jr nz, .DoneItem
 
@@ -3632,6 +3657,32 @@ UpdateMoveData:
 	call GetMoveName
 	jp CopyName1
 
+CheckForStatusIfAlreadyHasAny:
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVarAddr
+	ld d, h
+	ld e, l
+	and SLP_MASK
+	ld hl, AlreadyAsleepText
+	ret nz
+	
+	ld a, [de]
+	bit FRZ, a
+	ld hl, AlreadyFrozenText
+	ret nz
+	
+	bit PAR, a
+	ld hl, AlreadyParalyzedText
+	ret nz
+	
+	bit PSN, a
+	ld hl, AlreadyPoisonedText
+	ret nz
+	
+	bit BRN, a
+	ld hl, AlreadyBurnedText
+	ret
+
 BattleCommand_SleepTarget:
 	call GetOpponentItem
 	ld a, b
@@ -3645,13 +3696,7 @@ BattleCommand_SleepTarget:
 	jr .fail
 
 .not_protected_by_item
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVarAddr
-	ld d, h
-	ld e, l
-	ld a, [de]
-	and SLP_MASK
-	ld hl, AlreadyAsleepText
+	call CheckForStatusIfAlreadyHasAny
 	jr nz, .fail
 
 	ld a, [wAttackMissed]
@@ -3659,10 +3704,6 @@ BattleCommand_SleepTarget:
 	jp nz, PrintDidntAffect2
 
 	ld hl, DidntAffect1Text
-
-	ld a, [de]
-	and a
-	jr nz, .fail
 
 	call CheckSubstituteOpp
 	jr nz, .fail
@@ -3741,11 +3782,7 @@ BattleCommand_Poison:
 	call CheckIfTargetIsPoisonType
 	jp z, .failed
 
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVar
-	ld b, a
-	ld hl, AlreadyPoisonedText
-	and 1 << PSN
+	call CheckForStatusIfAlreadyHasAny
 	jp nz, .failed
 
 	call GetOpponentItem
@@ -3765,8 +3802,11 @@ BattleCommand_Poison:
 	and a
 	jr nz, .failed
 
+	ld hl, ProtectingItselfText
 	call CheckSubstituteOpp
 	jr nz, .failed
+	
+	ld hl, EvadedText
 	ld a, [wAttackMissed]
 	and a
 	jr nz, .failed
@@ -5240,12 +5280,10 @@ BattleCommand_EndLoop:
 	jr .double_hit
 
 .only_one_beatup
-; BUG: Beat Up works incorrectly with only one Pokémon in the party (see docs/bugs_and_glitches.md)
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVarAddr
 	res SUBSTATUS_IN_LOOP, [hl]
-	call BattleCommand_BeatUpFailText
-	jp EndMoveEffect
+	ret
 
 .not_triple_kick
 	call BattleRandom
@@ -5799,9 +5837,7 @@ BattleCommand_Confuse_CheckSnore_Swagger_ConfuseHit:
 	jp PrintDidntAffect2
 
 BattleCommand_Paralyze:
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVar
-	bit PAR, a
+	call CheckForStatusIfAlreadyHasAny
 	jr nz, .paralyzed
 	ld a, [wTypeModifier]
 	and EFFECTIVENESS_MASK
@@ -5818,10 +5854,6 @@ BattleCommand_Paralyze:
 	jp StdBattleTextbox
 
 .no_item_protection
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVarAddr
-	and a
-	jr nz, .failed
 	ld a, [wAttackMissed]
 	and a
 	jr nz, .failed
@@ -5844,8 +5876,9 @@ BattleCommand_Paralyze:
 	jp CallBattleCore
 
 .paralyzed
+	push hl
 	call AnimateFailedMove
-	ld hl, AlreadyParalyzedText
+	pop hl
 	jp StdBattleTextbox
 
 .failed
@@ -6120,8 +6153,8 @@ PrintDidntAffect:
 
 PrintDidntAffect2:
 	call AnimateFailedMove
-	ld hl, DidntAffect1Text ; 'it didn't affect'
-	ld de, DidntAffect2Text ; 'it didn't affect'
+	ld hl, EvadedText ; 'evaded the attack'
+	ld de, ProtectingItselfText ; 'protecting itself'
 	jp FailText_CheckOpponentProtect
 
 PrintParalyze:
@@ -6382,7 +6415,12 @@ BattleCommand_SkipSunCharge:
 	jp SkipToBattleCommand
 
 CheckHiddenOpponent:
-; BUG: Lock-On and Mind Reader don't always bypass Fly and Dig (see docs/bugs_and_glitches.md)
+	ld a, BATTLE_VARS_SUBSTATUS5_OPP
+	call GetBattleVar
+	cpl
+	and 1 << SUBSTATUS_LOCK_ON
+	ret z
+
 	ld a, BATTLE_VARS_SUBSTATUS3_OPP
 	call GetBattleVar
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND

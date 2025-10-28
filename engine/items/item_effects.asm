@@ -158,7 +158,7 @@ ItemEffects:
 	dw CandyCaseEffect     ; CANDY_CASE
 	dw NoEffect            ; METAL_COAT
 	dw NoEffect            ; DRAGON_FANG
-	dw NoEffect            ; ITEM_91
+	dw PocketRemindEffect  ; PCKT_REMIND
 	dw NoEffect            ; LEFTOVERS
 	dw NoEffect            ; ITEM_93
 	dw NoEffect            ; ITEM_94
@@ -2650,6 +2650,10 @@ CandyCaseEffect:
 	call ReceiveItem
 	ld hl, CandyCaseText
 	jp PrintText
+
+PocketRemindEffect:
+	farcall PocketRemindFunction
+	ret
 
 SacredAshEffect:
 	farcall _SacredAsh

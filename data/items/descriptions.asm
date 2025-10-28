@@ -145,7 +145,7 @@ ItemDescriptions:
 	dw CandyCaseDesc
 	dw MetalCoatDesc
 	dw DragonFangDesc
-	dw QuestionMarkDesc
+	dw PocketReminderDesc
 	dw LeftoversDesc
 	dw QuestionMarkDesc
 	dw QuestionMarkDesc
@@ -820,6 +820,10 @@ MetalCoatDesc:
 DragonFangDesc:
 	db   "Powers up dragon-"
 	next "type moves. (HOLD)@"
+
+PocketReminderDesc:
+	db	 "Use to remind your"
+	next "#MON of moves.@"
 
 LeftoversDesc:
 	db   "Restores HP during"

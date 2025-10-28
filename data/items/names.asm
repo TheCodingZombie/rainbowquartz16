@@ -144,7 +144,7 @@ ItemNames::
 	li "CANDY CASE"
 	li "METAL COAT"
 	li "DRAGON FANG"
-	li "TERU-SAMA"
+	li "PCKT REMIND"
 	li "LEFTOVERS"
 	li "TERU-SAMA"
 	li "TERU-SAMA"

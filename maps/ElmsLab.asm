@@ -480,7 +480,6 @@ AideScript_GivePotion:
 	writetext AideText_AlwaysBusy
 	waitbutton
 	closetext
-	setscene SCENE_ELMSLAB_NOOP
 	end
 
 AideScript_GivePocketPC:
@@ -491,12 +490,25 @@ AideScript_GivePocketPC:
 	writetext AideText_PocketPCInfoText
 	waitbutton
 	closetext
+	setscene SCENE_ELMSLAB_NOOP
+	end
+
+AideScript_GivePocketReminder:
+	opentext
+	writetext AideText_GetPocketReminderText
+	promptbutton
+	giveitem PCKT_REMIND
+	writetext AideText_PocketReminderInfoText
+	waitbutton
+	closetext
+	setscene SCENE_ELMSLAB_NOOP
 	end
 
 AideScript_WalkBalls1:
 	applymovement ELMSLAB_ELMS_AIDE, AideWalksRight1
 	turnobject PLAYER, DOWN
 	scall AideScript_GiveYouBalls
+	scall AideScript_GivePocketReminder
 	applymovement ELMSLAB_ELMS_AIDE, AideWalksLeft1
 	end
 
@@ -504,6 +516,7 @@ AideScript_WalkBalls2:
 	applymovement ELMSLAB_ELMS_AIDE, AideWalksRight2
 	turnobject PLAYER, DOWN
 	scall AideScript_GiveYouBalls
+	scall AideScript_GivePocketReminder
 	applymovement ELMSLAB_ELMS_AIDE, AideWalksLeft2
 	end
 
@@ -518,7 +531,6 @@ AideScript_GiveYouBalls:
 	promptbutton
 	itemnotify
 	closetext
-	setscene SCENE_ELMSLAB_NOOP
 	end
 
 AideScript_ReceiveTheBalls:
@@ -1390,6 +1402,20 @@ AideText_GetPocketPCText:
 AideText_PocketPCInfoText:
 	text "Use this to manage"
 	line "your party."
+	done
+
+AideText_GetPocketReminderText:
+	text "One last thing!"
+	line "I have this."
+
+	para "It's a Pocket"
+	line "Reminder!"
+	done
+	
+AideText_PocketReminderInfoText:
+	text "Use this to manage"
+	line "your party's"
+	line "moves!"
 	done
 
 ElmsLab_MapEvents:

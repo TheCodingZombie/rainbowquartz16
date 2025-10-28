@@ -68,6 +68,9 @@ AI_Redundant:
 	ret nz
 	ld a, [wPlayerScreens]
 	bit SCREENS_SAFEGUARD, a
+	ret nz
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_SUBSTITUTE, a
 	ret
 
 .Transform:
@@ -88,6 +91,9 @@ AI_Redundant:
 .LeechSeed:
 	ld a, [wPlayerSubStatus4]
 	bit SUBSTATUS_LEECH_SEED, a
+	ret nz
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_SUBSTITUTE, a
 	ret
 
 .Disable:

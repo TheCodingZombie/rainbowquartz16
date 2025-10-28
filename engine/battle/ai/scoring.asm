@@ -54,6 +54,11 @@ AI_Basic:
 	and a
 	jr nz, .discourage
 
+; Dismiss status moves if the player has a Substitute.
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_SUBSTITUTE, a
+	jr nz, .discourage
+
 ; Dismiss status moves if the player is Safeguarded.
 	ld a, [wPlayerScreens]
 	bit SCREENS_SAFEGUARD, a
@@ -71,6 +76,8 @@ AI_Setup:
 
 ; 50% chance to greatly encourage stat-up moves during the first turn of enemy's Pokemon.
 ; 50% chance to greatly encourage stat-down moves during the first turn of player's Pokemon.
+; 100% chance to greatly encourage stat-up moves if the player is flying or underground, and the enemy is faster.
+; 100% chance to greatly discourage stat-down moves if the player has Mist or a Substitute up.
 ; Almost 90% chance to greatly discourage stat-modifying moves otherwise.
 
 	ld hl, wEnemyAIMoveScores - 1
@@ -113,6 +120,14 @@ AI_Setup:
 	jr .checkmove
 
 .statup
+	ld a, [wPlayerSubStatus3]
+	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
+	jr z, .statup_continue
+
+	call AICompareSpeed
+	jr c, .do_encourage
+
+.statup_continue
 	ld a, [wEnemyTurnsTaken]
 	and a
 	jr nz, .discourage
@@ -120,6 +135,14 @@ AI_Setup:
 	jr .encourage
 
 .statdown
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_MIST, a
+	jr nz, .do_discourage
+
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_SUBSTITUTE, a
+	jr nz, .do_discourage
+
 	ld a, [wPlayerTurnsTaken]
 	and a
 	jr nz, .discourage
@@ -128,6 +151,7 @@ AI_Setup:
 	call AI_50_50
 	jr c, .checkmove
 
+.do_encourage
 	dec [hl]
 	dec [hl]
 	jr .checkmove
@@ -136,6 +160,8 @@ AI_Setup:
 	call Random
 	cp 12 percent
 	jr c, .checkmove
+
+.do_discourage
 	inc [hl]
 	inc [hl]
 	jr .checkmove
@@ -152,12 +178,12 @@ AI_Types:
 	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
-	ret z
+	jr z, .checkrain
 
 	inc hl
 	ld a, [de]
 	and a
-	ret z
+	jr z, .checkrain
 
 	inc de
 	call AIGetEnemyMove
@@ -232,6 +258,73 @@ AI_Types:
 	call AIDiscourageMove
 	jr .checkmove
 
+; Encourage moves in the Rain Dance list if it's raining.
+.checkrain
+	ld a, [wBattleWeather]
+	cp WEATHER_RAIN
+	jr nz, .checksun
+
+	ld hl, wEnemyAIMoveScores - 1
+	ld de, wEnemyMonMoves
+	ld c, NUM_MOVES + 1
+.checkmove3
+	inc hl
+	dec c
+	jr z, .checksun
+
+	ld a, [de]
+	inc de
+	and a
+	jr z, .checksun
+
+	push hl
+	push de
+	push bc
+	ld hl, RainDanceMoves
+	ld de, 1
+	call IsInArray
+
+	pop bc
+	pop de
+	pop hl
+	jr nc, .checkmove3
+
+	dec [hl]
+	jr .checkmove3
+
+; Encourage moves in the Sunny Day list if it's sunny.
+.checksun
+	ld a, [wBattleWeather]
+	cp WEATHER_SUN
+	ret nz
+
+	ld hl, wEnemyAIMoveScores - 1
+	ld de, wEnemyMonMoves
+	ld c, NUM_MOVES + 1
+.checkmove4
+	inc hl
+	dec c
+	ret z
+
+	ld a, [de]
+	inc de
+	and a
+	ret z
+
+	push hl
+	push de
+	push bc
+	ld hl, SunnyDayMoves
+	ld de, 1
+	call IsInArray
+
+	pop bc
+	pop de
+	pop hl
+	jr nc, .checkmove4
+
+	dec [hl]
+	jr .checkmove4
 
 AI_Offensive:
 ; Greatly discourage non-damaging moves.
@@ -401,11 +494,11 @@ AI_Smart_Sleep:
 
 	ld b, EFFECT_NIGHTMARE
 	call AIHasMoveEffect
-	ret nc
+	jr c, .encourage
 
-.encourage
 	call AI_50_50
 	ret c
+.encourage
 	dec [hl]
 	dec [hl]
 	ret
@@ -3190,8 +3283,8 @@ AI_Status:
 	jr z, .poisonimmunity
 	cp EFFECT_POISON
 	jr z, .poisonimmunity
-	cp EFFECT_SLEEP
-	jr z, .typeimmunity
+	cp EFFECT_LEECH_SEED
+	jr z, .leechseedimmunity
 	cp EFFECT_PARALYZE
 	jr z, .typeimmunity
 
@@ -3207,6 +3300,15 @@ AI_Status:
 	jr z, .immune
 	ld a, [wBattleMonType2]
 	cp POISON
+	jr z, .immune
+	jr .typeimmunity
+
+.leechseedimmunity
+	ld a, [wBattleMonType1]
+	cp GRASS
+	jr z, .immune
+	ld a, [wBattleMonType2]
+	cp GRASS
 	jr z, .immune
 
 .typeimmunity

@@ -159,3 +159,4 @@ MoveEffectsPointers:
 	dw SelfSpecialAtkDown
 	dw FreezeHit
 	dw Hail
+	dw DoBurn

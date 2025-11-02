@@ -116,6 +116,7 @@ BattleCommand_CheckTurn:
 ; Move $ff immediately ends the turn.
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVar
+	assert CANNOT_MOVE == $ff
 	inc a
 	jp z, EndTurn
 
@@ -2005,10 +2006,10 @@ BattleCommand_MoveAnimNoSub:
 	ldh a, [hBattleTurn]
 	and a
 	ld de, wPlayerRolloutCount
-	ld a, BATTLEANIM_ENEMY_DAMAGE
+	ld a, ANIM_ENEMY_DAMAGE - BATTLE_AFTERANIMS
 	jr z, .got_rollout_count
 	ld de, wEnemyRolloutCount
-	ld a, BATTLEANIM_PLAYER_DAMAGE
+	ld a, ANIM_PLAYER_DAMAGE - BATTLE_AFTERANIMS
 
 .got_rollout_count
 	ld [wNumHits], a
@@ -2078,9 +2079,9 @@ BattleCommand_StatDownAnim:
 
 	ldh a, [hBattleTurn]
 	and a
-	ld a, BATTLEANIM_ENEMY_STAT_DOWN
+	ld a, ANIM_ENEMY_STAT_DOWN - BATTLE_AFTERANIMS
 	jr z, BattleCommand_StatUpDownAnim
-	ld a, BATTLEANIM_WOBBLE
+	ld a, ANIM_WOBBLE - BATTLE_AFTERANIMS
 
 	; fallthrough
 
@@ -5888,6 +5889,58 @@ BattleCommand_Paralyze:
 	call AnimateFailedMove
 	jp PrintDoesntAffect
 
+BattleCommand_Burn:
+	call CheckForStatusIfAlreadyHasAny
+	jr nz, .burned
+	ld a, [wTypeModifier]
+	and EFFECTIVENESS_MASK
+	jr z, .didnt_affect
+	call GetOpponentItem
+	ld a, b
+	cp HELD_PREVENT_BURN
+	jr nz, .no_item_protection
+	ld a, [hl]
+	ld [wNamedObjectIndex], a
+	call GetItemName
+	call AnimateFailedMove
+	ld hl, ProtectedByText
+	jp StdBattleTextbox
+
+.no_item_protection
+	ld a, [wAttackMissed]
+	and a
+	jr nz, .failed
+	call CheckSubstituteOpp
+	jr nz, .failed
+	ld c, 30
+	call DelayFrames
+	call AnimateCurrentMove
+	ld a, $1
+	ldh [hBGMapMode], a
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVarAddr
+	set BRN, [hl]
+	call UpdateOpponentInParty
+	ld hl, ApplyBrnEffectOnAttack
+	call CallBattleCore
+	call UpdateBattleHuds
+	call PrintBurn
+	ld hl, UseHeldStatusHealingItem
+	jp CallBattleCore
+
+.burned
+	push hl
+	call AnimateFailedMove
+	pop hl
+	jp StdBattleTextbox
+
+.failed
+	jp PrintDidntAffect2
+
+.didnt_affect
+	call AnimateFailedMove
+	jp PrintDoesntAffect
+
 CheckMoveTypeMatchesTarget:
 ; Compare move type to opponent type.
 ; Return z if matching the opponent type,
@@ -6160,6 +6213,11 @@ PrintDidntAffect2:
 PrintParalyze:
 ; 'paralyzed! maybe it can't attack!'
 	ld hl, ParalyzedText
+	jp StdBattleTextbox
+
+PrintBurn:
+; 'burned!'
+	ld hl, WasBurnedText
 	jp StdBattleTextbox
 
 CheckSubstituteOpp:
@@ -6510,9 +6568,9 @@ PlayDamageAnim:
 
 	ldh a, [hBattleTurn]
 	and a
-	ld a, BATTLEANIM_ENEMY_DAMAGE
+	ld a, ANIM_ENEMY_DAMAGE - BATTLE_AFTERANIMS
 	jr z, .player
-	ld a, BATTLEANIM_PLAYER_DAMAGE
+	ld a, ANIM_PLAYER_DAMAGE - BATTLE_AFTERANIMS
 
 .player
 	ld [wNumHits], a

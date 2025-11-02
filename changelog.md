@@ -25,7 +25,8 @@
         - Sets Hail for 5 turns
         - Hail deals damage to non-Ice types, boosts the damage of Ice-type moves, increases Ice-type Defense.
         - Much like other weather moves, this move has heightened priority.
-
+    - Will-O-Wisp
+        - Burns the target.
 # Changes
 - In addition to the Fairy Changes, the following Pokemon now have type Changes:
     - Typhlosion (Fire -> Fire/Ghost)
@@ -775,22 +776,33 @@
 - Evolution Changes
     - All Trade Evos are now just item or level up Evos
     - Goldeen now evolves with a Water Stone instead
-- Move Swaps
 - Item Changes
     - Light Ball
         - Light Ball now boosts both Pikachu and Raichu
-- Misc Changes
-    - Kurt now instantly makes his Apricorn Balls
-    - Added a Pocket PC and Candy Case
-    - Apricorn Trees are now more plentiful
+- Battle Changes
     - Physical/Special Split is now fully implemented
-    - TMs are now infinitely reusable, much like Gen 5 or HMs!
     - Trainers are now much more capable and can have all of the following specified in their data:
         -  Custom DVs and Stat EXP
         -  Custom Friendship
         -  Custom Nicknames
         -  Trainer Parties can scale with Badges
         -  Trainer Parties can be random each time the trainer is fought
+    - You can no longer use items in Trainer Battles, and all Trainer Battles are in the Set Style.
+    - AI Trainers can no longer randomly miss their status moves. No more 25% chance Tail Whip fails.
+    - Badge Boosts no longer exist.
+    - Switched out the Stat EXP system for the EV system from modern games.
+    - Also added the Macho Brace to help quicken the process
+    - Added Badge-specific Level Caps (so you can't abuse the Candy Case to get OP)
+- Misc Changes
+    - Kurt now instantly makes his Apricorn Balls
+    - Added a Pocket PC
+        - Allows you to access the PC from anywhere.
+    - Added a Candy Case
+        - Gives you 99 Rare Candies to level up your Pokemon to the level cap.
+    - Added a Pocket Move Reminder
+        - Allows you to access a Move Reminder from anywhere.
+    - Apricorn Trees are now more plentiful
+    - TMs are now infinitely reusable, much like Gen 5 or HMs!
     - Added Running!
         - Credits:
             - Tom Wang/froyomuffin (Chris Running Sprite)
@@ -800,13 +812,8 @@
     - Removed the Catching Tutorial
         - Because for some reason it was causing issues...
         - But instead of just removing it in a clunky way, I made it so that it makes a bit more sense with their dialogue
-    - AI Trainers can no longer randomly miss their status moves. No more 25% chance Tail Whip fails.
-    - Badge Boosts no longer exist.
     - You now gain experience for catching Pokemon.
     - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
-    - Switched out the Stat EXP system for the EV system from modern games.
-        - Also added the Macho Brace to help quicken the process
-    - Added Badge-specific Level Caps (so you can't abuse the Candy Case to get OP)
 - Visual Changes
     - Balls now have special colors
     - New Instant Text Speed
@@ -814,5 +821,3 @@
     - Full Color Pokemon Pics when seeing them in the overworld
     - Added custom icons (credits to LuigiTKO) to the party screen as well as custom palettes for each of them.
     - Added a fourth page to the stats screen that displayed catching information.
-# Bug Fixes
-    - 

@@ -148,7 +148,7 @@ ItemDescriptions:
 	dw PocketReminderDesc
 	dw LeftoversDesc
 	dw QuestionMarkDesc
-	dw QuestionMarkDesc
+	dw MaxCandyDesc
 	dw QuestionMarkDesc
 	dw MysteryBerryDesc
 	dw DragonScaleDesc
@@ -828,6 +828,10 @@ PocketReminderDesc:
 LeftoversDesc:
 	db   "Restores HP during"
 	next "battle. (HOLD)@"
+
+MaxCandyDesc:
+	db	 "Levels up #MON"
+	next "to LVL CAP.@"
 
 MysteryBerryDesc:
 	db   "A self-restore"

@@ -161,7 +161,7 @@ ItemEffects:
 	dw PocketRemindEffect  ; PCKT_REMIND
 	dw NoEffect            ; LEFTOVERS
 	dw NoEffect            ; ITEM_93
-	dw NoEffect            ; ITEM_94
+	dw MaxCandyEffect      ; MAX_CANDY
 	dw NoEffect            ; ITEM_95
 	dw RestorePPEffect     ; MYSTERYBERRY
 	dw NoEffect            ; DRAGON_SCALE
@@ -1308,6 +1308,107 @@ RareCandy_StatBooster_GetParameters:
 	ld hl, wPartyMonNicknames
 	call GetNickname
 	ret
+
+MaxCandyEffect:
+	ld b, PARTYMENUACTION_HEALING_ITEM
+	call UseItem_SelectMon
+
+	jp c, RareCandy_StatBooster_ExitMenu
+
+	call RareCandy_StatBooster_GetParameters
+
+	ld a, MON_LEVEL
+	call GetPartyParamLocation
+
+	push hl
+	farcall GetMaxLevel
+	pop hl
+
+	ld a, [hl]
+	cp b
+	jp nc, NoEffectMessage
+
+	ld a, b
+	ld [hl], a
+	ld [wCurPartyLevel], a
+	push de
+	ld d, a
+	farcall CalcExpAtLevel
+
+	pop de
+	ld a, MON_EXP
+	call GetPartyParamLocation
+
+	push de
+	ld a, [hl]
+	and CAUGHT_TIME_MASK
+	ld d, a
+	ldh a, [hMultiplicand + 0]
+	and EXP_MASK
+	or d
+	pop de
+	ld [hli], a
+	ldh a, [hMultiplicand + 1]
+	ld [hli], a
+	ldh a, [hMultiplicand + 2]
+	ld [hl], a
+
+	ld a, MON_MAXHP
+	call GetPartyParamLocation
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]
+	push bc
+	call UpdateStatsAfterItem
+
+	ld a, MON_MAXHP + 1
+	call GetPartyParamLocation
+
+	pop bc
+	ld a, [hld]
+	sub c
+	ld c, a
+	ld a, [hl]
+	sbc b
+	ld b, a
+	dec hl
+	ld a, [hl]
+	add c
+	ld [hld], a
+	ld a, [hl]
+	adc b
+	ld [hl], a
+	farcall LevelUpHappinessMod
+
+	ld a, PARTYMENUTEXT_LEVEL_UP
+	call ItemActionText
+
+	xor a ; PARTYMON
+	ld [wMonType], a
+	predef CopyMonToTempMon
+
+	hlcoord 9, 0
+	ld b, 10
+	ld c, 9
+	call Textbox
+
+	hlcoord 11, 1
+	ld bc, 4
+	predef PrintTempMonStats
+
+	call WaitPressAorB_BlinkCursor
+
+	xor a ; PARTYMON
+	ld [wMonType], a
+	ld a, [wCurPartySpecies]
+	ld [wTempSpecies], a
+	predef LearnLevelMoves
+
+	xor a
+	ld [wForceEvolution], a
+	farcall EvolvePokemon
+
+	jp UseDisposableItem
 
 RareCandyEffect:
 	ld b, PARTYMENUACTION_HEALING_ITEM
@@ -2648,6 +2749,14 @@ CandyCaseEffect:
 	ld [wItemQuantityChange], a
 	ld hl, wNumItems
 	call ReceiveItem
+
+	ld a, MAX_CANDY
+	ld [wCurItem], a
+	ld a, 6
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+	
 	ld hl, CandyCaseText
 	jp PrintText
 

@@ -81,7 +81,7 @@ BattleAnimRunScript:
 
 	ld l, a
 	ld h, 0
-	ld de, ANIM_MISS
+	ld de, BATTLE_AFTERANIMS
 	add hl, de
 	ld a, l
 	ld [wFXAnimID], a
@@ -1315,9 +1315,9 @@ endr
 
 PlayHitSound:
 	ld a, [wNumHits]
-	cp BATTLEANIM_ENEMY_DAMAGE
+	cp ANIM_ENEMY_DAMAGE - BATTLE_AFTERANIMS
 	jr z, .okay
-	cp BATTLEANIM_PLAYER_DAMAGE
+	cp ANIM_PLAYER_DAMAGE - BATTLE_AFTERANIMS
 	ret nz
 
 .okay

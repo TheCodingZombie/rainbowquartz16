@@ -15,8 +15,8 @@ GoldenrodPokecenter1FNurseScript:
 	jumpstd PokecenterNurseScript
 
 GoldenrodPokecenter1F_GSBallSceneLeft:
-	setval BATTLETOWERACTION_GSBALL
-	special BattleTowerAction
+	checkcode VAR_BADGES
+	if_equal 16, .gsball
 	ifequal GS_BALL_AVAILABLE, .gsball
 	end
 

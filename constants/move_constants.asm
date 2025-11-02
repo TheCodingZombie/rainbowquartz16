@@ -171,6 +171,7 @@
 	const SLASH        ; a3
 	const SUBSTITUTE   ; a4
 	const STRUGGLE     ; a5
+DEF GEN1_MOVES EQU const_value - 1
 	const SKETCH       ; a6
 	const TRIPLE_KICK  ; a7
 	const THIEF        ; a8
@@ -257,51 +258,45 @@
 	const ROCK_SMASH   ; f9
 	const WHIRLPOOL    ; fa
 	const BEAT_UP      ; fb
+DEF GEN2_MOVES EQU const_value - 1
 	const DRACO_METEOR ; fc
 	const MOONBLAST    ; fd
 	const HAIL		   ; fe
+	const CANNOT_MOVE  ; ff
+	const WILL_O_WISP  ; 100
+DEF NEW_MOVES EQU const_value - 1
+
 DEF NUM_ATTACKS EQU const_value - 1
 
 	if NUM_ATTACKS > $3fff
 		fail "Too many moves defined!"
 	endc
 
-; Battle animations use the same constants as the moves up to this point
-	const_next $ff
-	const ANIM_SWEET_SCENT_2     ; ff
-	const ANIM_THROW_POKE_BALL   ; 100
-	const ANIM_SEND_OUT_MON      ; 101
-	const ANIM_RETURN_MON        ; 102
-	const ANIM_CONFUSED          ; 103
-	const ANIM_SLP               ; 104
-	const ANIM_BRN               ; 105
-	const ANIM_PSN               ; 106
-	const ANIM_SAP               ; 107
-	const ANIM_FRZ               ; 108
-	const ANIM_PAR               ; 109
-	const ANIM_IN_LOVE           ; 10a
-	const ANIM_IN_SANDSTORM      ; 10b
-	const ANIM_IN_NIGHTMARE      ; 10c
-	const ANIM_IN_WHIRLPOOL      ; 10d
+	const ANIM_SWEET_SCENT_2
+	const_def -1, -1
+	const ANIM_HIT_CONFUSION     ;  -1 (ffff)
+	const ANIM_SHAKE             ;  -2 (fffe)
+	const ANIM_WOBBLE            ;  -3 (fffd)
+	const ANIM_PLAYER_DAMAGE     ;  -4 (fffc)
+	const ANIM_PLAYER_STAT_DOWN  ;  -5 (fffb)
+	const ANIM_ENEMY_STAT_DOWN   ;  -6 (fffa)
+	const ANIM_ENEMY_DAMAGE      ;  -7 (fff9)
+	const ANIM_MISS              ;  -8 (fff8)
+	DEF BATTLE_AFTERANIMS EQU ANIM_MISS
 ; battle anims
-	const ANIM_MISS              ; 10e
-	const ANIM_ENEMY_DAMAGE      ; 10f
-	const ANIM_ENEMY_STAT_DOWN   ; 110
-	const ANIM_PLAYER_STAT_DOWN  ; 111
-	const ANIM_PLAYER_DAMAGE     ; 112
-	const ANIM_WOBBLE            ; 113
-	const ANIM_SHAKE             ; 114
-	const ANIM_HIT_CONFUSION     ; 115
-	const ANIM_IN_HAIL           ; 116
-DEF NUM_BATTLE_ANIMS EQU const_value - 1
-
-; wNumHits uses offsets from ANIM_MISS
-	const_def
-	const BATTLEANIM_NONE
-	const BATTLEANIM_ENEMY_DAMAGE
-	const BATTLEANIM_ENEMY_STAT_DOWN
-	const BATTLEANIM_PLAYER_STAT_DOWN
-	const BATTLEANIM_PLAYER_DAMAGE
-	const BATTLEANIM_WOBBLE
-	const BATTLEANIM_SHAKE
-	const BATTLEANIM_HIT_CONFUSION
+	const ANIM_IN_HAIL           ;  -9 (fff7)
+	const ANIM_IN_WHIRLPOOL      ;  -a (fff6)
+	const ANIM_IN_NIGHTMARE      ;  -b (fff5)
+	const ANIM_IN_SANDSTORM      ;  -c (fff4)
+	const ANIM_IN_LOVE           ;  -d (fff3)
+	const ANIM_PAR               ;  -e (fff2)
+	const ANIM_FRZ               ;  -f (fff1)
+	const ANIM_SAP               ; -10 (fff0)
+	const ANIM_PSN               ; -11 (ffef)
+	const ANIM_BRN               ; -12 (ffee)
+	const ANIM_SLP               ; -13 (ffed)
+	const ANIM_CONFUSED          ; -14 (ffec)
+	const ANIM_RETURN_MON        ; -15 (ffeb)
+	const ANIM_SEND_OUT_MON      ; -16 (ffea)
+	const ANIM_THROW_POKE_BALL   ; -17 (ffe9)
+DEF NUM_BATTLE_ANIMS EQU -const_value - 1

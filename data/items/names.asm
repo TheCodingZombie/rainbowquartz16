@@ -147,7 +147,7 @@ ItemNames::
 	li "PCKT REMIND"
 	li "LEFTOVERS"
 	li "TERU-SAMA"
-	li "TERU-SAMA"
+	li "MAX CANDY"
 	li "TERU-SAMA"
 	li "MYSTERYBERRY"
 	li "DRAGON SCALE"

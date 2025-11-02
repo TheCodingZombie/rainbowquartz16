@@ -1,4 +1,4 @@
-SECTION "Individual Move Effects", ROMX
+SECTION "Individual Move Effects 1", ROMX
 
 INCLUDE "engine/battle/move_effects/beat_up.asm"
 
@@ -65,6 +65,8 @@ INCLUDE "engine/battle/move_effects/selfdestruct.asm"
 INCLUDE "engine/battle/move_effects/mirror_move.asm"
 
 INCLUDE "engine/battle/move_effects/metronome.asm"
+
+SECTION "Individual Move Effects 2", ROMX
 
 INCLUDE "engine/battle/move_effects/thief.asm"
 

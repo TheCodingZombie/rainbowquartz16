@@ -13,10 +13,14 @@ ENDM
 Moves::
 ; entries correspond to constants/move_constants.asm
 	indirect_table MOVE_LENGTH - 1, 1
-	indirect_entries NUM_ATTACKS, Moves1
+	indirect_entries GEN1_MOVES, MovesGen1
+	indirect_entries GEN2_MOVES, MovesGen2
+	indirect_entries NEW_MOVES, MovesNew
 	indirect_table_end
 
-Moves1:
+SECTION "Moves Gen 1", ROMX
+
+MovesGen1:
 ; entries correspond to move ids (see constants/move_constants.asm)
 	move EFFECT_NORMAL_HIT,         40, NORMAL,		PHYSICAL,   100, 35,   0 ;POUND
 	move EFFECT_NORMAL_HIT,         50, FIGHTING,	PHYSICAL,	100, 25,   0 ;KARATE_CHOP
@@ -183,6 +187,11 @@ Moves1:
 	move EFFECT_NORMAL_HIT,         70, NORMAL,   	PHYSICAL,	100, 20,   0 ;SLASH
 	move EFFECT_SUBSTITUTE,          0, NORMAL,   	STATUS,		100, 10,   0 ;SUBSTITUTE
 	move EFFECT_RECOIL_HIT,         50, NORMAL,   	PHYSICAL,	100,  1,   0 ;STRUGGLE
+.IndirectEnd::
+
+SECTION "Moves Gen 2", ROMX
+
+MovesGen2:
 	move EFFECT_SKETCH,              0, NORMAL,   	STATUS,		100,  1,   0 ;SKETCH
 	move EFFECT_TRIPLE_KICK,        20, FIGHTING, 	PHYSICAL,	 90, 10,   0 ;TRIPLE_KICK
 	move EFFECT_THIEF,              40, DARK,     	PHYSICAL,	100, 10, 100 ;THIEF
@@ -269,7 +278,14 @@ Moves1:
 	move EFFECT_DEFENSE_DOWN_HIT,   20, FIGHTING, 	PHYSICAL,	100, 15,  50 ;ROCK_SMASH
 	move EFFECT_TRAP_TARGET,        15, WATER,    	SPECIAL,	 70, 15,   0 ;WHIRLPOOL
 	move EFFECT_BEAT_UP,            30, DARK,     	PHYSICAL,	100, 10,   0 ;BEAT_UP
+.IndirectEnd::
+
+SECTION "New Moves", ROMX
+
+MovesNew:
 	move EFFECT_SELF_SP_ATK_DOWN,  140, DRAGON,	  	SPECIAL,	100, 10, 100 ;DRACO_METEOR
 	move EFFECT_SP_ATK_DOWN,		95, FAIRY,	  	SPECIAL,	100, 15,  10 ;MOONBLAST
 	move EFFECT_HAIL, 				 0, ICE, 		STATUS,		100, 10,   0 ;HAIL
+	move EFFECT_SPLASH,				 0, NORMAL,		STATUS, 	  0, 10,   0 ;CANNOT_MOVE
+	move EFFECT_BURN,				 0, FIRE,		STATUS,		100, 15,   0 ;WILL_O_WISP
 .IndirectEnd::

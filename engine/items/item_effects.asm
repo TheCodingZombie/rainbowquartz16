@@ -55,8 +55,8 @@ ItemEffects:
 	dw ReviveEffect        ; REVIVE
 	dw ReviveEffect        ; MAX_REVIVE
 	dw GuardSpecEffect     ; GUARD_SPEC
-	dw NoEffect            ; SUPER_REPEL
-	dw NoEffect            ; MAX_REPEL
+	dw XItemEffect         ; X_SPECDEF
+	dw XItemEffect         ; X_HP
 	dw DireHitEffect       ; DIRE_HIT
 	dw GoldAxeEffect       ; GOLD_AXE
 	dw RestoreHPEffect     ; FRESH_WATER
@@ -248,8 +248,11 @@ PokeBallEffect:
 	cp BATTLETYPE_TUTORIAL
 	jp z, .catch_without_fail
 	ld a, [wCurItem]
-	cp MASTER_BALL
-	jp z, .catch_without_fail
+	;cp MASTER_BALL
+	;jp z, .catch_without_fail
+	jp .catch_without_fail ; temporary change so that you can always catch pokemon 
+
+	; rest of code goes unreferenced, but will stay here because i want to be able to use it for later
 	ld a, [wCurItem]
 	ld c, a
 	ld hl, BallMultiplierFunctionTable
@@ -1166,7 +1169,7 @@ VitaminEffect:
 	ld a, MON_EVS
 	call GetPartyParamLocation
 
-	ld d, 10
+	ld d, 32
 	push bc
 	push hl
 	ld e, NUM_STATS
@@ -1203,7 +1206,7 @@ VitaminEffect:
 
 	add hl, bc
 	ld a, [hl]
-	cp 100
+	cp 252
 	jr nc, NoEffectMessage
 
 	add e
@@ -2253,38 +2256,107 @@ GoldAxeEffect:
 	ret
 
 XItemEffect:
-	call UseItemText
+	ld b, PARTYMENUACTION_HEALING_ITEM
+	call UseItem_SelectMon
 
+	jp c, RareCandy_StatBooster_ExitMenu
+
+	call RareCandy_StatBooster_GetParameters
+
+	call GetXRelativePointer
+
+	ld a, MON_EVS
+	call GetPartyParamLocation
+
+	ld d, 32
+	push bc
+	push hl
+	ld e, NUM_STATS
+	ld bc, 0
+.count_evs
+	ld a, [hli]
+	add c
+	ld c, a
+	jr nc, .cont
+	inc b
+.cont
+	dec e
+	jr nz, .count_evs
+	ld a, d
+	add c
+	ld c, a
+	adc b
+	sub c 
+	ld b, a
+	ld e, d
+.decrease_evs_gained
+	farcall IsEvsGreaterThan510
+	jr nc, .check_ev_overflow
+	dec e
+	dec bc
+	jr .decrease_evs_gained
+.check_ev_overflow
+	pop hl 
+	pop bc 
+
+	ld a, e
+	and a
+	jp z, NoEffectMessage
+
+	add hl, bc
+	ld a, [hl]
+	cp 252
+	jp nc, NoEffectMessage
+
+	add e
+	ld [hl], a
+	call UpdateStatsAfterItem
+
+	call GetXRelativePointer
+
+	ld hl, StatStrings
+	add hl, bc
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wStringBuffer2
+	ld bc, ITEM_NAME_LENGTH
+	call CopyBytes
+
+	call Play_SFX_FULL_HEAL
+
+	ld hl, ItemStatRoseText
+	call PrintText
+
+	ld c, HAPPINESS_USEDITEM
+	farcall ChangeHappiness
+
+	jp UseDisposableItem
+
+GetXRelativePointer:
 	ld a, [wCurItem]
-	ld hl, XItemStats
-
-.loop
+	ld hl, XItemPointerOffsets
+.next
 	cp [hl]
+	inc hl
 	jr z, .got_it
 	inc hl
-	inc hl
-	jr .loop
+	jr .next
 
 .got_it
-	inc hl
-	ld b, [hl]
-	xor a
-	ldh [hBattleTurn], a
-	ld [wAttackMissed], a
-	ld [wEffectFailed], a
-	farcall RaiseStat
-	call WaitSFX
-
-	farcall BattleCommand_StatUpMessage
-	farcall BattleCommand_StatUpFailText
-
-	ld a, [wCurBattleMon]
-	ld [wCurPartyMon], a
-	ld c, HAPPINESS_USEDXITEM
-	farcall ChangeHappiness
+	ld a, [hl]
+	ld c, a
+	ld b, 0
 	ret
 
-INCLUDE "data/items/x_stats.asm"
+XItemPointerOffsets:
+	db X_HP,      MON_HP_EV - MON_EVS
+	db X_ATTACK,  MON_ATK_EV - MON_EVS
+	db X_DEFEND,  MON_DEF_EV - MON_EVS
+	db X_SPEED,   MON_SPD_EV - MON_EVS
+	db X_SPECIAL, MON_SAT_EV - MON_EVS
+	db X_SPECDEF, MON_SDF_EV - MON_EVS
 
 PaperPlaneEffect:
 	ld a, 1

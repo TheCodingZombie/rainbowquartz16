@@ -15,6 +15,10 @@ BattleCommand_Metronome:
 .GetMove:
 	call ChooseRandomMove
 
+; No CANNOT_MOVE.
+	cp CANNOT_MOVE
+	jr z, .GetMove
+
 ; None of the moves in MetronomeExcepts.
 	ld de, 2
 	ld hl, MetronomeExcepts

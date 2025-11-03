@@ -405,9 +405,13 @@ BattleAnimCmd_Ret:
 	ld [hl], e
 	inc hl
 	ld [hl], d
+	ld a, [wBattleAnimParentBank]
+	ld [wBattleAnimBank], a
 	ret
 
 BattleAnimCmd_Call:
+	call GetBattleAnimByte
+	push af
 	call GetBattleAnimByte
 	ld e, a
 	call GetBattleAnimByte
@@ -421,11 +425,15 @@ BattleAnimCmd_Call:
 	ld [hl], e
 	inc hl
 	ld [hl], d
+	ld a, [wBattleAnimBank]
+	ld [wBattleAnimParentBank], a
 	pop de
 	ld hl, wBattleAnimAddress
 	ld [hl], e
 	inc hl
 	ld [hl], d
+	pop af
+	ld [wBattleAnimBank], a
 	ld hl, wBattleAnimFlags
 	set BATTLEANIM_IN_SUBROUTINE_F, [hl]
 	ret
@@ -610,6 +618,8 @@ BattleAnimCmd_Obj:
 ; index, x, y, param
 	call GetBattleAnimByte
 	ld [wBattleObjectTempID], a
+	call GetBattleAnimByte
+	ld [wBattleObjectTempID + 1], a
 	call GetBattleAnimByte
 	ld [wBattleObjectTempXCoord], a
 	call GetBattleAnimByte
@@ -1378,12 +1388,9 @@ ClearBattleAnims::
 	jr nz, .loop
 
 	ld hl, wFXAnimID
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	ld hl, BattleAnimations
-	add hl, de
-	add hl, de
+	ld a, [hli]
+	ld c, a
+	ld b, [hl]
 	call GetBattleAnimPointer
 	call BattleAnimAssignPals
 	call BattleAnimDelayFrame

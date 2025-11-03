@@ -89,7 +89,7 @@ LoadPartyMenuMonIconColors:
 	add hl, de
 	ld a, [hl]
 	ld [wCurPartySpecies], a
-	ld a, MON_DVS
+	ld a, MON_SHINY ; get the shiny flag
 	call GetPartyParamLocation
 	call GetMenuMonIconPalette
 	ld hl, wShadowOAMSprite00Attributes
@@ -367,7 +367,7 @@ SetPartyMonIconAnimSpeed:
 	db $80 ; HP_RED
 
 NamingScreen_InitAnimatedMonIcon:
-	ld hl, wTempMonDVs
+	ld hl, wTempMonShinyFlag
 	call SetMenuMonIconColor
 	ld a, [wTempIconSpecies]
 	push hl
@@ -385,7 +385,7 @@ NamingScreen_InitAnimatedMonIcon:
 	ret
 
 MoveList_InitAnimatedMonIcon:
-	ld a, MON_DVS
+	ld a, MON_SHINY
 	call GetPartyParamLocation
 	call SetMenuMonIconColor
 	ld a, [wTempIconSpecies]
@@ -417,7 +417,7 @@ Trade_LoadMonIconGFX:
 GetSpeciesIcon:
 ; Load species icon into VRAM at tile a
 	push de
-	ld a, MON_DVS
+	ld a, MON_SHINY
 	call GetPartyParamLocation
 	call SetMenuMonIconColor
 	ld a, [wTempIconSpecies]
@@ -451,7 +451,7 @@ FlyFunction_GetMonIcon:
 	; Edit the OBJ 0 palette so that the flying Pokémon has the right colors.
 	ld a, [wTempIconSpecies]
 	ld [wCurPartySpecies], a
-	ld a, MON_DVS
+	ld a, MON_SHINY
 	call GetPartyParamLocation
 	call GetMenuMonIconPalette
 	add a

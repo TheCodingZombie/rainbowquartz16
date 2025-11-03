@@ -11,6 +11,10 @@ GiveShuckle:
 	ld [wCurPartySpecies], a
 	ld a, 15
 	ld [wCurPartyLevel], a
+	ld a, $ff
+	ld [wCurPartyDVs], a
+	ld a, $ff
+	ld [wCurPartyDVs + 1], a ; set all of Shuckie's DVs to 15
 
 	predef TryAddMonToParty
 	jr nc, .NotGiven
@@ -32,12 +36,29 @@ GiveShuckle:
 	pop af
 
 ; OT ID.
+	push af
+	push bc
 	ld hl, wPartyMon1ID
 	call AddNTimes
 	ld a, HIGH(MANIA_OT_ID)
 	ld [hli], a
 	ld [hl], LOW(MANIA_OT_ID)
+	pop bc
+	pop af
+	
+	; Check for Shininess (1/512 chance for gift mon).
+	call Random
+	and a
+	jr nz, .nickname ; not shiny
+	call Random
+	cp GIFT_SHINY_NUMERATOR ; 128/256 chance not shiny
+	jr nc, .nickname ; not shiny
+	; Make shiny
+	ld a, [hl]
+	or 1
+	ld [hl], a
 
+.nickname
 ; Nickname.
 	ld a, [wPartyCount]
 	dec a

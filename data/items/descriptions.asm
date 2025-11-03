@@ -42,8 +42,8 @@ ItemDescriptions:
 	dw ReviveDesc
 	dw MaxReviveDesc
 	dw GuardSpecDesc
-	dw SuperRepelDesc
-	dw MaxRepelDesc
+	dw XSpecDefDesc
+	dw XHPDesc
 	dw DireHitDesc
 	dw GoldAxeDesc
 	dw FreshWaterDesc
@@ -419,13 +419,13 @@ GuardSpecDesc:
 	db   "Prevents stats"
 	next "reduction. (1 BTL)@"
 
-SuperRepelDesc:
-	db   "Repels weak #-"
-	next "MON for 200 steps.@"
+XSpecDefDesc:
+	db   "Raises SPCL. DEF"
+	next "EV by 1.@"
 
-MaxRepelDesc:
-	db   "Repels weak #-"
-	next "MON for 250 steps.@"
+XHPDesc:
+	db   "Raises HP"
+	next "EV by 1.@"
 
 DireHitDesc:
 	db   "Ups critical hit"
@@ -448,24 +448,24 @@ LemonadeDesc:
 	next "HP by 80.@"
 
 XAttackDesc:
-	db   "Raises ATTACK."
-	next "(1 BTL)@"
+	db   "Raises ATTACK"
+	next "EV by 1.@"
 
 PaperPlaneDesc:
 	db   "An item that"
 	next "lets you fly.@"
 
 XDefendDesc:
-	db   "Raises DEFENSE."
-	next "(1 BTL)@"
+	db   "Raises DEFENSE"
+	next "EV by 1.@"
 
 XSpeedDesc:
-	db   "Raises SPEED."
-	next "(1 BTL)@"
+	db   "Raises SPEED"
+	next "EV by 1.@"
 
 XSpecialDesc:
-	db   "Raises SPECIAL"
-	next "ATTACK. (1 BTL)@"
+	db   "Raises SPCL. ATK"
+	next "EV by 1.@"
 
 CoinCaseDesc:
 	db   "Holds up to 9,999"
@@ -911,7 +911,7 @@ BerryDesc:
 
 GoldBerryDesc:
 	db   "A self-restore"
-	next "item. (30HP, HOLD)@"
+	next "item.(100HP, HOLD)@"
 
 SquirtBottleDesc:
 	db   "A bottle used for"

@@ -82,6 +82,7 @@ GeneratePartyMonStats:
 ; wBattleMode specifies whether it's a wild mon or not.
 ; wMonType specifies whether it's an opposing mon or not.
 ; wCurPartySpecies/wCurPartyLevel specify the species and level.
+; wCurPartyDVs specify the DVs (if it is set to something other than $fc)
 ; hl points to the wPartyMon struct to fill.
 
 	ld e, l
@@ -200,10 +201,19 @@ endr
 	and a
 	jr nz, .copywildmonDVs
 
+	ld a, [wCurPartyDVs]
+	and a
+	jr nz, .setDVs 
+
 	call Random
 	ld b, a
 	call Random
 	ld c, a
+	jr .initializeDVs 
+.setDVs
+	ld b, $ff
+    ld c, $ff
+
 .initializeDVs
 	ld a, b
 	ld [de], a
@@ -276,6 +286,7 @@ endr
 	ld [de], a
 	inc de
 
+.startpploop
 	push hl
 	ld hl, wEnemyMonPP
 	ld b, NUM_MOVES
@@ -1669,12 +1680,19 @@ GivePoke::
 	push af
 	ld a, [wCurItem]
 	and a
-	jr z, .done
+	jr z, .party_check_shiny
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMon1Item
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [wCurItem]
+	ld [hl], a
+
+.party_check_shiny
+	call .check_shiny
+	jr nc, .done ; not shiny or forced shiny
+	ld a, [wShinyFlag]
+	or 1
 	ld [hl], a
 	jr .done
 
@@ -1697,9 +1715,35 @@ GivePoke::
 	push af
 	ld a, [wCurItem]
 	and a
-	jr z, .done
+	jr z, .box_check_form ; skip boxmon item
 	ld a, [wCurItem]
 	ld [sBoxMon1Item], a
+
+.box_check_form
+	; check if shininess should be applied
+	call .check_shiny
+	jr nc, .done ; not shiny or forced shiny
+	ld a, [wShinyFlag]
+	or 1
+	ld [sBoxMon1ShinyFlag], a
+	jr .done
+	
+; 1/512 chance of being shiny (when not forced shiny)
+.check_shiny
+	ld a, [wShinyFlag]
+	and 1
+	jr nz, .skip_shiny ; already shiny
+	call Random
+	and a
+	jr nz, .skip_shiny ; 255/256 not shiny
+	call Random
+	cp GIFT_SHINY_NUMERATOR ; 128/256 still not shiny
+	ret nc ; not shiny
+	; It's shiny!
+	ret
+.skip_shiny
+	xor a ; clear carry flag
+	ret
 
 .done
 	ld a, [wCurPartySpecies]

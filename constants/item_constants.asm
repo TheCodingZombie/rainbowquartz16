@@ -47,8 +47,8 @@
 	const REVIVE       ; 27
 	const MAX_REVIVE   ; 28
 	const GUARD_SPEC   ; 29
-	const SUPER_REPEL  ; 2a
-	const MAX_REPEL    ; 2b
+	const X_SPECDEF    ; 2a
+	const X_HP	       ; 2b
 	const DIRE_HIT     ; 2c
 	const GOLD_AXE     ; 2d
 	const FRESH_WATER  ; 2e

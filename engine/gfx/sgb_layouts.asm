@@ -46,6 +46,7 @@ SGBLayoutJumptable:
 	dw .SGB_MagnetTrain
 	dw .SGB_PackPals
 	dw .SGB_TrainerCard
+	dw .SGB_TrainerCardKanto
 	dw .SGB_PokedexUnownMode
 	dw .SGB_BillsPC
 	dw .SGB_UnownPuzzle
@@ -180,7 +181,7 @@ SGBLayoutJumptable:
 	ld a, [hl]
 	ld [wSGBPals + 6], a
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wPartyMon1ShinyFlag
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 9], a
@@ -240,7 +241,7 @@ SGBLayoutJumptable:
 	inc hl
 	ld [hl], HIGH(palred 26 + palgreen 10 + palblue 6)
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wPartyMon1ShinyFlag
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 9], a
@@ -378,7 +379,7 @@ endr
 	jr .done
 
 .partymon
-	ld hl, wPartyMon1DVs
+	ld hl, wPartyMon1ShinyFlag
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wCurPartyMon]
 	call AddNTimes
@@ -402,6 +403,7 @@ endr
 
 .SGB_Unused0D:
 .SGB_TrainerCard:
+.SGB_TrainerCardKanto:
 	ld hl, PalPacket_Diploma
 	ld de, BlkPacket_AllPal0
 	ret
@@ -482,7 +484,7 @@ endr
 	ld bc, PALPACKET_LENGTH
 	call CopyBytes
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wPartyMon1ShinyFlag
 	call GetPlayerOrMonPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 3], a
@@ -507,7 +509,7 @@ endr
 	ld bc, PALPACKET_LENGTH
 	call CopyBytes
 	ld a, [wCurPartySpecies]
-	ld bc, wTempMonDVs
+	ld bc, wPartyMon1ShinyFlag
 	call GetFrontpicPalettePointer
 	ld a, [hli]
 	ld [wSGBPals + 3], a

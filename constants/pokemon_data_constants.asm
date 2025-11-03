@@ -90,7 +90,8 @@ DEF MON_DEF_EV             rb
 DEF MON_SPD_EV             rb
 DEF MON_SAT_EV             rb
 DEF MON_SDF_EV             rb
-                           rb_skip 4
+                           rb_skip 3
+DEF MON_SHINY			   rb
 DEF MON_DVS                rw
 DEF MON_PP                 rb NUM_MOVES
 DEF MON_HAPPINESS          rb
@@ -124,6 +125,17 @@ DEF REDMON_STRUCT_LENGTH EQU 44
 
 DEF CAUGHT_TIME_MASK EQU %11000000
 DEF EXP_MASK         EQU %00111111
+
+; These numerators are used after a 1/256 check, resulting in a denominator of 65536.
+DEF SHINY_NUMERATOR EQU 8 ; 8/65536 = 1/8192
+DEF GIFT_SHINY_NUMERATOR EQU 128 ; 128/65536 = 1/512
+DEF SHINY_EGG_NUMERATOR EQU 16 ; 16/65536 = 1/4096  
+
+; These numerators do not have a preceding 1/256 check, resulting in a denominator of 256.
+DEF SHINY_EGG_ONE_SHINY_PARENT_NUMERATOR EQU 4 ; 4/256 = 1/64
+DEF SHINY_EGG_TWO_SHINY_PARENTS_NUMERATOR EQU 8 ; 8/256 = 1/32
+
+; thx to joseph bayer for these changes https://github.com/joseph-bayer/crystal-for-friends/commit/81cc7a9fdc7d77754eaaa15431a64c4181d6b4a7
 
 ; caught data
 

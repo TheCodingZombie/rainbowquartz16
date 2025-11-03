@@ -1608,7 +1608,7 @@ HandleDefrost:
 	ret nz
 
 	call BattleRandom
-	cp 10 percent
+	cp 20 percent
 	ret nc
 	xor a
 	ld [wBattleMonStatus], a
@@ -1629,7 +1629,7 @@ HandleDefrost:
 	and a
 	ret nz
 	call BattleRandom
-	cp 10 percent
+	cp 20 percent
 	ret nc
 	xor a
 	ld [wEnemyMonStatus], a
@@ -3973,11 +3973,11 @@ InitBattleMon:
 	ret
 
 BattleCheckPlayerShininess:
-	call GetPartyMonDVs
+	call GetPartyMonShinyFlag
 	jr BattleCheckShininess
 
 BattleCheckEnemyShininess:
-	call GetEnemyMonDVs
+	call GetEnemyMonShinyFlag
 
 BattleCheckShininess:
 	ld b, h
@@ -4004,6 +4004,28 @@ GetEnemyMonDVs:
 	dec a
 	ret z
 	ld hl, wOTPartyMon1DVs
+	ld a, [wCurOTMon]
+	jp GetPartyLocation
+
+GetPartyMonShinyFlag:
+	ld hl, wBattleMonShinyFlag
+	ld a, [wPlayerSubStatus5]
+	bit SUBSTATUS_TRANSFORMED, a
+	ret z
+	ld hl, wPartyMon1ShinyFlag
+	ld a, [wCurBattleMon]
+	jp GetPartyLocation
+
+GetEnemyMonShinyFlag:
+	ld hl, wEnemyMonShinyFlag
+	ld a, [wEnemySubStatus5]
+	bit SUBSTATUS_TRANSFORMED, a
+	ret z
+	ld hl, wEnemyBackupDVs
+	ld a, [wBattleMode]
+	dec a
+	ret z
+	ld hl, wOTPartyMon1ShinyFlag
 	ld a, [wCurOTMon]
 	jp GetPartyLocation
 
@@ -6202,12 +6224,28 @@ LoadEnemyMon:
 	cp BATTLETYPE_FORCESHINY
 	jr nz, .GenerateDVs
 
-	ld b, ATKDEFDV_SHINY ; $ea
-	ld c, SPDSPCDV_SHINY ; $aa
+	ld a, [wEnemyMonShinyFlag]
+	or 1 ; set shiny bit
+	ld [wEnemyMonShinyFlag], a
+
+	ld b, $ff
+	ld c, $ff ; give red gyarados perfect DVs
 	jr .UpdateDVs
 
 .GenerateDVs:
-; Generate new random DVs
+	; generate shininess here
+	call Random
+	and a
+	jp nz, .Finish ; 255/256 not shiny
+	call Random
+	cp SHINY_NUMERATOR
+	jp nc, .Finish ; 248/256 still not shiny
+	; It's shiny!
+	ld a, [wEnemyMonShinyFlag]
+	or 1 ; set shiny bit
+	ld [wEnemyMonShinyFlag], a
+	
+	; Generate new random DVs
 	call BattleRandom
 	ld b, a
 	call BattleRandom
@@ -6322,7 +6360,7 @@ LoadEnemyMon:
 ; Try again if length < 1024 mm (i.e. if HIGH(length) < 3 feet)
 	ld a, [wMagikarpLength]
 	cp HIGH(1024)
-	jr c, .GenerateDVs ; try again
+	jp c, .GenerateDVs ; try again
 
 ; Finally done with DVs
 

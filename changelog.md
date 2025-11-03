@@ -798,7 +798,11 @@
     - Added a Pocket PC
         - Allows you to access the PC from anywhere.
     - Added a Candy Case
-        - Gives you 99 Rare Candies to level up your Pokemon to the level cap.
+        - Gives you 99 Rare Candies to level up your Pokemon.
+        - Also gives you 6 Max Candies.
+    - Added Max Candies
+        - Max Candies automatically level up your Pokemon to the current level cap.
+        - Be sure to use these again once you get a new gym badge!
     - Added a Pocket Move Reminder
         - Allows you to access a Move Reminder from anywhere.
     - Apricorn Trees are now more plentiful
@@ -814,10 +818,18 @@
         - But instead of just removing it in a clunky way, I made it so that it makes a bit more sense with their dialogue
     - You now gain experience for catching Pokemon.
     - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
+    - Sleep now only lasts between 1-3 turns.
+    - Freeze now has a 20% chance to defrost (as opposed to 10%).
+    - Gold Berry now heals 100 HP (30 HP previously) and is now the Sitrus Berry.
+    - 100% chance to catch Pokemon, regardless of the Ball.
+    - Vitamins give 32 EVs as opposed to just 10. The previous cap of 100 EVs have been removed.
+    - The X Items function similarly to the Feathers in modern games, adding 1 EV to a stat. 
 - Visual Changes
     - Balls now have special colors
     - New Instant Text Speed
     - TMs now show their name when received or buying
     - Full Color Pokemon Pics when seeing them in the overworld
     - Added custom icons (credits to LuigiTKO) to the party screen as well as custom palettes for each of them.
-    - Added a fourth page to the stats screen that displayed catching information.
+    - Added a fourth page to the stats screen that displays DVs and EVs.
+    - Changed Berries to their Modern Names.
+    - You can see the Level Cap in the Trainer Card.

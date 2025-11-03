@@ -297,20 +297,26 @@ ENDM
 	const givepoke_command ; $2d
 MACRO givepoke
 	if _NARG == 2
-		givepoke \1, \2, NO_ITEM, FALSE
+		givepoke \1, \2, NO_ITEM, 0, 0, FALSE ; $fc is used to get a random DV
 	elif _NARG == 3
-		givepoke \1, \2, \3, FALSE
+		givepoke \1, \2, \3, 0, 0, FALSE
+	elif _NARG == 4
+		givepoke \1, \2, \3, \4, 0, FALSE
 	elif _NARG == 5
-		givepoke \1, \2, \3, TRUE, \4, \5
+		givepoke \1, \2, \3, \4, \5, FALSE
+	elif _NARG == 7
+		givepoke \1, \2, \3, \4, \5, TRUE, \6, \7
 	else
 		db givepoke_command
 		dw \1 ; pokemon
 		db \2 ; level
 		db \3 ; item
-		db \4 ; trainer
-		if \4
-			dw \5 ; nickname_pointer
-			dw \6 ; ot_name_pointer
+		db \4 ; shiny
+		dw \5 ; DVs
+		db \6 ; trainer
+		if \6
+			dw \7 ; nickname_pointer
+			dw \8 ; ot_name_pointer
 		endc
 	endc
 ENDM
@@ -794,16 +800,15 @@ MACRO refreshmap
 	db refreshmap_command
 ENDM
 
-	const writecmdqueue_command ; $7d
-MACRO writecmdqueue
-	db writecmdqueue_command
-	dw \1 ; queue_pointer
+	const usestonetable_command ; $7d
+MACRO usestonetable
+	db usestonetable_command
+	dw \1 ; stonetable_pointer
 ENDM
 
-	const delcmdqueue_command ; $7e
-MACRO delcmdqueue
-	db delcmdqueue_command
-	db \1 ; byte
+	const clearstonetable_command ; $7e
+MACRO clearstonetable
+	db clearstonetable_command
 ENDM
 
 	const playmusic_command ; $7f

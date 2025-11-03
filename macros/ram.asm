@@ -17,7 +17,8 @@ MACRO box_struct
 \1SpdEV::          db
 \1SpclAtkEV::      db
 \1SpclDefEV::      db
-\1Padding::        ds 4
+\1Padding::        ds 3
+\1ShinyFlag::	   db
 \1DVs::            dw
 \1PP::             ds NUM_MOVES
 \1Happiness::      db
@@ -98,6 +99,7 @@ MACRO battle_struct
 \1Type::
 \1Type1::     db
 \1Type2::     db
+\1ShinyFlag:: db
 \1StructEnd::
 ENDM
 
@@ -220,6 +222,7 @@ MACRO roam_struct
 \1MapNumber:: db
 \1HP::        db
 \1DVs::       dw
+\1ShinyFlag:: db
 ENDM
 
 MACRO bugcontestwinner
@@ -231,6 +234,7 @@ ENDM
 MACRO hof_mon
 \1Species::  dw
 \1ID::       dw
+\1ShinyFlag:: db
 \1DVs::      dw
 \1Level::    db
 \1Nickname:: ds MON_NAME_LENGTH - 1

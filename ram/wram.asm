@@ -1510,8 +1510,6 @@ wCurSpecies:: db
 
 wNamedObjectType:: db
 
-	ds 1
-
 wJumptableIndex::
 wBattleTowerBattleEnded::
 	db
@@ -1548,7 +1546,7 @@ NEXTU
 ; trainer card badges
 wTrainerCardBadgeFrameCounter:: db
 wTrainerCardBadgeTileID:: db
-wTrainerCardBadgeAttributes:: db
+wTrainerCardBadgePaletteAddr:: dw
 
 NEXTU
 ; slot machine
@@ -2702,7 +2700,9 @@ wCurBaseDataEnd::
 
 wCurDamage:: dw
 
-	ds 2
+wShinyFlag:: db
+
+	ds 1
 
 wMornEncounterRate::  db
 wDayEncounterRate::   db
@@ -2854,7 +2854,9 @@ wMapReentryScriptQueueFlag:: db
 wMapReentryScriptBank:: db
 wMapReentryScriptAddress:: dw
 
-	ds 4
+wCurPartyDVs:: dw
+
+	ds 2
 
 wTimeCyclesSinceLastCall:: db
 wReceiveCallDelay_MinsRemaining:: db
@@ -2940,9 +2942,9 @@ for n, 1, NUM_OBJECT_STRUCTS
 wObject{d:n}Struct:: object_struct wObject{d:n}
 endr
 
-wCmdQueue:: ds CMDQUEUE_CAPACITY * CMDQUEUE_ENTRY_SIZE
+wStoneTableAddress:: dw
 
-	ds 40
+	ds 62
 
 wMapObjects::
 wPlayerObject:: map_object wPlayer ; player is map object 0
@@ -3575,15 +3577,17 @@ wLastAnimObjectIndex:: db
 
 wBattleAnimFlags:: db
 wBattleAnimAddress:: dw
+wBattleAnimBank:: db
 wBattleAnimDelay:: db
 wBattleAnimParent:: dw
+wBattleAnimParentBank:: db
 wBattleAnimLoops:: db
 wBattleAnimVar:: db
 wBattleAnimByte:: db
 wBattleAnimOAMPointerLo:: db
 
 UNION
-wBattleObjectTempID:: db
+wBattleObjectTempID:: dw
 wBattleObjectTempXCoord:: db
 wBattleObjectTempYCoord:: db
 wBattleObjectTempParam:: db

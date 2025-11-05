@@ -1,4 +1,5 @@
 MoveEffectPriorities:
+	db EFFECT_FAKE_OUT,		6
 	db EFFECT_TRANSFORM,	5
 	db EFFECT_PROTECT,      4
 	db EFFECT_ENDURE,       4

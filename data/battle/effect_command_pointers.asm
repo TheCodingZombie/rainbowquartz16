@@ -181,4 +181,6 @@ BattleCommandPointers:
 	dw BattleCommand_StartLoop
 	dw BattleCommand_Curl
 	dw BattleCommand_Burn
+	dw BattleCommand_WeatherBall
+	dw BattleCommand_Facade
 	assert_table_length NUM_EFFECT_COMMANDS

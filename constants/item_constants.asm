@@ -152,13 +152,13 @@
 	const DRAGON_FANG  ; 90
 	const PCKT_REMIND  ; 91
 	const LEFTOVERS    ; 92
-	const ITEM_93      ; 93
+	const PCKT_DELETE  ; 93
 	const MAX_CANDY    ; 94
-	const ITEM_95      ; 95
+	const NAME_CHANGE  ; 95
 	const MYSTERYBERRY ; 96
 	const DRAGON_SCALE ; 97
 	const BERSERK_GENE ; 98
-	const ITEM_99      ; 99
+	const VITAMIN_BOX  ; 99
 	const ITEM_9A      ; 9a
 	const ITEM_9B      ; 9b
 	const SACRED_ASH   ; 9c

@@ -316,7 +316,7 @@ BattleAnim_Guillotine:
 	anim_ret
 
 BattleAnim_RazorWind:
-	anim_if_param_equal $1, BattleAnim_FocusEnergy
+	;anim_if_param_equal $1, BattleAnim_FocusEnergy
 	anim_1gfx BATTLE_ANIM_GFX_WHIP
 	anim_bgeffect BATTLE_BG_EFFECT_CYCLE_OBPALS_GRAY_AND_YELLOW, $0, $1, $0
 .loop
@@ -2096,7 +2096,6 @@ BattleAnim_Swift:
 	anim_ret
 
 BattleAnim_SkullBash:
-	anim_if_param_equal $1, BattleAnim_FocusEnergy
 	anim_1gfx BATTLE_ANIM_GFX_HIT
 	anim_bgeffect BATTLE_BG_EFFECT_SHAKE_SCREEN_X, $14, $2, $0
 	anim_wait 32

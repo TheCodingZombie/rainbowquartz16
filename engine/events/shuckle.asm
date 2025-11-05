@@ -11,10 +11,6 @@ GiveShuckle:
 	ld [wCurPartySpecies], a
 	ld a, 15
 	ld [wCurPartyLevel], a
-	ld a, $ff
-	ld [wCurPartyDVs], a
-	ld a, $ff
-	ld [wCurPartyDVs + 1], a ; set all of Shuckie's DVs to 15
 
 	predef TryAddMonToParty
 	jr nc, .NotGiven

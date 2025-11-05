@@ -13,6 +13,24 @@
     - Celebi (Psychic -> Fairy)
 - Added the Polka Dot Bow as a way to boost Fairy-type Moves.
 - Move Additions:
+    - All moves from Gen 3.
+        - Changed Moves are listed below.
+        - Uproar
+            - Now a 120 BP Normal type Special move that is a clone of Outrage.
+        - Brick Break
+            - Now removes stat changes before dealing damage (future Clear Smog?) (but it removes stat changes from both sides of the field so).
+        - Charge
+            - Now increases Sp. Atk.
+        - Dive
+            - Now a 40 BP Priority Move, though this one is Special to differentiate it from Aqua Jet
+        - Mist Ball
+            - Now an Ice Type 80 BP move that may lower Accuracy.
+        - Wish
+            - Now just a Fairy type Recover clone (better than Moonlight in some situations).
+        - Feather Dance
+            - Now increases user's Defense by two stages instead of lowering the target's Attack by two stages.
+        - Air Cutter
+            - Now may increase user's Speed. (future Flame Charge?)
     - Draco Meteor
         - 140 BP, will lower the user's Sp Atk by 2 stages
         - Dragon Type
@@ -21,12 +39,6 @@
         - 95 BP, may lower target's Sp. Atk by 1 stage
         - Fairy Type
         - Also added Moonblast to several Fairy-type Pokemon's movesets 
-    - Hail
-        - Sets Hail for 5 turns
-        - Hail deals damage to non-Ice types, boosts the damage of Ice-type moves, increases Ice-type Defense.
-        - Much like other weather moves, this move has heightened priority.
-    - Will-O-Wisp
-        - Burns the target.
 # Changes
 - In addition to the Fairy Changes, the following Pokemon now have type Changes:
     - Typhlosion (Fire -> Fire/Ghost)
@@ -391,6 +403,8 @@
         - Added Shadow Ball at level 68
         - Added Fire Blast to level 73
         - Moved Flamethrower back down to level 54 (was level 60)
+        - Moved Swift to level 42
+        - Added Will-O-Wisp to level 49
     - Feraligatr
         - Added Dragon Breath to level 32
         - Added Crunch at level 52
@@ -759,11 +773,13 @@
         - Added Giga Drain to level 53
         - Added Sweet Scent to level 62
         - Added Synthesis to level 69
+    - Bellossom
+        - Added Aromatherapy to level 56, moving Solar Beam to level 63
 - Type Changes
     - Ice
-        - Ice is now Super Effective to and Resists Water
+        - Ice is now Super Effective to Water
         - Ice is now neutral to Fire in both directions
-        - Ice now Resists Flying and Dragon
+        - Ice now Resists Flying, Water, and Dragon
     - Bug
         - Bug is now Super Effective to Fairy and Fighting
         - Bug now resists Psychic, Dark, and Poison
@@ -779,10 +795,33 @@
 - Item Changes
     - Light Ball
         - Light Ball now boosts both Pikachu and Raichu
+    - Added a Pocket PC
+        - Allows you to access the PC from anywhere.
+    - Added a Candy Case
+        - Gives you 99 Rare Candies to level up your Pokemon.
+        - Also gives you 6 Max Candies.
+        - Rare Candies no longer have a price so you can't sell them for infinite money.
+    - Added a Vitamin Case
+        - Gives 16 of each Vitamin and 64 of each X Item
+        - Vitamins and the X Items that boost stat EVs no longer have a price so you can't sell them for infinite money.
+    - Added Max Candies
+        - Max Candies automatically level up your Pokemon to the current level cap.
+        - Be sure to use these again once you get a new gym badge!
+    - Added a Pocket Move Reminder
+        - Allows you to access a Move Reminder from anywhere.
+    - Apricorn Trees are now more plentiful
+    - TMs are now infinitely reusable, much like Gen 5 or HMs!
+    - Added some items that let you use certain field moves without a Pokemon
+        - Also added features that give you these items when beating certain gyms
+    - Gold Berry now heals 100 HP (30 HP previously) and is now the Sitrus Berry.
+    - Vitamins give 32 EVs as opposed to just 10. The previous cap of 100 EVs have been removed.
+    - The X Items function similarly to the Feathers in modern games, adding 1 EV to a stat.
+    - Decoupled Shiny odds and DVs, meaning Shinies now can have perfect DVs.
+    - Elm's Aide now gives you 99 Pokeballs. 
 - Battle Changes
     - Physical/Special Split is now fully implemented
     - Trainers are now much more capable and can have all of the following specified in their data:
-        -  Custom DVs and Stat EXP
+        -  Custom DVs and EVs
         -  Custom Friendship
         -  Custom Nicknames
         -  Trainer Parties can scale with Badges
@@ -793,37 +832,20 @@
     - Switched out the Stat EXP system for the EV system from modern games.
     - Also added the Macho Brace to help quicken the process
     - Added Badge-specific Level Caps (so you can't abuse the Candy Case to get OP)
+    - Sleep now only lasts between 1-3 turns.
+    - Freeze now has a 20% chance to defrost (as opposed to 10%).
 - Misc Changes
     - Kurt now instantly makes his Apricorn Balls
-    - Added a Pocket PC
-        - Allows you to access the PC from anywhere.
-    - Added a Candy Case
-        - Gives you 99 Rare Candies to level up your Pokemon.
-        - Also gives you 6 Max Candies.
-    - Added Max Candies
-        - Max Candies automatically level up your Pokemon to the current level cap.
-        - Be sure to use these again once you get a new gym badge!
-    - Added a Pocket Move Reminder
-        - Allows you to access a Move Reminder from anywhere.
-    - Apricorn Trees are now more plentiful
-    - TMs are now infinitely reusable, much like Gen 5 or HMs!
     - Added Running!
         - Credits:
             - Tom Wang/froyomuffin (Chris Running Sprite)
             - Seasick (Kris Running Sprite)
-    - Added some items that let you use certain field moves without a Pokemon
-        - Also added features that give you these items when beating certain gyms
     - Removed the Catching Tutorial
         - Because for some reason it was causing issues...
         - But instead of just removing it in a clunky way, I made it so that it makes a bit more sense with their dialogue
     - You now gain experience for catching Pokemon.
     - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
-    - Sleep now only lasts between 1-3 turns.
-    - Freeze now has a 20% chance to defrost (as opposed to 10%).
-    - Gold Berry now heals 100 HP (30 HP previously) and is now the Sitrus Berry.
     - 100% chance to catch Pokemon, regardless of the Ball.
-    - Vitamins give 32 EVs as opposed to just 10. The previous cap of 100 EVs have been removed.
-    - The X Items function similarly to the Feathers in modern games, adding 1 EV to a stat. 
 - Visual Changes
     - Balls now have special colors
     - New Instant Text Speed

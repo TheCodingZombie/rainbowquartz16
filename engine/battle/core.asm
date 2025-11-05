@@ -6236,16 +6236,17 @@ LoadEnemyMon:
 	; generate shininess here
 	call Random
 	and a
-	jp nz, .Finish ; 255/256 not shiny
+	jp nz, .RandomDVs ; 255/256 not shiny
 	call Random
 	cp SHINY_NUMERATOR
-	jp nc, .Finish ; 248/256 still not shiny
+	jp nc, .RandomDVs ; 248/256 still not shiny
 	; It's shiny!
 	ld a, [wEnemyMonShinyFlag]
 	or 1 ; set shiny bit
 	ld [wEnemyMonShinyFlag], a
 	
 	; Generate new random DVs
+.RandomDVs:
 	call BattleRandom
 	ld b, a
 	call BattleRandom

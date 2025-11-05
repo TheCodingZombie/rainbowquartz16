@@ -1921,10 +1921,6 @@ Script_givepoke:
 	call GetScriptByte
 	ld [wShinyFlag], a
 	call GetScriptByte
-	ld [wCurPartyDVs], a
-	call GetScriptByte
-	ld [wCurPartyDVs + 1], a
-	call GetScriptByte
 	and a
 	ld b, a
 	jr z, .ok

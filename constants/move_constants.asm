@@ -259,11 +259,97 @@ DEF GEN1_MOVES EQU const_value - 1
 	const WHIRLPOOL    ; fa
 	const BEAT_UP      ; fb
 DEF GEN2_MOVES EQU const_value - 1
-	const DRACO_METEOR ; fc
-	const MOONBLAST    ; fd
-	const HAIL		   ; fe
-	const CANNOT_MOVE  ; ff
-	const WILL_O_WISP  ; 100
+	const FAKE_OUT	   ; fc
+	const UPROAR	   ; fd
+	const HEAT_WAVE	   ; fe
+	const CANNOT_MOVE  ; ff 
+	const HAIL	
+	const WILL_O_WISP
+	const MEMENTO
+	const FACADE
+	const FOCUS_PUNCH
+	const CHARGE
+	const TAUNT
+	const TRICK
+	const WISH
+	const INGRAIN
+	const SUPERPOWER
+	const MAGIC_COAT
+	;const RECYCLE
+	const REVENGE
+	const BRICK_BREAK
+	const YAWN
+	const KNOCK_OFF
+	const ENDEAVOR
+	const ERUPTION
+	;const SKILL_SWAP Abilities do not exist
+	;const IMPRISON
+	const REFRESH
+	;const SNATCH
+	const DIVE
+	const ARM_THRUST
+	const TAIL_GLOW
+	const LUSTER_PURGE
+	const MIST_BALL
+	const FEATHERDANCE
+	const BLAZE_KICK
+	const ICE_BALL
+	const NEEDLE_ARM
+	const SLACK_OFF
+	const HYPER_VOICE
+	const POISON_FANG
+	const CRUSH_CLAW
+	const BLAST_BURN
+	const HYDRO_CANNON
+	const METEOR_MASH
+	const ASTONISH
+	const WEATHER_BALL
+	const AROMATHERAPY
+	const FAKE_TEARS
+	const AIR_CUTTER
+	const OVERHEAT
+	const ODOR_SLEUTH
+	const ROCK_TOMB
+	const SILVER_WIND
+	const METAL_SOUND
+	const GRASSWHISTLE
+	const TICKLE
+	const COSMIC_POWER
+	const WATER_SPOUT
+	const SIGNAL_BEAM
+	const SHADOW_PUNCH
+	const EXTRASENSORY
+	const SKY_UPPERCUT
+	const SAND_TOMB
+	const SHEER_COLD
+	const MUDDY_WATER
+	const BULLET_SEED
+	const AERIAL_ACE
+	const ICICLE_SPEAR
+	const IRON_DEFENSE
+	const BLOCK
+	const HOWL
+	const DRAGON_CLAW
+	const FRENZY_PLANT
+	const BULK_UP
+	const BOUNCE
+	const MUD_SHOT
+	const POISON_TAIL
+	const COVET
+	const VOLT_TACKLE
+	const MAGICAL_LEAF
+	const CALM_MIND
+	const LEAF_BLADE
+	const DRAGON_DANCE
+	const ROCK_BLAST
+	const SHOCK_WAVE
+	const WATER_PULSE
+	const DOOM_DESIRE
+	const PSYCHO_BOOST
+DEF GEN3_MOVES EQU const_value - 1
+	const DRACO_METEOR
+;DEF GEN4_MOVES EQU const_value - 1
+	const MOONBLAST    	
 DEF NEW_MOVES EQU const_value - 1
 
 DEF NUM_ATTACKS EQU const_value - 1

@@ -934,6 +934,8 @@ BattleCommand_CheckObedience:
 
 INCLUDE "data/moves/flail_reversal_power.asm"
 
+INCLUDE "data/moves/eruption_power.asm"
+
 IgnoreSleepOnly:
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVar
@@ -1596,6 +1598,9 @@ BattleCommand_DamageVariation:
 	ret
 
 BattleCommand_CheckHit:
+	
+	call .FirstTurn
+
 	call .DreamEater
 	jp z, .Miss
 
@@ -1675,6 +1680,25 @@ BattleCommand_CheckHit:
 .Missed:
 	ld a, 1
 	ld [wAttackMissed], a
+	ret
+
+.FirstTurn:
+; Fake Out only work on the first turn the user is in battle.
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_FAKE_OUT
+	ret nz
+
+	ld hl, wPlayerTurnsTaken
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .FirstTurn_GotTurn
+	ld hl, wEnemyTurnsTaken
+.FirstTurn_GotTurn
+	ld b, 1
+	ld a, [hl]
+	cp b
+	jp nz, .Missed
 	ret
 
 .DreamEater:
@@ -3270,8 +3294,14 @@ BattleCommand_ConstantDamage:
 	cp EFFECT_SUPER_FANG
 	jr z, .super_fang
 
+	cp EFFECT_ENDEAVOR
+	jp z, .endeavor
+
 	cp EFFECT_REVERSAL
 	jr z, .reversal
+
+	cp EFFECT_ERUPTION
+	jr z, .eruption_water_spout_power
 
 	ld a, BATTLE_VARS_MOVE_POWER
 	call GetBattleVar
@@ -3322,6 +3352,10 @@ BattleCommand_ConstantDamage:
 	ld [hli], a
 	ld [hl], b
 	ret
+
+.eruption_water_spout_power:
+	ld hl, EruptionWaterSpoutPower
+	jr .reversal_loop
 
 .reversal
 	ld hl, wBattleMonHP
@@ -3402,6 +3436,73 @@ BattleCommand_ConstantDamage:
 	pop hl
 	ld [hl], 1
 	ret
+
+.endeavor
+	ld hl, wBattleMonHP
+	ld de, wEnemyMonHP
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .got_endeavor_hp
+	ld hl, wEnemyMonHP
+	ld de, wBattleMonHP
+.got_endeavor_hp
+; User's HP in bc
+	ld a, [hli]
+	ld b, a
+	ld a, [hli]
+	ld c, a
+
+; Target's HP in de
+	ld h, d
+	ld l, e
+	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+	ld e, a
+
+; Only proceed if the target's HP is more than the user's.
+; Otherwise, the move fails.
+	ld a, b
+	cp d
+	jr c, .endeavor_get_power
+	ld a, c
+	cp e
+	jr nc, .failed
+
+.endeavor_get_power
+; Subtract the user's HP (bc) from the target's HP (hl).
+; Dealing this much damage will make the target's HP equal the user's HP.
+	ld h, d
+	ld l, e
+
+	push bc
+	ld a, b
+	cpl
+	ld b, a
+	ld a, c
+	cpl
+	ld c, a
+	inc bc
+	add hl, bc
+	pop bc
+
+; Load the move's damage to be the difference calculated above.
+; The move fails if it would deal 0 damage.
+	ld a, h
+	ld b, l
+	and a
+	jp nz, .got_power
+	or b
+	ld a, 0
+	jp nz, .got_power
+.failed
+	ld a, 4
+	ld [wFailedMessage], a
+	ld a, 1
+	ld [wAttackMissed], a
+	ret
+
+; ty to DanielOlivaw for the endeavor code
 
 BattleCommand_DefrostOpponent:
 ; Thaw the opponent if frozen, and

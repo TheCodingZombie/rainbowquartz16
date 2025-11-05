@@ -1737,6 +1737,72 @@ Script_LoadPocketReminder_Register:
 	reloadmappart
 	end
 
+PocketDeleteFunction:
+	call .LoadPocketDeleter
+	and $7f
+	ld [wFieldMoveSucceeded], a
+	ret
+	
+.LoadPocketDeleter:
+	ld a, [wPlayerState]
+	ld hl, Script_LoadPocketDeleter
+	ld de, Script_LoadPocketDeleter_Register
+	call .CheckIfRegistered
+	call QueueScript
+	ld a, TRUE
+	ret
+	
+.CheckIfRegistered:
+	ld a, [wUsingItemWithSelect]
+	and a
+	ret z
+	ld h, d
+	ld l, e
+	ret
+
+Script_LoadPocketDeleter:
+	reloadmappart
+	special UpdateTimePals
+Script_LoadPocketDeleter_Register:
+	opentext
+	special MoveDeletion
+	closetext
+	reloadmappart
+	end
+
+NameChangerFunction:
+	call .LoadNameChange
+	and $7f
+	ld [wFieldMoveSucceeded], a
+	ret
+	
+.LoadNameChange:
+	ld a, [wPlayerState]
+	ld hl, Script_LoadNameChange
+	ld de, Script_LoadNameChange_Register
+	call .CheckIfRegistered
+	call QueueScript
+	ld a, TRUE
+	ret
+	
+.CheckIfRegistered:
+	ld a, [wUsingItemWithSelect]
+	and a
+	ret z
+	ld h, d
+	ld l, e
+	ret
+
+Script_LoadNameChange:
+	reloadmappart
+	special UpdateTimePals
+Script_LoadNameChange_Register:
+	opentext
+	special NameRater
+	closetext
+	reloadmappart
+	end
+
 BikeFunction:
 	call .TryBike
 	and JUMPTABLE_INDEX_MASK

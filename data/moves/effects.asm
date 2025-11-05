@@ -733,6 +733,28 @@ AttackUpHit:
 	buildopponentrage
 	endmove
 
+SpeedUpHit:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	speedup
+	statupmessage
+	checkfaint
+	buildopponentrage
+	endmove
+
 AllUpHit:
 	checkobedience
 	usedmovetext
@@ -1217,6 +1239,8 @@ TrapTarget:
 	traptarget
 	endmove
 
+Endeavor:
+Eruption:
 SuperFang:
 Psywave:
 StaticDamage:
@@ -1809,10 +1833,21 @@ FakeOut:
 	checkobedience
 	usedmovetext
 	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
 	checkhit
 	fakeout
 	moveanim
 	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
 	endmove
 
 BellyDrum:
@@ -2063,4 +2098,119 @@ Hail:
 	usedmovetext
 	doturn
 	starthail
+	endmove
+
+WeatherBall:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	weatherball
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
+Facade:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	facade
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
+ClearStatHit:
+	checkobedience
+	usedmovetext
+	doturn
+	resetstats
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	facade
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
+BulkUp:
+	checkobedience
+	usedmovetext
+	doturn
+	attackup
+	defenseup
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
+	endmove
+
+CalmMind:
+	checkobedience
+	usedmovetext
+	doturn
+	specialattackup
+	specialdefenseup
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
+	endmove
+
+CosmicPower:
+	checkobedience
+	usedmovetext
+	doturn
+	defenseup
+	specialdefenseup
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
+	endmove
+
+DragonDance:
+	checkobedience
+	usedmovetext
+	doturn
+	attackup
+	speedup
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
 	endmove

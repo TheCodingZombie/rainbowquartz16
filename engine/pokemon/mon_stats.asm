@@ -489,3 +489,17 @@ ListMoves:
 
 .done
 	ret
+
+setmonDVs::
+    ; Used to force a specific set of DVs.
+    ld hl, wPartyMon1DVs   
+    ld d, a                
+    add hl, de             
+    add hl, de             
+
+    ld a, b                
+    ld [hli], a            
+
+    ld a, c               
+    ld [hl], a             
+    ret

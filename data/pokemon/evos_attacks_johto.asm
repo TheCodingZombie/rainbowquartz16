@@ -163,7 +163,10 @@ CyndaquilEvosAttacks:
 	dbw 19, QUICK_ATTACK
 	dbw 27, FLAME_WHEEL
 	dbw 36, SWIFT
-	dbw 46, FLAMETHROWER
+	dbw 42, WILL_O_WISP
+	dbw 54, FLAMETHROWER
+	dbw 68, SHADOW_BALL
+	dbw 73, FIRE_BLAST
 	db 0 ; no more level-up moves
 
 QuilavaEvosAttacks:
@@ -177,7 +180,10 @@ QuilavaEvosAttacks:
 	dbw 21, QUICK_ATTACK
 	dbw 31, FLAME_WHEEL
 	dbw 42, SWIFT
+	dbw 49, WILL_O_WISP
 	dbw 54, FLAMETHROWER
+	dbw 68, SHADOW_BALL
+	dbw 73, FIRE_BLAST
 	db 0 ; no more level-up moves
 
 TyphlosionEvosAttacks:
@@ -191,7 +197,8 @@ TyphlosionEvosAttacks:
 	dbw 21, QUICK_ATTACK
 	dbw 31, FLAME_WHEEL
 	dbw 37, NIGHT_SHADE
-	dbw 45, SWIFT
+	dbw 42, SWIFT
+	dbw 49, WILL_O_WISP
 	dbw 54, FLAMETHROWER
 	dbw 68, SHADOW_BALL
 	dbw 73, FIRE_BLAST
@@ -568,7 +575,8 @@ BellossomEvosAttacks:
 	dbw 35, MOONLIGHT
 	dbw 37, MOONBLAST
 	dbw 48, PETAL_DANCE
-	dbw 56, SOLARBEAM
+	dbw 56, AROMATHERAPY
+	dbw 63, SOLARBEAM
 	db 0 ; no more level-up moves
 
 MarillEvosAttacks:

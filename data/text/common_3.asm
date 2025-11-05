@@ -1266,6 +1266,11 @@ _CandyCaseUsedText::
 	line "RARE CANDIES."
 	prompt	
 
+_VitaminCaseUsedText::
+	text "Received"
+	line "VITAMINS."
+	prompt		
+
 _PlayedFluteText::
 	text "Played the #"
 	line "FLUTE."

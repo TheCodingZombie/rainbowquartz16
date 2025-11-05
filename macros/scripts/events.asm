@@ -297,26 +297,23 @@ ENDM
 	const givepoke_command ; $2d
 MACRO givepoke
 	if _NARG == 2
-		givepoke \1, \2, NO_ITEM, 0, 0, FALSE ; $fc is used to get a random DV
+		givepoke \1, \2, NO_ITEM, 0, FALSE
 	elif _NARG == 3
-		givepoke \1, \2, \3, 0, 0, FALSE
+		givepoke \1, \2, \3, 0, FALSE
 	elif _NARG == 4
-		givepoke \1, \2, \3, \4, 0, FALSE
-	elif _NARG == 5
-		givepoke \1, \2, \3, \4, \5, FALSE
-	elif _NARG == 7
-		givepoke \1, \2, \3, \4, \5, TRUE, \6, \7
+		givepoke \1, \2, \3, \4, FALSE
+	elif _NARG == 6
+		givepoke \1, \2, \3, \4, TRUE, \5, \6
 	else
 		db givepoke_command
 		dw \1 ; pokemon
 		db \2 ; level
 		db \3 ; item
 		db \4 ; shiny
-		dw \5 ; DVs
-		db \6 ; trainer
-		if \6
-			dw \7 ; nickname_pointer
-			dw \8 ; ot_name_pointer
+		db \5 ; trainer
+		if \5
+			dw \6 ; nickname_pointer
+			dw \7 ; ot_name_pointer
 		endc
 	endc
 ENDM

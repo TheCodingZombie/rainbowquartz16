@@ -483,6 +483,8 @@ AI_Smart_EffectHandlers:
 	dbw EFFECT_FLY,              AI_Smart_Fly
 	dbw EFFECT_HAIL,             AI_Smart_Hail
 	dbw EFFECT_BURN,             AI_Smart_Burn
+	dbw EFFECT_WEATHER_BALL,	 AI_Smart_WeatherBall
+	dbw EFFECT_FACADE,			 AI_Smart_Facade
 	db -1 ; end
 
 AI_Smart_Sleep:
@@ -2225,6 +2227,42 @@ AI_Smart_Hail:
 .GoodHailMoves
 	db BLIZZARD
 	db -1 ; end
+
+AI_Smart_WeatherBall:
+; 80% chance to encourage this move when there's a weather condition
+
+	ld a, [wBattleWeather]
+	cp WEATHER_SUN
+	jr z, .encourage
+
+	cp WEATHER_RAIN
+	jr z, .encourage
+
+	cp WEATHER_HAIL
+	jr z, .encourage
+
+	cp WEATHER_SANDSTORM
+	jr z, .encourage
+	ret
+
+.encourage
+	call AI_80_20
+	ret c
+
+	dec [hl]
+	dec [hl]
+	ret
+
+AI_Smart_Facade:
+; Greatly encourage this move if the AI has a status condition.
+
+	ld a, [wEnemyMonStatus]
+	and a
+	ret z
+	dec [hl]
+	dec [hl]
+	dec [hl]
+	ret
 
 AI_Smart_Endure:
 ; Greatly discourage this move if the enemy already used Protect.

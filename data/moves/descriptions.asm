@@ -3,7 +3,8 @@ MoveDescriptions::
 	indirect_table 2, 1
 	indirect_entries GEN1_MOVES, MoveDescriptions1
 	indirect_entries GEN2_MOVES, MoveDescriptions2
-	indirect_entries NEW_MOVES, MoveDescriptions3
+	indirect_entries GEN3_MOVES, MoveDescriptions3
+	indirect_entries NEW_MOVES, MoveDescriptions4
 	indirect_table_end
 
 MoveDescriptions1:
@@ -264,11 +265,94 @@ MoveDescriptions2:
 .IndirectEnd::
 
 MoveDescriptions3:
+	dw FakeOutDescription
+	dw UproarDescription
+	dw HeatWaveDescription
+	dw InvalidMoveDescription
+	dw HailDescription
+	dw WillOWispDescription
+	dw MementoDescription
+	dw FacadeDescription
+	dw FocusPunchDescription
+	dw ChargeDescription
+	dw TauntDescription
+	dw TrickDescription
+	dw WishDescription
+	dw IngrainDescription
+	dw SuperpowerDescription
+	dw MagicCoatDescription
+	dw RevengeDescription
+	dw BrickBreakDescription
+	dw YawnDescription
+	dw KnockOffDescription
+	dw EndeavorDescription
+	dw EruptionDescription
+	dw RefreshDescription
+	dw DiveDescription
+	dw ArmThrustDescription
+	dw TailGlowDescription
+	dw LusterPurgeDescription
+	dw MistBallDescription
+	dw FeatherDanceDescription
+	dw BlazeKickDescription
+	dw IceBallDescription
+	dw NeedleArmDescription
+	dw SlackOffDescription
+	dw HyperVoiceDescription
+	dw PoisonFangDescription
+	dw CrushClawDescription
+	dw BlastBurnDescription
+	dw HydroCannonDescription
+	dw MeteorMashDescription
+	dw AstonishDescription
+	dw WeatherBallDescription
+	dw AromatherapyDescription
+	dw FakeTearsDescription
+	dw AirCutterDescription
+	dw OverheatDescription
+	dw OdorSleuthDescription
+	dw RockTombDescription
+	dw SilverWindDescription
+	dw MetalSoundDescription
+	dw GrassWhistleDescription
+	dw TickleDescription
+	dw CosmicPowerDescription
+	dw WaterSpoutDescription
+	dw SignalBeamDescription
+	dw ShadowPunchDescription
+	dw ExtrasensoryDescription
+	dw SkyUppercutDescription
+	dw SandTombDescription
+	dw SheerColdDescription
+	dw MuddyWaterDescription
+	dw BulletSeedDescription
+	dw AerialAceDescription
+	dw IcicleSpearDescription
+	dw IronDefenseDescription
+	dw BlockDescription
+	dw HowlDescription
+	dw DragonClawDescription
+	dw FrenzyPlantDescription
+	dw BulkUpDescription
+	dw BounceDescription
+	dw MudShotDescription
+	dw PoisonTailDescription
+	dw CovetDescription
+	dw VoltTackleDescription
+	dw MagicalLeafDescription
+	dw CalmMindDescription
+	dw LeafBladeDescription
+	dw DragonDanceDescription
+	dw RockBlastDescription
+	dw ShockWaveDescription
+	dw WaterPulseDescription
+	dw DoomDesireDescription
+	dw PsychoBoostDescription
+.IndirectEnd::
+
+MoveDescriptions4:
 	dw DracoMeteorDescription
 	dw MoonblastDescription
-	dw HailDescription
-	dw InvalidMoveDescription
-	dw WillOWispDescription
 .IndirectEnd::
 
 InvalidMoveDescription:
@@ -1278,13 +1362,16 @@ BeatUpDescription:
 	db   "Party #MON join"
 	next "in the attack.@"
 
-DracoMeteorDescription:
-	db   "Sharply lowers"
-	next "user's SPCL.ATK.@"
+FakeOutDescription:
+	db 	 "Flinches on"
+	next "first turn.@"
 
-MoonblastDescription:
-	db   "An attack that may"
-	next "lower SPCL.ATK.@"
+UproarDescription:
+	db   "Works 2-3 turns"
+	next "and confuses user.@"
+
+HeatWaveDescription:
+	db	 "May burn target.@"
 
 HailDescription:
 	db	 "Starts HAIL for"
@@ -1293,3 +1380,314 @@ HailDescription:
 WillOWispDescription:
 	db	 "Burns the"
 	next "target.@"
+
+MementoDescription:
+	db	 "Faints user and"
+	next "lowers stats.@"
+
+FacadeDescription:
+	db	 "Doubles in power"
+	next "when statused.@"
+
+FocusPunchDescription:
+	db	 "Fails when hit"
+	next "by an attack.@"
+
+ChargeDescription:
+	db 	 "Ups SPCL. ATK.@"
+
+TauntDescription:
+	db 	 "Target can't use"
+	next "STATUS moves.@"
+
+TrickDescription:
+	db	 "Switches items.@"
+
+WishDescription:
+	db   "Restores HP by 1/2"
+	next "the max HP.@"
+
+IngrainDescription:
+	db   "Restores HP"
+	next "every turn.@"
+
+SuperpowerDescription:
+	db   "Lowers ATK"
+	next "and DEF.@"
+
+MagicCoatDescription:
+	db   "Bounces back"
+	next "STATUS moves.@"
+
+RevengeDescription:
+	db   "Double damage"
+	next "when hurt.@"
+
+BrickBreakDescription:
+	db   "Clears stat"
+	next "changes.@"
+
+YawnDescription:
+	db   "SLPs target"
+	next "next turn.@"
+
+KnockOffDescription:
+	db   "Removes item.@"
+
+EndeavorDescription:
+	db   "Makes target HP"
+	next "equal user's HP.@"
+
+EruptionDescription:
+	db   "Deals more damage"
+	next "with higher HP.@"
+
+RefreshDescription:
+	db   "Heals user's"
+	next "status condition.@"
+
+DiveDescription:
+	db   "Dives underwater,"
+	next "w extra priority.@"
+
+ArmThrustDescription:
+	db   "Hits 2-5 times.@"
+
+TailGlowDescription:
+	db   "Raises SPCL.ATK"
+	next "by 3 stages.@"
+
+LusterPurgeDescription:
+	db   "Lowers SPCL.ATK"
+	next "sometimes.@"
+
+MistBallDescription:
+	db   "Lowers ACC."
+	next "sometimes@"
+
+FeatherDanceDescription:
+	db   "Raises DEF"
+	next "by 2 stages.@"
+
+BlazeKickDescription:
+	db   "May burn.@"
+
+IceBallDescription:
+	db   "Deals more damage"
+	next "every use.@"
+
+NeedleArmDescription:
+	db   "Hits target with"
+	next "spiky arm.@"
+
+SlackOffDescription:
+	db   "Restores HP by 1/2"
+	next "the max HP.@"
+
+HyperVoiceDescription:
+	db   "Hits foes with"
+	next "loud noises.@"
+
+PoisonFangDescription:
+	db   "May poison target"
+	next "with a bite.@"
+
+CrushClawDescription:
+	db   "Deals heavy damage"
+	next "with claws.@"
+
+BlastBurnDescription:
+	db   "Requires a charge"
+	next "turn after.@"
+
+HydroCannonDescription:
+	db   "Requires a charge"
+	next "turn after.@"
+
+MeteorMashDescription:
+	db   "May increase ATK"
+	next "by 1 stage.@"
+
+AstonishDescription:
+	db   "May flinch with"
+	next "a jumpscare.@"
+
+WeatherBallDescription:
+	db   "Changes type in"
+	next "diff weather.@"
+
+AromatherapyDescription:
+	db   "Heals all team"
+	next "statuses.@"
+
+FakeTearsDescription:
+	db   "Lowers target ATK"
+	next "by 1 stage.@"
+
+AirCutterDescription:
+	db   "Raises user SPD"
+	next "sometimes.@"
+
+OverheatDescription:
+	db   "Lowers user's"
+	next "SPCL.ATK by 2.@"
+
+OdorSleuthDescription:
+	db   "Negates accuracy"
+	next "reduction moves.@"
+
+RockTombDescription:
+	db   "Lowers target SPD"
+	next "by 1 stage.@"
+
+SilverWindDescription:
+	db   "May raise all"
+	next "stats by 1 stage.@"
+
+MetalSoundDescription:
+	db   "Lowers target's"
+	next "SPCL.DEF by 2.@"
+
+GrassWhistleDescription:
+	db   "May put foes"
+	next "to sleep.@"
+
+TickleDescription:
+	db   "Lowers EVA"
+	next "by 3 stages.@"
+
+CosmicPowerDescription:
+	db   "Raises user's DEF"
+	next "and SPCL.DEF.@"
+
+WaterSpoutDescription:
+	db   "Deals more damage"
+	next "with higher HP.@"
+
+SignalBeamDescription:
+	db   "May lower SPCL."
+	next "ATK by 1 stage.@"
+
+ShadowPunchDescription:
+	db   "Always hits with"
+	next "a ghostly punch.@"
+
+ExtrasensoryDescription:
+	db   "May flinch with"
+	next "psychic power.@"
+
+SkyUppercutDescription:
+	db   "Always hits with"
+	next "a high uppercut.@"
+
+SandTombDescription:
+	db   "Traps foes in"
+	next "vortex of sand.@"
+
+SheerColdDescription:
+	db   "May OHKO with"
+	next "absolute zero.@"
+
+MuddyWaterDescription:
+	db   "May lower ACC"
+	next "by 1 stage.@"
+
+BulletSeedDescription:
+	db   "Shoots seeds"
+	next "2-5 times.@"
+
+AerialAceDescription:
+	db   "Always hits with"
+	next "a slashing tech.@"
+
+IcicleSpearDescription:
+	db   "Throws icicles"
+	next "2-5 times.@"
+
+IronDefenseDescription:
+	db   "Raises DEF by"
+	next "2 stages.@"
+
+BlockDescription:
+	db   "Prevents target"
+	next "from switching.@"
+
+HowlDescription:
+	db   "Raises ATK by"
+	next "2 stages.@"
+
+DragonClawDescription:
+	db   "Hits target with"
+	next "ancient claws.@"
+
+FrenzyPlantDescription:
+	db   "Requires a charge"
+	next "turn after.@"
+
+BulkUpDescription:
+	db   "Raises ATK and DEF"
+	next "by 1 stage each.@"
+
+BounceDescription:
+	db   "Jumps up and may"
+	next "PRZ by landing.@"
+
+MudShotDescription:
+	db   "May lower ACC with"
+	next "a blast of mud.@"
+
+PoisonTailDescription:
+	db   "May poison with"
+	next "a tail slam.@"
+
+CovetDescription:
+	db   "Steals target's"
+	next "held item.@"
+
+VoltTackleDescription:
+	db   "Tackles w/ volts."
+	next "Recoil damage.@"
+
+MagicalLeafDescription:
+	db   "Sharp leaves"
+	next "never miss.@"
+
+CalmMindDescription:
+	db   "Raises both SPCL."
+	next "stats by 1 stage.@"
+
+LeafBladeDescription:
+	db   "Cut with a high"
+	next "crit plant blade.@"
+
+DragonDanceDescription:
+	db   "Raises ATK and SPD"
+	next "by 1 stage each.@"
+
+RockBlastDescription:
+	db   "Throws rocks"
+	next "2-5 times.@"
+
+ShockWaveDescription:
+	db   "A blast of energy"
+	next "that never misses.@"
+
+WaterPulseDescription:
+	db   "Water ring may"
+	next "confuse.@"
+
+DoomDesireDescription:
+	db   "Predicts attack"
+	next "2 turns later.@"
+
+PsychoBoostDescription:
+	db   "Lowers user SPCL."
+	next "ATK by 2 stages.@"
+
+DracoMeteorDescription:
+	db   "Sharply lowers"
+	next "user's SPCL.ATK.@"
+
+MoonblastDescription:
+	db   "An attack that may"
+	next "lower SPCL.ATK.@"

@@ -97,7 +97,8 @@ MrPokemonsHouse_OakScript:
 	waitbutton
 	closetext
 	writetext MrPokemonsHouse_GetCandyBoxText
-	giveitem CANDY_CASE
+	verbosegiveitem CANDY_CASE
+	giveitem VITAMIN_BOX
 	playsound SFX_KEY_ITEM
 	waitsfx
 	itemnotify

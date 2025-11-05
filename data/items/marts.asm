@@ -66,13 +66,12 @@ MartViolet:
 	db -1 ; end
 
 MartAzalea:
-	db 9 ; # items
+	db 8 ; # items
 	db CHARCOAL
 	db POKE_BALL
 	db POTION
 	db SUPER_POTION
 	db ESCAPE_ROPE
-	db REPEL
 	db ANTIDOTE
 	db PARLYZ_HEAL
 	db FLOWER_MAIL
@@ -99,11 +98,10 @@ MartGoldenrod2F1:
 	db -1 ; end
 
 MartGoldenrod2F2:
-	db 8 ; # items
+	db 7 ; # items
 	db POKE_BALL
 	db GREAT_BALL
 	db ESCAPE_ROPE
-	db REPEL
 	db REVIVE
 	db FULL_HEAL
 	db POKE_DOLL
@@ -335,12 +333,11 @@ MartSaffron:
 	db -1 ; end
 
 MartMtMoon:
-	db 6 ; # items
+	db 5 ; # items
 	db POKE_DOLL
 	db FRESH_WATER
 	db SODA_POP
 	db LEMONADE
-	db REPEL
 	db PORTRAITMAIL
 	db -1 ; end
 

@@ -82,7 +82,6 @@ GeneratePartyMonStats:
 ; wBattleMode specifies whether it's a wild mon or not.
 ; wMonType specifies whether it's an opposing mon or not.
 ; wCurPartySpecies/wCurPartyLevel specify the species and level.
-; wCurPartyDVs specify the DVs (if it is set to something other than $fc)
 ; hl points to the wPartyMon struct to fill.
 
 	ld e, l
@@ -201,19 +200,10 @@ endr
 	and a
 	jr nz, .copywildmonDVs
 
-	ld a, [wCurPartyDVs]
-	and a
-	jr nz, .setDVs 
-
 	call Random
 	ld b, a
 	call Random
-	ld c, a
-	jr .initializeDVs 
-.setDVs
-	ld b, $ff
-    ld c, $ff
-
+	ld c, a 
 .initializeDVs
 	ld a, b
 	ld [de], a

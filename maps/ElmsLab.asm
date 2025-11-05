@@ -180,6 +180,8 @@ CyndaquilPokeBallScript:
 	waitsfx
 	promptbutton
 	givepoke CYNDAQUIL, 5, BERRY
+	loadmem wPartyMon1DVs+0, $ff
+    loadmem wPartyMon1DVs+1, $ff
 	closetext
 	readvar VAR_FACING
 	ifequal RIGHT, ElmDirectionsScript
@@ -210,9 +212,12 @@ TotodilePokeBallScript:
 	waitsfx
 	promptbutton
 	givepoke TOTODILE, 5, BERRY
+	loadmem wPartyMon1DVs+0, $ff
+    loadmem wPartyMon1DVs+1, $ff
 	closetext
 	applymovement PLAYER, AfterTotodileMovement
 	sjump ElmDirectionsScript
+
 
 ChikoritaPokeBallScript:
 	checkevent EVENT_GOT_A_POKEMON_FROM_ELM
@@ -238,6 +243,8 @@ ChikoritaPokeBallScript:
 	waitsfx
 	promptbutton
 	givepoke CHIKORITA, 5, BERRY
+	loadmem wPartyMon1DVs+0, $ff
+    loadmem wPartyMon1DVs+1, $ff
 	closetext
 	applymovement PLAYER, AfterChikoritaMovement
 	sjump ElmDirectionsScript
@@ -486,7 +493,7 @@ AideScript_GivePocketPC:
 	opentext
 	writetext AideText_GetPocketPCText
 	promptbutton
-	giveitem POCKET_PC
+	verbosegiveitem POCKET_PC
 	writetext AideText_PocketPCInfoText
 	waitbutton
 	closetext
@@ -497,7 +504,11 @@ AideScript_GivePocketReminder:
 	opentext
 	writetext AideText_GetPocketReminderText
 	promptbutton
-	giveitem PCKT_REMIND
+	verbosegiveitem PCKT_REMIND
+	giveitem PCKT_DELETE
+	giveitem NAME_CHANGE
+	playsound SFX_KEY_ITEM
+	waitsfx
 	writetext AideText_PocketReminderInfoText
 	waitbutton
 	closetext
@@ -526,7 +537,7 @@ AideScript_GiveYouBalls:
 	promptbutton
 	getitemname STRING_BUFFER_4, POKE_BALL
 	scall AideScript_ReceiveTheBalls
-	giveitem POKE_BALL, 5
+	giveitem POKE_BALL, 99
 	writetext AideText_ExplainBalls
 	promptbutton
 	itemnotify
@@ -1406,16 +1417,16 @@ AideText_PocketPCInfoText:
 
 AideText_GetPocketReminderText:
 	text "One last thing!"
-	line "I have this."
+	line "I have these."
 
-	para "It's a Pocket"
-	line "Reminder!"
+	para "Just a few"
+	line "things!"
 	done
 	
 AideText_PocketReminderInfoText:
-	text "Use this to manage"
-	line "your party's"
-	line "moves!"
+	text "Use these to"
+	line "manage your"
+	cont "party!"
 	done
 
 ElmsLab_MapEvents:

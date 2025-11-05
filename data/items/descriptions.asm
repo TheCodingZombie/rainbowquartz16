@@ -147,13 +147,13 @@ ItemDescriptions:
 	dw DragonFangDesc
 	dw PocketReminderDesc
 	dw LeftoversDesc
-	dw QuestionMarkDesc
+	dw PocketDeleterDesc
 	dw MaxCandyDesc
-	dw QuestionMarkDesc
+	dw NameChangerDesc
 	dw MysteryBerryDesc
 	dw DragonScaleDesc
 	dw BerserkGeneDesc
-	dw QuestionMarkDesc
+	dw VitaminBoxDesc
 	dw QuestionMarkDesc
 	dw QuestionMarkDesc
 	dw SacredAshDesc
@@ -829,9 +829,17 @@ LeftoversDesc:
 	db   "Restores HP during"
 	next "battle. (HOLD)@"
 
+PocketDeleterDesc:
+	db	 "Use to delete your"
+	next "#MON's moves.@"
+
 MaxCandyDesc:
 	db	 "Levels up #MON"
 	next "to LVL CAP.@"
+
+NameChangerDesc:
+	db	 "Use to change your"
+	next "#MON's name.@"
 
 MysteryBerryDesc:
 	db   "A self-restore"
@@ -844,6 +852,10 @@ DragonScaleDesc:
 BerserkGeneDesc:
 	db   "Boosts ATTACK but"
 	next "causes confusion.@"
+
+VitaminBoxDesc:
+	db   "Gives you EV"
+	next "booster items.@"
 
 SacredAshDesc:
 	db   "Fully revives all"

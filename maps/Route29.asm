@@ -258,13 +258,14 @@ CatchingTutorialIntroText:
 	done
 
 CatchingTutorialDebriefText:
-	text "To be brief, here"
-	line "is how you catch"
-	cont "#MON."
+	text "To be brief,"
+	line "you can catch"
+	cont "#MON always!"
 
-	para "If you weaken them"
-	line "first, #MON are"
-	cont "easier to catch."
+	para "#MON will"
+	line "never break out,"
+	cont "so you can catch"
+	cont "anything!"
 	done
 
 CatchingTutorialDeclinedText:

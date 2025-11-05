@@ -129,7 +129,7 @@ MoveEffectsPointers:
 	dw BatonPass
 	dw Pursuit
 	dw RapidSpin
-	dw NormalHit
+	dw SpeedUpHit
 	dw NormalHit
 	dw MorningSun
 	dw Synthesis
@@ -160,3 +160,12 @@ MoveEffectsPointers:
 	dw FreezeHit
 	dw Hail
 	dw DoBurn
+	dw WeatherBall
+	dw Facade
+	dw Eruption
+	dw ClearStatHit
+	dw BulkUp
+	dw CalmMind
+	dw CosmicPower
+	dw DragonDance
+	dw Endeavor

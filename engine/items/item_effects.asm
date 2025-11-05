@@ -160,13 +160,13 @@ ItemEffects:
 	dw NoEffect            ; DRAGON_FANG
 	dw PocketRemindEffect  ; PCKT_REMIND
 	dw NoEffect            ; LEFTOVERS
-	dw NoEffect            ; ITEM_93
+	dw PocketDeleteEffect  ; PCKT_DELETE
 	dw MaxCandyEffect      ; MAX_CANDY
-	dw NoEffect            ; ITEM_95
+	dw NameChangerEffect   ; NAME_CHANGE
 	dw RestorePPEffect     ; MYSTERYBERRY
 	dw NoEffect            ; DRAGON_SCALE
 	dw NoEffect            ; BERSERK_GENE
-	dw NoEffect            ; ITEM_99
+	dw VitaminCaseEffect   ; VITAMIN_BOX
 	dw NoEffect            ; ITEM_9A
 	dw NoEffect            ; ITEM_9B
 	dw SacredAshEffect     ; SACRED_ASH
@@ -2836,6 +2836,104 @@ PocketRemindEffect:
 	farcall PocketRemindFunction
 	ret
 
+PocketDeleteEffect:
+	farcall PocketDeleteFunction
+	ret
+
+NameChangerEffect:
+	farcall NameChangerFunction
+	ret
+
+VitaminCaseEffect:
+	ld a, HP_UP
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, PROTEIN
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, IRON
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, CALCIUM
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+	
+	ld a, ZINC
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, CARBOS
+	ld [wCurItem], a
+	ld a, 16
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	; "Feathers"
+
+	ld a, X_HP
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, X_ATTACK
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, X_DEFEND
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, X_SPECIAL
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, X_SPECDEF
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+
+	ld a, X_SPEED
+	ld [wCurItem], a
+	ld a, 64
+	ld [wItemQuantityChange], a
+	ld hl, wNumItems
+	call ReceiveItem
+	
+	ld hl, VitaminCaseText
+	jp PrintText
+
 SacredAshEffect:
 	farcall _SacredAsh
 	ld a, [wItemEffectSucceeded]
@@ -3007,6 +3105,10 @@ ExpShareToggleOn:
 
 CandyCaseText:
 	text_far _CandyCaseUsedText
+	text_end
+
+VitaminCaseText:
+	text_far _VitaminCaseUsedText
 	text_end
 
 ApplyPPUp:

@@ -101,6 +101,7 @@ EvosAttacksPointers2::
 	dw LugiaEvosAttacks
 	dw HoOhEvosAttacks
 	dw CelebiEvosAttacks
+	dw MissingnoEvosAttacks
 .IndirectEnd::
 
 ChikoritaEvosAttacks:
@@ -1631,4 +1632,24 @@ CelebiEvosAttacks:
 	dbw 40, BATON_PASS
 	dbw 50, MOONBLAST
 	dbw 60, PERISH_SONG
+	db 0 ; no more level-up moves
+
+MissingnoEvosAttacks:
+	db 0 ; no more evolutions
+	dbw 1, FAKE_OUT
+	dbw 1, UPROAR
+	dbw 1, HAIL
+	dbw 1, WILL_O_WISP
+	dbw 2, FACADE
+	dbw 3, CHARGE
+	dbw 4, WISH
+	dbw 5, BRICK_BREAK
+	dbw 6, YAWN
+	dbw 7, ENDEAVOR
+	dbw 8, ERUPTION
+	dbw 9, DIVE
+	dbw 10, ARM_THRUST
+	dbw 11, LUSTER_PURGE
+	dbw 12, MIST_BALL
+	dbw 13, FEATHERDANCE
 	db 0 ; no more level-up moves

@@ -536,4 +536,11 @@ INCLUDE "gfx/pokemon/ho_oh/shiny.pal"
 INCBIN "gfx/pokemon/celebi/normal.gbcpal", middle_colors
 INCLUDE "gfx/pokemon/celebi/shiny.pal"
 
+; Missingno
+	RGB 23, 23, 23
+	RGB 17, 17, 17
+; Missingno SHINY
+	RGB 23, 23, 23
+	RGB 17, 17, 17
+
 	assert_table_length NUM_POKEMON + 1

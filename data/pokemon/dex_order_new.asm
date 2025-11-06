@@ -2,6 +2,7 @@
 
 NewPokedexOrder:
 	table_width 2
+	dw MISSINGNO
 	dw CHIKORITA
 	dw BAYLEEF
 	dw MEGANIUM

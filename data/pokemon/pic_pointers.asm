@@ -518,4 +518,6 @@ PokemonPicPointers::
 	dba HoOhBackpic
 	dba CelebiFrontpic
 	dba CelebiBackpic
+	dba BulbasaurFrontpic
+	dba PikachuBackpic
 	assert_table_length NUM_POKEMON + 1

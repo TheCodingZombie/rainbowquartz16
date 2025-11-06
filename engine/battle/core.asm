@@ -2292,7 +2292,6 @@ ApplyExperienceAfterEnemyCaught:
 	ret z
 	ld hl, wEnemyMonBaseExp
 	srl [hl]
-
 	ld a, [wBattleParticipantsNotFainted]
 	push af
 	ld a, d
@@ -7216,13 +7215,6 @@ GiveExperiencePoints:
 	pop bc
 	ld hl, MON_LEVEL
 	add hl, bc
-	ld a, [hl]
-	cp MAX_LEVEL
-	jp nc, .next_mon
-	push bc
-	pop bc
-	ld hl, MON_LEVEL
-	add hl, bc
 	push bc
 	push hl
 	callfar GetMaxLevel
@@ -7365,8 +7357,10 @@ GiveExperiencePoints:
 	ld [hld], a
 
 .not_max_exp
-	call GetMaxLevel
-	ld e, b
+	push bc
+	callfar GetMaxLevel
+	ld e, b 
+	pop bc
 	xor a
 	ld [wMonType], a
 	predef CopyMonToTempMon
@@ -7401,7 +7395,7 @@ GiveExperiencePoints:
 	ld hl, MON_MAXHP
 	add hl, bc
 	ld d, h
-	ld e, l
+	ld e, l	
 	ld hl, MON_EVS - 1
 	add hl, bc
 	push bc

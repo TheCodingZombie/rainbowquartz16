@@ -31,6 +31,8 @@
             - Now increases user's Defense by two stages instead of lowering the target's Attack by two stages.
         - Air Cutter
             - Now may increase user's Speed. (future Flame Charge?)
+        - Sky Uppercut
+            - Now never misses.
     - Draco Meteor
         - 140 BP, will lower the user's Sp Atk by 2 stages
         - Dragon Type
@@ -775,6 +777,8 @@
         - Added Synthesis to level 69
     - Bellossom
         - Added Aromatherapy to level 56, moving Solar Beam to level 63
+    - Cloyster
+        - Added Icicle Spear at level 53
 - Type Changes
     - Ice
         - Ice is now Super Effective to Water

@@ -481,6 +481,7 @@ AI_Smart_EffectHandlers:
 	dbw EFFECT_SOLARBEAM,        AI_Smart_Solarbeam
 	dbw EFFECT_THUNDER,          AI_Smart_Thunder
 	dbw EFFECT_FLY,              AI_Smart_Fly
+	dbw EFFECT_EXTRA_PRIORITY_HIT,     AI_Smart_PriorityHit
 	dbw EFFECT_HAIL,             AI_Smart_Hail
 	dbw EFFECT_BURN,             AI_Smart_Burn
 	dbw EFFECT_WEATHER_BALL,	 AI_Smart_WeatherBall

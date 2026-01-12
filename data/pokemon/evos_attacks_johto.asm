@@ -1647,8 +1647,13 @@ MissingnoEvosAttacks:
 	dbw 6, YAWN
 	dbw 7, ENDEAVOR
 	dbw 8, ERUPTION
+	dbw 8, ICICLE_SPEAR
 	dbw 9, DIVE
+	dbw 9, FOCUS_PUNCH
+	dbw 9, KNOCK_OFF
 	dbw 10, ARM_THRUST
+	dbw 10, MEMENTO
+	dbw 10, SUPERPOWER
 	dbw 11, LUSTER_PURGE
 	dbw 12, MIST_BALL
 	dbw 13, FEATHERDANCE

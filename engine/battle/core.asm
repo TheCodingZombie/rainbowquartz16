@@ -295,6 +295,7 @@ HandleBetweenTurnEffects:
 	ret c
 
 .NoMoreFaintingConditions:
+	farcall EndTurnEffects
 	call HandleLeftovers
 	call HandleMysteryberry
 	call HandleDefrost
@@ -871,7 +872,7 @@ CompareMovePriority:
 	ret
 
 GetMovePriority:
-; Return the priority (0-3) of move a.
+; Return the priority (0-6) of move a.
 
 	ld b, a
 
@@ -2277,6 +2278,7 @@ UpdateBattleStateAndExperienceAfterEnemyFaint:
 	ld a, [wBattleResult]
 	and BATTLERESULT_BITMASK
 	ld [wBattleResult], a ; WIN
+	predef HealParty
 	; fallthrough
 
 ApplyExperienceAfterEnemyCaught:
@@ -2432,11 +2434,7 @@ WinTrainerBattle:
 	ld c, 40
 	call DelayFrames
 
-	ld a, [wBattleType]
-	cp BATTLETYPE_CANLOSE
-	jr nz, .skip_heal
 	predef HealParty
-.skip_heal
 
 	ld a, [wDebugFlags]
 	bit DEBUG_BATTLE_F, a
@@ -8512,6 +8510,8 @@ CleanUpBattleRAM:
 	ld [wKeyItemsPocketScrollPosition], a
 	ld [wItemsPocketScrollPosition], a
 	ld [wBallsPocketScrollPosition], a
+	ld [wPlayerTookDamage], a
+	ld [wEnemyTookDamage], a
 	ld hl, wPlayerSubStatus1
 	ld b, wEnemyFuryCutterCount - wPlayerSubStatus1
 .loop

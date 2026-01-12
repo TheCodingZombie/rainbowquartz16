@@ -1701,6 +1701,24 @@ BattleCommand_CheckHit:
 	jp nz, .Missed
 	ret
 
+.FocusPunch:
+; Does not work if we were already hit
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_FOCUS_PUNCH
+	ret nz
+
+	ld bc, wPlayerTookDamage
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .GotDamaged_FocusPunch
+	ld bc, wEnemyTookDamage
+.GotDamaged_FocusPunch
+	ld a, [bc]
+	and a
+	jp nz, .Missed
+	ret
+
 .DreamEater:
 ; Return z if we're trying to eat the dream of
 ; a monster that isn't sleeping.
@@ -2389,13 +2407,53 @@ BattleCommand_CriticalText:
 	dw OneHitKOText
 
 BattleCommand_StartLoop:
-	ld hl, wPlayerRolloutCount
+	; mark that we're currently in a loop
+	ld a, BATTLE_VARS_SUBSTATUS3
+	call GetBattleVarAddr
+	set SUBSTATUS_IN_LOOP, [hl]
+
 	ldh a, [hBattleTurn]
 	and a
-	jr z, .ok
+	ld hl, wPlayerRolloutCount
+	ld de, wPlayerDamageTaken
+	jr z, .got_counter
 	ld hl, wEnemyRolloutCount
-.ok
-	xor a
+	ld de, wEnemyDamageTaken
+.got_counter
+	; Reset hit counter
+	ld a, $10
+	ld [de], a
+
+	; Figure out how many hits we should do.
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_DOUBLE_HIT
+	ld a, 2
+	jr z, .got_count
+
+	push hl
+	call GetUserItem
+	pop hl
+	ld a, b
+	cp HELD_LOADED_DICE
+	jr nz, .not_loaded_dice
+	call BattleRandom
+	and 1
+	add 4
+	jr .got_count
+
+.not_loaded_dice
+	; Hit 2-5 times with 2 and 3 being twice as common.
+	; So randomize a number 0-5, take (result mod 4) + 2.
+	call BattleRandom
+	and $3
+	cp 2
+	jr c, .random_ok
+	call BattleRandom
+	and $3
+.random_ok
+	add 2
+.got_count
 	ld [hl], a
 	ret
 
@@ -2517,6 +2575,10 @@ BattleCommand_BuildOpponentRage:
 	call GetBattleVar
 	bit SUBSTATUS_RAGE, a
 	ret z
+
+	push af
+	farcall HandleReadyingMoves
+	pop af
 
 	ld de, wEnemyRageCounter
 	ldh a, [hBattleTurn]
@@ -5326,6 +5388,8 @@ BattleCommand_EndLoop:
 	ld de, wEnemyRolloutCount
 	ld bc, wEnemyDamageTaken
 .got_addrs
+	dec [hl]
+	jp nz, .loop_back_to_critical
 
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVarAddr
@@ -5344,7 +5408,7 @@ BattleCommand_EndLoop:
 	cp EFFECT_BEAT_UP
 	jr z, .beat_up
 	cp EFFECT_TRIPLE_KICK
-	jr nz, .not_triple_kick
+	jr nz, .got_number_hits
 .reject_triple_kick_sample
 	call BattleRandom
 	and $3
@@ -6919,4 +6983,11 @@ MachoBraceEffectOnSpeed::
 
 .enemy_ok
 	ld [hl], b
+	ret
+
+EndTurnEffects::
+	; reset the took damage flags
+	xor a
+	ld [wPlayerTookDamage], a
+	ld [wEnemyTookDamage], a
 	ret

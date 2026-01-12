@@ -2090,7 +2090,7 @@ SelfSpecialAtkDown:
 	checkfaint
 	buildopponentrage
 	specialattackdown2
-	statupmessage
+	statdownmessage
 	endmove
 
 Hail:
@@ -2213,4 +2213,117 @@ DragonDance:
 	raisesub
 	statupmessage
 	statupfailtext
+	endmove
+
+Memento:
+	checkobedience
+	usedmovetext
+	doturn
+	checkhit
+	selfdestruct
+	failuretext
+	lowersub
+	statdownanim
+	raisesub
+	attackdown2
+	statdownmessage
+	statdownfailtext
+	specialattackdown2
+	statdownmessage
+	statdownfailtext
+	endmove
+
+Superpower:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	attackdown
+	statdownmessage
+	defensedown
+	statdownmessage
+	endmove
+
+Refresh:
+	checkobedience
+	usedmovetext
+	doturn
+	refresh
+	endmove
+
+TailGlow:
+	checkobedience
+	usedmovetext
+	doturn
+	specialattackup
+	specialattackup2
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
+	endmove
+
+KnockOff:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	knockoff
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
+Trick:
+	checkobedience
+	usedmovetext
+	doturn
+	checkhit
+	trick
+	endmove
+
+Revenge:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	revenge
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
 	endmove

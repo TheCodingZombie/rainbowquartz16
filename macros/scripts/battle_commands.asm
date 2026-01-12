@@ -183,6 +183,10 @@ ENDM
 	command burn					; b0
 	command weatherball				; b1
 	command facade					; b2
+	command refresh					; b3
+	command knockoff				; b4
+	command trick					; b5
+	command revenge					; b6
 DEF NUM_EFFECT_COMMANDS EQU const_value - 1
 
 	const_def -1, -1

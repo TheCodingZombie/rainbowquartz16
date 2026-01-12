@@ -154,7 +154,7 @@ ItemDescriptions:
 	dw DragonScaleDesc
 	dw BerserkGeneDesc
 	dw VitaminBoxDesc
-	dw QuestionMarkDesc
+	dw LoadedDiceDesc
 	dw QuestionMarkDesc
 	dw SacredAshDesc
 	dw HeavyBallDesc
@@ -856,6 +856,10 @@ BerserkGeneDesc:
 VitaminBoxDesc:
 	db   "Gives you EV"
 	next "booster items.@"
+
+LoadedDiceDesc:
+	db	 "Multi-hit moves go"
+	next "4-5 times. (HOLD)@"
 
 SacredAshDesc:
 	db   "Fully revives all"

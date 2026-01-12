@@ -1136,3 +1136,39 @@ PeltedByHailText:
 	text "<USER>"
 	line "is pelted by HAIL!"
 	prompt
+
+RestoredStatusText:
+	text "<USER>"
+	line "healed its status!"
+	prompt
+
+TrickText:
+	text "<USER>"
+	line "switched items"
+	cont "with its target!"
+	prompt
+
+TrickUserObtainedText:
+	text "<USER>"
+	line "obtained one"
+	cont "@"
+	text_ram wStringBuffer1
+	text "."
+	prompt
+
+TrickTargetObtainedText:
+	text "<TARGET>"
+	line "obtained one"
+	cont "@"
+	text_ram wStringBuffer1
+	text "."
+	prompt
+
+KnockedOffText:
+	text "<USER>"
+	line "knocked off"
+	cont "<TARGET>'s"
+	line "@"
+	text_ram wStringBuffer1
+	text "!"
+	prompt

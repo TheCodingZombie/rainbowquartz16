@@ -153,7 +153,7 @@ ItemNames::
 	li "DRAGON SCALE"
 	li "BERSERK GENE"
 	li "VITAMIN BOX"
-	li "TERU-SAMA"
+	li "LOADED DICE"
 	li "TERU-SAMA"
 	li "SACRED ASH"
 	li "HEAVY BALL"

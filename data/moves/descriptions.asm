@@ -1477,7 +1477,7 @@ IceBallDescription:
 	next "every use.@"
 
 NeedleArmDescription:
-	db   "Hits target with"
+	db   "May lower DEF w/"
 	next "spiky arm.@"
 
 SlackOffDescription:

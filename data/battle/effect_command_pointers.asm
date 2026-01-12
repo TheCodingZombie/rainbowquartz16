@@ -183,4 +183,8 @@ BattleCommandPointers:
 	dw BattleCommand_Burn
 	dw BattleCommand_WeatherBall
 	dw BattleCommand_Facade
+	dw BattleCommand_Refresh
+	dw BattleCommand_KnockOff
+	dw BattleCommand_Trick
+	dw BattleCommand_Revenge
 	assert_table_length NUM_EFFECT_COMMANDS

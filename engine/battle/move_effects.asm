@@ -123,3 +123,11 @@ INCLUDE "engine/battle/move_effects/mirror_coat.asm"
 INCLUDE "engine/battle/weather_ball.asm"
 
 INCLUDE "engine/battle/move_effects/facade.asm"
+
+INCLUDE "engine/battle/move_effects/refresh.asm"
+
+INCLUDE "engine/battle/move_effects/readying_moves.asm"
+
+INCLUDE "engine/battle/move_effects/knock_off.asm"
+
+INCLUDE "engine/battle/move_effects/trick.asm"

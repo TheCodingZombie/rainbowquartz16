@@ -169,3 +169,11 @@ MoveEffectsPointers:
 	dw CosmicPower
 	dw DragonDance
 	dw Endeavor
+	dw Memento
+	dw Superpower
+	dw Refresh
+	dw TailGlow
+	dw NormalHit
+	dw KnockOff
+	dw Trick
+	dw Revenge

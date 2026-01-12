@@ -1245,21 +1245,21 @@ JohtoGrassWildMons:
 	dbw 3, HOPPIP
 	dbw 3, HOPPIP
 	; day
-	dbw 2, PIDGEY
-	dbw 2, SENTRET
-	dbw 3, PIDGEY
-	dbw 3, SENTRET
-	dbw 2, RATTATA
-	dbw 3, HOPPIP
-	dbw 3, HOPPIP
+	dbw 6, PIDGEY
+	dbw 6, SENTRET
+	dbw 7, PIDGEY
+	dbw 7, SENTRET
+	dbw 8, RATTATA
+	dbw 4, HOPPIP
+	dbw 9, HOPPIP
 	; nite
-	dbw 2, HOOTHOOT
-	dbw 2, RATTATA
-	dbw 3, HOOTHOOT
-	dbw 3, RATTATA
-	dbw 2, RATTATA
-	dbw 3, HOOTHOOT
-	dbw 3, HOOTHOOT
+	dbw 6, HOOTHOOT
+	dbw 6, RATTATA
+	dbw 6, HOOTHOOT
+	dbw 7, RATTATA
+	dbw 9, RATTATA
+	dbw 4, HOOTHOOT
+	dbw 9, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_30

@@ -11,5 +11,6 @@ MoveEffectPriorities:
 	db EFFECT_HAIL,		    3
 	db EFFECT_PRIORITY_HIT, 2
 	db EFFECT_FORCE_SWITCH, 0
+	db EFFECT_FOCUS_PUNCH,  0
 	db EFFECT_COUNTER,      0
 	db -1

@@ -14,9 +14,12 @@
 - Added the Polka Dot Bow as a way to boost Fairy-type Moves.
 - Move Additions:
     - All moves from Gen 3.
+        - Btw credits to DanielOlivaw for implementing some of these effects before
         - Changed Moves are listed below.
         - Uproar
             - Now a 120 BP Normal type Special move that is a clone of Outrage.
+        - Will-O-Wisp   
+            - 85 ACC -> 100 ACC
         - Brick Break
             - Now removes stat changes before dealing damage (future Clear Smog?) (but it removes stat changes from both sides of the field so).
         - Charge
@@ -33,6 +36,10 @@
             - Now may increase user's Speed. (future Flame Charge?)
         - Sky Uppercut
             - Now never misses.
+        - Knock Off
+            - Note that its power no longer doubles with an item and only has 20 BP.
+        - Yawn
+            - Now is a 90 ACC Sleep move instead of making the target drowsy.
     - Draco Meteor
         - 140 BP, will lower the user's Sp Atk by 2 stages
         - Dragon Type
@@ -41,6 +48,25 @@
         - 95 BP, may lower target's Sp. Atk by 1 stage
         - Fairy Type
         - Also added Moonblast to several Fairy-type Pokemon's movesets 
+- Item Additions
+    - Added a Pocket PC
+        - Allows you to access the PC from anywhere.
+    - Added a Candy Case
+        - Gives you 99 Rare Candies to level up your Pokemon.
+        - Also gives you 6 Max Candies.
+        - Rare Candies no longer have a price so you can't sell them for infinite money.
+    - Added a Vitamin Case
+        - Gives 16 of each Vitamin and 64 of each X Item
+        - Vitamins and the X Items that boost stat EVs no longer have a price so you can't sell them for infinite money.
+    - Added Max Candies
+        - Max Candies automatically level up your Pokemon to the current level cap.
+        - Be sure to use these again once you get a new gym badge!
+    - Added a Pocket Move Reminder
+        - Allows you to access a Move Reminder from anywhere.
+    - Added Loaded Dice
+        - Multi-hit moves now always hit 4-5 times instead of 2-5.
+    - Added some items that let you use certain field moves without a Pokemon
+        - Also added features that give you these items when beating certain gyms
 # Changes
 - In addition to the Fairy Changes, the following Pokemon now have type Changes:
     - Typhlosion (Fire -> Fire/Ghost)
@@ -112,7 +138,7 @@
         - 80 DEF -> 70 DEF
         - 60 SAT -> 80 SAT
         - 80 SDF -> 70 SDF
-        - 405 BST -> 420
+        - 405 BST -> 420 BST
     - Bellossom
         - 80 ATK -> 50 ATK
         - 90 SAT -> 80 SAT
@@ -135,7 +161,7 @@
         - 48 -> 60 (All Stats except HP)
         - 48 HP -> 100 HP
         - 288 BST -> 400 BST
-        - Note: The only stats that really matter to Ditto are the HP and the Speed, since they gain the stats of the Pokemon they transform into anyway.
+        - Note: The only stat that really matters to Ditto are the HP, since they gain the stats of the Pokemon they transform into anyway. Speed no longer matters because Transform is a priority move now.
     - Yanma
         - 65 ATK -> 95 ATK
         - 95 SPD -> 150 SPD
@@ -799,28 +825,11 @@
 - Item Changes
     - Light Ball
         - Light Ball now boosts both Pikachu and Raichu
-    - Added a Pocket PC
-        - Allows you to access the PC from anywhere.
-    - Added a Candy Case
-        - Gives you 99 Rare Candies to level up your Pokemon.
-        - Also gives you 6 Max Candies.
-        - Rare Candies no longer have a price so you can't sell them for infinite money.
-    - Added a Vitamin Case
-        - Gives 16 of each Vitamin and 64 of each X Item
-        - Vitamins and the X Items that boost stat EVs no longer have a price so you can't sell them for infinite money.
-    - Added Max Candies
-        - Max Candies automatically level up your Pokemon to the current level cap.
-        - Be sure to use these again once you get a new gym badge!
-    - Added a Pocket Move Reminder
-        - Allows you to access a Move Reminder from anywhere.
     - Apricorn Trees are now more plentiful
     - TMs are now infinitely reusable, much like Gen 5 or HMs!
-    - Added some items that let you use certain field moves without a Pokemon
-        - Also added features that give you these items when beating certain gyms
     - Gold Berry now heals 100 HP (30 HP previously) and is now the Sitrus Berry.
     - Vitamins give 32 EVs as opposed to just 10. The previous cap of 100 EVs have been removed.
     - The X Items function similarly to the Feathers in modern games, adding 1 EV to a stat.
-    - Decoupled Shiny odds and DVs, meaning Shinies now can have perfect DVs.
     - Elm's Aide now gives you 99 Pokeballs. 
 - Battle Changes
     - Physical/Special Split is now fully implemented
@@ -838,6 +847,7 @@
     - Added Badge-specific Level Caps (so you can't abuse the Candy Case to get OP)
     - Sleep now only lasts between 1-3 turns.
     - Freeze now has a 20% chance to defrost (as opposed to 10%).
+    - You now auto-heal after every battle, much like link battles.
 - Misc Changes
     - Kurt now instantly makes his Apricorn Balls
     - Added Running!
@@ -850,6 +860,7 @@
     - You now gain experience for catching Pokemon.
     - Experience system aligns more with Gen 6's experience system (trust me, you'll need it)
     - 100% chance to catch Pokemon, regardless of the Ball.
+    - Decoupled Shiny odds and DVs, meaning Shinies now can have perfect DVs.
 - Visual Changes
     - Balls now have special colors
     - New Instant Text Speed
